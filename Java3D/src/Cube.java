@@ -10,7 +10,7 @@ public class Cube extends Shape3D
 {
 	private RotationInterpolator rotator;
 	private BranchGroup branchGroup;
-
+	private String id;
 
 	Color3f red = new Color3f (Color.RED);
 	Color3f pink = new Color3f (Color.PINK);
@@ -193,5 +193,14 @@ public class Cube extends Shape3D
 
 	public void setBranchGroup(BranchGroup bg) {
 		this.branchGroup = bg;
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
