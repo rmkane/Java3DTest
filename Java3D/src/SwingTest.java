@@ -519,21 +519,16 @@ public class SwingTest extends JPanel implements MouseListener {
 		this.mouseY = mouseY;
 	}
 
-	public void mouseMoved(MouseEvent mouse) {
-
+	@Override
+	public void mouseEntered(MouseEvent mouse) {
+		// TODO Auto-generated method stub
 		int x = mouse.getX();
 		int y = mouse.getY();
 		mouseX = x;
 		mouseY = y;
-		
+
 		System.out.println("x: " + x + ", y:" + y);
 		setCurPos("(" + mouseX + "," + mouseY + ")");
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
