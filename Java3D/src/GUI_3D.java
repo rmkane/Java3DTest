@@ -56,9 +56,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 			hexprism_b, line_b;
 	private JTextArea logText;
 	private JScrollPane logScroll;
-	
+
 	private JLabel statusBar;
-	
+
 	private ArrayList<Shape3D> shapes = new ArrayList<Shape3D>();
 
 	public GUI_3D() {
@@ -141,8 +141,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 				c.setId(Integer.toString(shapes.size()));
 				shapes.add(c);
 				logText.setText(logText.getText() + "\n" + "Cube " + c.getId());
-				//System.out.println("Created: Cube");
-				swingTest.getSceneBranchGroup().addChild(swingTest.createCube());
+				// System.out.println("Created: Cube");
+				swingTest.getSceneBranchGroup()
+						.addChild(swingTest.createCube());
 			}
 		});
 
@@ -262,8 +263,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
 		logScroll = new JScrollPane(logText);
-		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		
+		logScroll
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
 		logScroll.setPreferredSize(new Dimension(0, 150));
 
 		JSlider zoom = new JSlider(JSlider.HORIZONTAL, 5, 200, 100);
@@ -276,7 +278,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		bottomCenter.add(logScroll, BorderLayout.PAGE_END);
 		JLabel lbl_log = new JLabel(" L O G G E R:");
-		lbl_log.setFont(new Font("sansserif",Font.BOLD,18));
+		lbl_log.setFont(new Font("sansserif", Font.BOLD, 18));
 		bottomCenter.add(lbl_log, BorderLayout.LINE_START);
 		bottomCenter.add(zoom, BorderLayout.LINE_END);
 		centerPanel.add(bottomCenter, BorderLayout.PAGE_END);
@@ -379,13 +381,13 @@ public class GUI_3D extends JPanel implements MouseListener,
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		// statusBar.setText(" Cursor Position: " + s.getCurPos() +
-		// "  |  Selected: x  |  Total Shapes: x");
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+				+ "  |  Selected: x  |  Total Shapes: x");
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		// statusBar.setText(" Cursor Position: " + s.getCurPos() +
-		// "  |  Selected: x  |  Total Shapes: x");
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+				+ "  |  Selected: x  |  Total Shapes: x");
 
 	}
 
