@@ -12,7 +12,8 @@ import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.picking.PickCanvas;
 import com.sun.j3d.utils.picking.PickResult;
 
-public class SwingTest extends JPanel implements MouseListener {
+public class SwingTest extends JPanel implements MouseListener,
+		MouseMotionListener {
 	private static int sphereCount = 0;
 	private static int cubeCount = 0;
 	private static int hexPrismCount = 0;
@@ -519,9 +520,9 @@ public class SwingTest extends JPanel implements MouseListener {
 		this.mouseY = mouseY;
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent mouse) {
+	public void mouseMoved(MouseEvent mouse) {
 		// TODO Auto-generated method stub
+		System.out.println("Mouse Moved in Canvas");
 		int x = mouse.getX();
 		int y = mouse.getY();
 		mouseX = x;
@@ -532,20 +533,35 @@ public class SwingTest extends JPanel implements MouseListener {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseDragged(MouseEvent mouse) {
 		// TODO Auto-generated method stub
+		System.out.println("Mouse Dragged in Canvas");
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent mouse) {
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Entered the Canvas");
+	}
+
+	@Override
+	public void mouseExited(MouseEvent mouse) {
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Exited the Canvas");
 
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent mouse) {
 		// TODO Auto-generated method stub
+		System.out.println("Mouse Pressed in Canvas");
 
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-
+	public void mouseReleased(MouseEvent mouse) {
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Released in Canvas");
 	}
 
 	public static int getCubeCount() {
