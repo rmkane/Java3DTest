@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
+
 import javax.media.j3d.Canvas3D;
-import javax.media.j3d.Shape3D;
+import javax.media.j3d.Transform3D;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,49 +22,60 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.vecmath.Vector3d;
 
 import com.sun.j3d.utils.picking.PickCanvas;
 
-public class GUI_3D extends JPanel implements MouseListener,
-		MouseMotionListener {
+public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener  {
 
 	private static final long serialVersionUID = 1L;
 
+	public static SwingTest getSwingTest() {
+		return swingTest;
+	}
+
+	public static void setSwingTest(SwingTest swingTest) {
+		GUI_3D.swingTest = swingTest;
+	}
+	
 	private static SwingTest swingTest;
 	private static Canvas3D c3d;
-
+	
 	private JFrame frame;
-
+	
+	private static double zoomAmount = -10.0;
+	private static double zoomValue;
+	
+	
 	// Menu
 	private JMenuBar menubar;
 	private JMenu file, edit, help;
 	private JMenuItem save, load, exit, blank, about;
-
+	
 	// Panels
 	private JPanel mainPanel, rightToolbar, currentShapes, rotatePane,
 			resizePane, aestheticsPane, centerPanel;
-
+	
 	// Shapes Toolbar
 	private JToolBar shapesToolbar;
-	private JButton cube_b, triprism_b, pyramid_b, cylinder_b, sphere_b,
+	private JButton rectPrism_b, triprism_b, pyramid_b, cylinder_b, sphere_b,
 			hexprism_b, line_b;
 	private JTextArea logText;
-	private JScrollPane logScroll;
-
 	private JLabel statusBar;
 
-	private ArrayList<Shape3D> shapes = new ArrayList<Shape3D>();
-
+	
 	public GUI_3D() {
 		swingTest = new SwingTest();
 		c3d = swingTest.getC3d();
 		c3d.addMouseMotionListener(this);
+		c3d.addMouseListener(this);
 
 		init();
 	}
@@ -75,6 +86,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 		frame.setSize(900, 700);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addMouseListener(this);
+		addMouseMotionListener(this);
 
 		menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
@@ -86,8 +100,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		menubar.add(file);
 		menubar.add(edit);
-		menubar.add(Box.createHorizontalGlue()); // adheres Help menu to right
-													// side
+		menubar.add(Box.createHorizontalGlue()); // adheres Help menu to right side
 		menubar.add(help);
 
 		save = new JMenuItem("Save");
@@ -98,13 +111,16 @@ public class GUI_3D extends JPanel implements MouseListener,
 		file.add(load);
 		file.add(exit);
 
+		
 		// Edit
 		blank = new JMenuItem("Blank Button");
 		edit.add(blank);
+		
 
 		// Help
 		about = new JMenuItem("About");
 		help.add(about);
+		
 
 		// Adding the function of the action to the button
 		exit.addActionListener(new ExitAction());
@@ -117,6 +133,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		mainPanel.setLayout(new BorderLayout());
 		frame.add(mainPanel);
 
+		
 		// creates left-hand toolbar
 		shapesToolbar = new JToolBar(JToolBar.VERTICAL);
 		shapesToolbar.setFloatable(false);
@@ -125,75 +142,70 @@ public class GUI_3D extends JPanel implements MouseListener,
 		shapesToolbar.setLayout(new GridLayout(7, 1, 0, 10));
 		shapesToolbar.setBorder(LineBorder.createGrayLineBorder());
 
+		
 		// creates buttons for each shape
-		cube_b = new JButton("[cube]");
+		rectPrism_b = new JButton("[rect prism]");
 		triprism_b = new JButton("[tri prism]");
 		pyramid_b = new JButton("[pyramid]");
 		cylinder_b = new JButton("[cylinder]");
 		sphere_b = new JButton("[sphere]");
 		hexprism_b = new JButton("[hex prism]");
 		line_b = new JButton("[line]");
-
-		cube_b.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				Cube c = new Cube();
-				c.setId(Integer.toString(shapes.size()));
-				shapes.add(c);
-				logText.setText(logText.getText() + "\n" + "Cube " + c.getId());
-				// System.out.println("Created: Cube");
-				swingTest.getSceneBranchGroup()
-						.addChild(swingTest.createCube());
-			}
-		});
-
+		
+		
+		rectPrism_b.addActionListener(new ActionListener() {
+			 
+            public void actionPerformed(ActionEvent e) {
+               // System.out.println("Created: RectPrism");
+                swingTest.getSceneBranchGroup().addChild( swingTest.createRectPrism() );
+            }
+        });  
+		
 		triprism_b.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Created: Triangular Prism");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createTriPrism());
-			}
-		});
-
+			 
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("Created: Triangular Prism");
+                swingTest.getSceneBranchGroup().addChild( swingTest.createTriPrism() );
+            }
+        });    
+		
 		pyramid_b.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Created: Pyramid");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createPyramid());
-			}
-		});
-
+			 
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("Created: Pyramid");
+                swingTest.getSceneBranchGroup().addChild( swingTest.createPyramid() );
+                //System.out.println("Shape clicked: " + swingTest.getShapeClicked());
+                
+            }
+        });    
+		
 		cylinder_b.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Cylinder");
-				// swingTest.getSceneBranchGroup().addChild(
-				// swingTest.createCylinder() );
-			}
-		});
-
+			 
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("Created: Cylinder");
+                //swingTest.getSceneBranchGroup().addChild( swingTest.createCylinder() );
+            }
+        });    
+		
 		sphere_b.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Created: Sphere");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createSphere());
-			}
-		});
-
+			 
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("Created: Sphere");
+                swingTest.getSceneBranchGroup().addChild( swingTest.createSphere() );
+            }
+        });    
+		
 		hexprism_b.addActionListener(new ActionListener() {
+			 
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("Created: Hexagonal Prism");
+                swingTest.getSceneBranchGroup().addChild( swingTest.createHexPrism() );
+            }
+        });    
 
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Created: Hexagonal Prism");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createHexPrism());
-			}
-		});
-
+		
 		// adds buttons to left-hand toolbar
-		shapesToolbar.add(cube_b);
+		shapesToolbar.add(rectPrism_b);
 		shapesToolbar.add(triprism_b);
 		shapesToolbar.add(pyramid_b);
 		shapesToolbar.add(cylinder_b);
@@ -201,6 +213,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		shapesToolbar.add(hexprism_b);
 		shapesToolbar.add(line_b);
 
+		
 		// creates right-hand toolbar
 		rightToolbar = new JPanel();
 		rightToolbar.setPreferredSize(new Dimension(150, 0));
@@ -210,42 +223,50 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		mainPanel.add(rightToolbar, BorderLayout.LINE_END);
 
-		// current shapes panel
-		JPanel currentShapes = new JPanel();
-		currentShapes.setPreferredSize(new Dimension(150, 100));
-		rightToolbar.add(currentShapes);
-		rightToolbar.add(Box.createVerticalGlue());
-		currentShapes.setBorder(LineBorder.createGrayLineBorder());
-
-		new CurrentShapesPanel(currentShapes);
-
-		// rotation panel
-		JPanel rotatePane = new JPanel();
-		rotatePane.setMaximumSize(new Dimension(150, 190));
-		rotatePane.setPreferredSize(new Dimension(150, 190));
-		rightToolbar.add(rotatePane);
-		rotatePane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		rotatePane.setBorder(LineBorder.createGrayLineBorder());
-		rightToolbar.add(Box.createVerticalGlue());
-
+		
+        //current shapes panel
+        JPanel currentShapes = new JPanel();
+        currentShapes.setPreferredSize(new Dimension(150, 100));
+        rightToolbar.add(currentShapes);
+        rightToolbar.add(Box.createVerticalGlue());
+        currentShapes.setBorder(LineBorder.createGrayLineBorder());
+        
+        new CurrentShapesPanel(currentShapes);
+        
+        
+        //rotation panel
+        JPanel rotatePane = new JPanel();
+        rotatePane.setMaximumSize(new Dimension(150, 190));
+        rotatePane.setPreferredSize(new Dimension(150, 190));
+        rightToolbar.add(rotatePane);
+        rotatePane.setBorder(new EmptyBorder(0, 0, 0, 0) );
+        rotatePane.setBorder(LineBorder.createGrayLineBorder());
+        rightToolbar.add(Box.createVerticalGlue());
+	    
 		new RotatePanel(rotatePane);
+        
 
-		// resize panel
-		JPanel resizePane = new JPanel();
-		resizePane.setPreferredSize(new Dimension(100, 100));
-		rightToolbar.add(resizePane);
-		resizePane.setBorder(LineBorder.createGrayLineBorder());
-
-		new ResizePanel(resizePane);
-
-		// aesthetics panel
-		JPanel aestheticsPane = new JPanel();
-		aestheticsPane.setMaximumSize(new Dimension(150, 110));
-		aestheticsPane.setPreferredSize(new Dimension(150, 110));
-		rightToolbar.add(aestheticsPane);
-		aestheticsPane.setBorder(LineBorder.createGrayLineBorder());
-
-		new AestheticsPanel(aestheticsPane);
+        
+        //resize panel
+        JPanel resizePane = new JPanel();
+        resizePane.setPreferredSize(new Dimension(100, 100));
+        rightToolbar.add(resizePane);
+        resizePane.setBorder(LineBorder.createGrayLineBorder());
+        
+        new ResizePanel(resizePane);
+        
+        
+        
+        //aesthetics panel
+        JPanel aestheticsPane = new JPanel();
+        aestheticsPane.setMaximumSize(new Dimension(150, 110));
+        aestheticsPane.setPreferredSize(new Dimension(150, 110));
+        rightToolbar.add(aestheticsPane);
+        aestheticsPane.setBorder(LineBorder.createGrayLineBorder());
+        
+        new AestheticsPanel(aestheticsPane);
+        
+        
 
 		// creates center panel
 		centerPanel = new JPanel();
@@ -255,45 +276,75 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		centerPanel.add(c3d, BorderLayout.CENTER);
 		frame.setVisible(true);
+		
 
+		
+		
 		JPanel bottomCenter = new JPanel();
 		bottomCenter.setLayout(new BorderLayout());
-
+		
 		logText = new JTextArea(); // **LOGGER PANEL**
-		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
-		logScroll = new JScrollPane(logText);
-		logScroll
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		logText.setPreferredSize(new Dimension(0, 135));
 
-		logScroll.setPreferredSize(new Dimension(0, 150));
-
+		
 		JSlider zoom = new JSlider(JSlider.HORIZONTAL, 5, 200, 100);
-
+		
 		zoom.setSnapToTicks(true);
 		zoom.setMajorTickSpacing(25);
 		zoom.setMinorTickSpacing(5);
 		zoom.setPaintTicks(true);
-		// zoom.setPaintLabels(true);
-
-		bottomCenter.add(logScroll, BorderLayout.PAGE_END);
-		JLabel lbl_log = new JLabel(" L O G G E R:");
-		lbl_log.setFont(new Font("sansserif", Font.BOLD, 18));
-		bottomCenter.add(lbl_log, BorderLayout.LINE_START);
+		//zoom.setPaintLabels(true);
+		
+		
+		
+		zoom.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				//System.out.println("Changing.");
+				JSlider source = (JSlider)e.getSource();
+				//double previousValue = source.getValue();
+				
+				//System.out.println("Zoom amount: " + zoomAmount);
+				
+				Transform3D t3d = new Transform3D();
+				
+			    if (((source.getValue())%5 == 0)) {
+			    	
+			    	System.out.println(zoomAmount);
+			    	
+			    	if (zoomAmount >= -10.0)
+			    		zoomAmount = -10 + (0.4)*((source.getValue()-100)/5);
+			    	else if (zoomAmount < -10.0)
+			    		zoomAmount = -10 - (4)*((100-source.getValue())/5);
+			    	
+		    		t3d.setTranslation( new Vector3d( 0.0, 0.0, zoomAmount ) );
+					 t3d.invert(); //moving the viewer, not the scene
+					 GUI_3D.getSwingTest().getTgArray().setTransform( t3d );
+			    }
+			}
+		});
+		
+		
+		
+		
+		
+		bottomCenter.add(logText, BorderLayout.PAGE_END);
 		bottomCenter.add(zoom, BorderLayout.LINE_END);
 		centerPanel.add(bottomCenter, BorderLayout.PAGE_END);
 
+		
 		statusBar = new JLabel();
-		statusBar
-				.setText(" Cursor Position:  |  Selected: x  |  Total Shapes: x");
-		statusBar.setPreferredSize(new Dimension(-1, 22));
-		statusBar.setBorder(LineBorder.createGrayLineBorder());
+		statusBar.setText(" Cursor Position:  |  Selected: x  |  Total Shapes: x");
+        statusBar.setPreferredSize(new Dimension(-1, 22));
+        statusBar.setBorder(LineBorder.createGrayLineBorder());
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 
 	}
 
-	public void actionPerformed(ActionEvent e) {
-	}
+	
+	
+
+	public void actionPerformed(ActionEvent e) { }
 
 	public static void main(String[] args) {
 		GUI_3D ex = new GUI_3D();
@@ -318,11 +369,11 @@ public class GUI_3D extends JPanel implements MouseListener,
 		public void actionPerformed(ActionEvent e) {
 
 			JFileChooser chooser = new JFileChooser();
-			// CustomFileFilter filter = new CustomFileFilter();
-			// filter.addExtension("log"); // Only choose text files
-			// filter.setDescription("Log Files");
-			// chooser.setFileFilter(filter);
-
+			//CustomFileFilter filter = new CustomFileFilter();
+			//filter.addExtension("log"); // Only choose text files
+			//filter.setDescription("Log Files");
+			//chooser.setFileFilter(filter);
+			
 			int returnVal = chooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				System.out.println("You chose to open this file: "
@@ -345,8 +396,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 			JTextArea aboutText = new JTextArea(
 					"This application was created by:"
-							+ "\n\nJennifer Hill\nRyan Kane\nDorothy Kirlew\n"
-							+ "Donald Shaner\nand Sean Weber");
+							+ "\n\nJennifer Hill\nRyan Kane\nDorothy Kirlew\n" +
+							"Donald Shaner\nand Sean Weber");
 			Font JTextFont = new Font("Verdana", Font.BOLD, 12);
 			aboutText.setFont(JTextFont);
 
@@ -380,30 +431,22 @@ public class GUI_3D extends JPanel implements MouseListener,
 		this.statusBar = statusBar;
 	}
 
+	
+	
 	public void mouseDragged(MouseEvent arg0) {
-		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-				+ "  |  Selected: x  |  Total Shapes: x");
+		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
 	}
-
-	public void mouseMoved(MouseEvent e) {
-		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-				+ "  |  Selected: x  |  Total Shapes: x");
-
+		
+	
+	public void mouseMoved(MouseEvent e){
+		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
+		
 	}
-
-	public void mouseClicked(MouseEvent arg0) {
-	}
-
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	public void mousePressed(MouseEvent arg0) {
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("RELEASE!");
-	}
+	
+	
+	public void mouseClicked(MouseEvent arg0) { }
+	public void mouseEntered(MouseEvent arg0) { }
+	public void mouseExited(MouseEvent arg0) { }
+	public void mousePressed(MouseEvent arg0) { }
+	public void mouseReleased(MouseEvent e) { }	
 }

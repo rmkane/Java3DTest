@@ -13,6 +13,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Transform3D;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -34,6 +36,8 @@ import javax.swing.event.ChangeListener;
 
 
 public class RotatePanel  {
+	//private static SwingTest swingTest;
+	//private static Canvas3D c3d;
 	
     JPanel buttonsPanel = new JPanel();
     JPanel blankPanel = new JPanel();
@@ -254,6 +258,10 @@ public class RotatePanel  {
 	    start_b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
+            	System.out.println("Selected shape: " + GUI_3D.getSwingTest().getSelectedUserData());
+            	
+
+            	
             	//s.setNumRotations((Integer)numRotations.getValue());
             	//s.setRotationSpeed((Integer)speed.getValue());
  

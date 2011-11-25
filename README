@@ -1,3 +1,22 @@
+-------------------
+MOST RECENT UPDATE:
+-------------------
+
+- All shapes are assigned a unique name at creation (numbered, starting with 0)
+	
+- Shapes can now be repositioned on the canvas by left-click dragging
+
+- Shapes can be deleted from the canvas by clicking on the shape and hitting the delete key (whatever shape was last clicked on will be affected by the delete key-- that shape remains "selected" until a different shape is clicked on)
+
+- The zoom slider on the GUI is now fully functional
+
+- Temporary: A shape will grow in size by 50% (one time) if clicked on. This is just to test out the resizing ability and should not remain in the final version. There is also a bug where the shape will return to the center of the canvas when it is resized. This needs to be fixed.
+
+
+
+_______________________________________________________________
+
+
 Java3D Setup:
 www.cs.utexas.edu/~scottm/cs324e/handouts/setUpJava3dEclipse.htm
 

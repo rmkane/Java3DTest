@@ -134,6 +134,8 @@ public class ResizePanel implements ListSelectionListener  {
 	        		width.setValue(height.getValue());
 	        		depth.setValue(height.getValue());
 	        	}
+	        	
+	        	System.out.println(GUI_3D.getSwingTest().getShapeClicked());
 
 	        	//s.setShapeHeight((Integer)height.getValue());
 	        	//s.getCanvas().repaint();

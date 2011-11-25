@@ -35,6 +35,15 @@ public class aSphere extends Shape3D
     	ap.setColoringAttributes(ca);
     	
     	this.setAppearance(ap);
+    	
+		//set userData (id)
+		int sphereCount = SwingTest.getSphereCount();
+		sphere.setUserData( "Sphere".concat(Integer.toString(sphereCount)) );
+		
+		System.out.println("Created: " + sphere.getUserData());
+		
+		sphereCount++;
+	 	SwingTest.setSphereCount(sphereCount);
     }
     
     
@@ -55,15 +64,13 @@ public class aSphere extends Shape3D
 		 TransformGroup spin = new TransformGroup(yAxis);
 		 spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		    
-		 spin.addChild(new Sphere(1, 1, 35, ap)); //add pyramid shape to the spin TG
+		 spin.addChild(new Sphere(1, 1, 35, ap)); //add sphere shape to the spin TG
 		// bg.addChild(spin); //add spin TG to the branchGroup
 
 		    
-		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0, 
-		    							 4000, 0, 0, 0, 0, 0);
+		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0, 4000, 0, 0, 0, 0, 0);
 		    
-		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f,
-                   						(float) Math.PI*2.0f );
+		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f );
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
 		 rotator.setSchedulingBounds(bounds);
@@ -97,7 +104,7 @@ public class aSphere extends Shape3D
 	 	 branchGroup.setUserData( "Sphere".concat(Integer.toString(sphereCount)) );
 	 	 
 	 	 sphereCount++;
-	 	 SwingTest.setCubeCount(sphereCount);
+	 	 SwingTest.setSphereCount(sphereCount);
 		 
 		 return branchGroup;
     }
