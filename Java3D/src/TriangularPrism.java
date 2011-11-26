@@ -5,7 +5,6 @@ import javax.vecmath.*;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 
-
 public class TriangularPrism extends Shape3D {
 	private RotationInterpolator rotator;
 	private BranchGroup branchGroup;
@@ -16,7 +15,6 @@ public class TriangularPrism extends Shape3D {
 	
 	private float tx = 0.0f;
 	private float ty = 0.0f;
-
 
 	Color3f red = new Color3f (Color.RED);
 	Color3f pink = new Color3f (Color.PINK);
@@ -31,16 +29,12 @@ public class TriangularPrism extends Shape3D {
 	Color3f gray = new Color3f (Color.GRAY);
 	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
 	
-	
 	Point3f top1 = new Point3f(0.0f, 0.5f, 1.0f);  //top front
 	Point3f top2 = new Point3f(0.0f, 0.5f, -1.0f);  //top back
 	Point3f frontL = new Point3f(-1.0f,-1.0f, 1.0f); //front left
 	Point3f frontR = new Point3f( 1.0f,-1.0f, 1.0f); //front right
 	Point3f backR = new Point3f( 1.0f,-1.0f, -1.0f);  //back right
 	Point3f backL = new Point3f(-1.0f,-1.0f, -1.0f);  //back left
-
-	
-
     
     public TriangularPrism() {
    		TriangleArray triPrismGeometry = new TriangleArray(24, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
@@ -120,11 +114,9 @@ public class TriangularPrism extends Shape3D {
 	 	triPrismEdges();
 	
     }
-    
-    
+       
     public Node triPrismEdges() {
 		QuadArray triPrismEdgeGeometry = new QuadArray(12, QuadArray.COORDINATES | GeometryArray.COLOR_3);
-		
 		
 		triPrismEdgeGeometry.setCoordinate(0, frontR);
 		triPrismEdgeGeometry.setCoordinate(1, backR);
@@ -176,9 +168,7 @@ public class TriangularPrism extends Shape3D {
 		
 		return triPrismEdges;
     }
-    
-    
-    
+     
     TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
@@ -199,8 +189,9 @@ public class TriangularPrism extends Shape3D {
 
 		    
 		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
-		    
-		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f );
+		 
+		 //float speed = 2.0f;
+		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
 		 rotator.setSchedulingBounds(bounds);
@@ -227,31 +218,25 @@ public class TriangularPrism extends Shape3D {
 		 return tg;
     }
     
-    
 	public TransformGroup getTg() {
 		return tg;
 	}
-
 
 	public void setTg(TransformGroup tg) {
 		this.tg = tg;
 	}
 	
-	
 	public float getTx() {
 		return tx;
 	}
-
 
 	public void setTx(float tx) {
 		this.tx = tx;
 	}
 
-
 	public float getTy() {
 		return ty;
 	}
-
 
 	public void setTy(float ty) {
 		this.ty = ty;

@@ -5,7 +5,6 @@ import javax.vecmath.*;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 
-
 public class RectangularPrism extends Shape3D {
 	private RotationInterpolator rotator;
 	private BranchGroup branchGroup;
@@ -16,7 +15,6 @@ public class RectangularPrism extends Shape3D {
 	
 	private float tx = 0.0f;
 	private float ty = 0.0f;
-
 
 	Color3f red = new Color3f (Color.RED);
 	Color3f pink = new Color3f (Color.PINK);
@@ -42,9 +40,7 @@ public class RectangularPrism extends Shape3D {
 	Point3f t_frontR = new Point3f( 1.0f, 1.0f, 1.0f);  //front right
 	Point3f t_backR = new Point3f( 1.0f, 1.0f,-1.0f);  //back right
 	Point3f t_backL = new Point3f(-1.0f, 1.0f,-1.0f);  //back left
-		
-
-    
+		    
     public RectangularPrism() {
    		QuadArray rectPrismGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
 		rectPrismGeometry.setCoordinate(0, b_frontL);
@@ -122,7 +118,6 @@ public class RectangularPrism extends Shape3D {
 	 	SwingTest.setRectPrismCount(rectPrismCount);
 	
     }
-    
     
     public Node rectPrismEdges() {
   		QuadArray rectPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
@@ -209,8 +204,6 @@ public class RectangularPrism extends Shape3D {
 		return rectPrismEdges;
     }
     
-    
-    
     TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
@@ -232,7 +225,7 @@ public class RectangularPrism extends Shape3D {
 		    
 		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
 		    
-		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f );
+		 rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
 		 rotator.setSchedulingBounds(bounds);
@@ -264,26 +257,21 @@ public class RectangularPrism extends Shape3D {
 		return tg;
 	}
 
-
 	public void setTg(TransformGroup tg) {
 		this.tg = tg;
 	}
-	
 	
 	public float getTx() {
 		return tx;
 	}
 
-
 	public void setTx(float tx) {
 		this.tx = tx;
 	}
 
-
 	public float getTy() {
 		return ty;
 	}
-
 
 	public void setTy(float ty) {
 		this.ty = ty;

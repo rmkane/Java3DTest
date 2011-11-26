@@ -34,7 +34,9 @@ import javax.vecmath.Vector3d;
 import com.sun.j3d.utils.picking.PickCanvas;
 
 public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener  {
-
+	
+	static float rotateSpeed = 0.0f;
+	
 	private static final long serialVersionUID = 1L;
 
 	public static SwingTest getSwingTest() {
@@ -53,7 +55,6 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	private static double zoomAmount = -10.0;
 	private static double zoomValue;
 	
-	
 	// Menu
 	private JMenuBar menubar;
 	private JMenu file, edit, help;
@@ -69,7 +70,6 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 			hexprism_b, line_b;
 	private JTextArea logText;
 	private JLabel statusBar;
-
 	
 	public GUI_3D() {
 		swingTest = new SwingTest();
@@ -341,9 +341,6 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 
 	}
 
-	
-	
-
 	public void actionPerformed(ActionEvent e) { }
 
 	public static void main(String[] args) {
@@ -431,18 +428,14 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		this.statusBar = statusBar;
 	}
 
-	
-	
 	public void mouseDragged(MouseEvent arg0) {
 		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
 	}
 		
-	
 	public void mouseMoved(MouseEvent e){
 		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
 		
 	}
-	
 	
 	public void mouseClicked(MouseEvent arg0) { }
 	public void mouseEntered(MouseEvent arg0) { }
