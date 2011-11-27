@@ -1,5 +1,17 @@
 -------------------
-MOST RECENT UPDATE:
+UPDATE (11/26/11):
+-------------------
+
+- Resize panel is now fully functional
+
+- Fixed the bug from the previous update in which the shape returned to the center of the canvas when resized
+
+- One thing that still needs to be done: Ideally, the height, width, and depth spinners should display the selected shape's current size (ie: clicking on a different shape should set the spinners to THAT SHAPE's current size, rather than having them remain at the last numbers that were set)
+
+
+
+-------------------
+UPDATE (11/25/11):
 -------------------
 
 - All shapes are assigned a unique name at creation (numbered, starting with 0)
