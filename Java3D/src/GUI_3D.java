@@ -22,6 +22,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
@@ -68,7 +69,9 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	private JToolBar shapesToolbar;
 	private JButton rectPrism_b, triprism_b, pyramid_b, cylinder_b, sphere_b,
 			hexprism_b, line_b;
+	
 	private JTextArea logText;
+	private JScrollPane logScroll;
 	private JLabel statusBar;
 	
 	public GUI_3D() {
@@ -284,8 +287,11 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		bottomCenter.setLayout(new BorderLayout());
 		
 		logText = new JTextArea(); // **LOGGER PANEL**
+		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
-		logText.setPreferredSize(new Dimension(0, 135));
+		logScroll = new JScrollPane(logText);
+		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		logScroll.setPreferredSize(new Dimension(0, 150));
 
 		
 		JSlider zoom = new JSlider(JSlider.HORIZONTAL, 5, 200, 100);
@@ -326,19 +332,20 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		
 		
 		
-		
-		
-		bottomCenter.add(logText, BorderLayout.PAGE_END);
+		bottomCenter.add(logScroll, BorderLayout.PAGE_END);
+		JLabel lbl_log = new JLabel(" L O G G E R:");
+		lbl_log.setFont(new Font("sansserif",Font.BOLD,18));
+		bottomCenter.add(lbl_log, BorderLayout.LINE_START);
 		bottomCenter.add(zoom, BorderLayout.LINE_END);
 		centerPanel.add(bottomCenter, BorderLayout.PAGE_END);
 
-		
 		statusBar = new JLabel();
 		statusBar.setText(" Cursor Position:  |  Selected: x  |  Total Shapes: x");
-        statusBar.setPreferredSize(new Dimension(-1, 22));
-        statusBar.setBorder(LineBorder.createGrayLineBorder());
+		statusBar.setPreferredSize(new Dimension(-1, 22));
+		statusBar.setBorder(LineBorder.createGrayLineBorder());
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 
+		frame.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) { }

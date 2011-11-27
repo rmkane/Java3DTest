@@ -32,6 +32,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+
+
+
 public class RotatePanel  {
 	//private static SwingTest swingTest;
 	//private static Canvas3D c3d;
@@ -43,6 +46,7 @@ public class RotatePanel  {
 	//private GLCanvas c;
     
     //private Scene s = GUI.getScene();
+	
 	
 	public RotatePanel(JPanel panel)
 	{
@@ -255,6 +259,7 @@ public class RotatePanel  {
             public void actionPerformed(ActionEvent e)
             {
             	System.out.println("Selected shape: " + GUI_3D.getSwingTest().getSelectedUserData());
+            	
             	GUI_3D.rotateSpeed = (Integer)speed.getValue();
 
             	

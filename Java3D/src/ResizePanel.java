@@ -12,6 +12,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.media.j3d.Node;
+import javax.media.j3d.Transform3D;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,6 +34,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 
 
 
@@ -96,8 +100,6 @@ public class ResizePanel implements ListSelectionListener  {
 	    depth.setValue(10);
 	    ((JSpinner.DefaultEditor)depth.getEditor()).getTextField().setEditable(false); 
 	    depth.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
-
-	    
 	    
 	    
 
@@ -117,9 +119,11 @@ public class ResizePanel implements ListSelectionListener  {
 	    ItemListener listener = new ItemListener()
 	    {
 	        public void itemStateChanged(ItemEvent e) {
-	        	//if (maintainRatio.isSelected())
-	        		//System.out.println("lol you clicked the checkbox");
-	        		
+	        	System.out.print("[Maintain aspect ratio: ");
+	        	if (maintainRatio.isSelected())
+	        		System.out.println("ON]");
+	        	else
+	        		System.out.println("OFF]");
 	        }
 	    };
 	    
@@ -129,16 +133,72 @@ public class ResizePanel implements ListSelectionListener  {
 	    
 	    ChangeListener heightListener = new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
-	        	
+
 	        	if (maintainRatio.isSelected()) {
 	        		width.setValue(height.getValue());
 	        		depth.setValue(height.getValue());
 	        	}
-	        	
-	        	System.out.println(GUI_3D.getSwingTest().getShapeClicked());
 
-	        	//s.setShapeHeight((Integer)height.getValue());
-	        	//s.getCanvas().repaint();
+	        	double h = (Double.valueOf(height.getValue().toString()).doubleValue())/10;
+	        	double w = (Double.valueOf(width.getValue().toString()).doubleValue())/10;
+	        	double d = (Double.valueOf(depth.getValue().toString()).doubleValue())/10;
+	        	
+	        	Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+	        	
+	        	Transform3D resize = new Transform3D();
+	        	Transform3D holdPosition = new Transform3D();
+	        	resize.setScale(new Vector3d(w, h, d));
+	        	
+	        	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+		        	holdPosition.setTranslation(
+		        			new Vector3f(((TriangularPrism) shapeClicked).getTx(), ((TriangularPrism) shapeClicked).getTy(), 0.0f));
+		        	holdPosition.mul(resize);
+		        	
+		        	((TriangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+		        	((TriangularPrism) shapeClicked).setResize(resize);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+		        	holdPosition.setTranslation(
+		        			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+		        	holdPosition.mul(resize);
+		        	
+		        	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+		        	((HexagonalPrism) shapeClicked).setResize(resize);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+		        	holdPosition.setTranslation(
+		        			new Vector3f(((RectangularPrism) shapeClicked).getTx(), ((RectangularPrism) shapeClicked).getTy(), 0.0f));
+		        	holdPosition.mul(resize);
+		        	
+		        	((RectangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+		        	((RectangularPrism) shapeClicked).setResize(resize);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+		        	holdPosition.setTranslation(
+		        			new Vector3f(((Pyramid) shapeClicked).getTx(), ((Pyramid) shapeClicked).getTy(), 0.0f));
+		        	holdPosition.mul(resize);
+		        	
+		        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
+		        	((Pyramid) shapeClicked).setResize(resize);
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+		        //	holdPosition.setTranslation(
+		        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+		        //	holdPosition.mul(resize);
+		        	
+		        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+		        //	((HexagonalPrism) shapeClicked).setResize(resize);
+	        	//}
+	        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+		        //	holdPosition.setTranslation(
+		        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+		        //	holdPosition.mul(resize);
+		        	
+		        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+		        //	((HexagonalPrism) shapeClicked).setResize(resize);
+	        	//}
+	        	
+	        	System.out.println(shapeClicked.getUserData() + ": Height changed - " + height.getValue());
 	        }
 	      };
 	      
@@ -151,8 +211,69 @@ public class ResizePanel implements ListSelectionListener  {
 		        		depth.setValue(width.getValue());
 		        	}
 
-		        	//s.setShapeWidth((Integer)width.getValue());
-		        	//s.getCanvas().repaint();
+		        	double h = (Double.valueOf(height.getValue().toString()).doubleValue())/10;
+		        	double w = (Double.valueOf(width.getValue().toString()).doubleValue())/10;
+		        	double d = (Double.valueOf(depth.getValue().toString()).doubleValue())/10;
+		        	
+		        	Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+		        	
+		        	Transform3D resize = new Transform3D();
+		        	Transform3D holdPosition = new Transform3D();
+		        	resize.setScale(new Vector3d(w, h, d));
+		        	
+		        	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+			        	holdPosition.setTranslation(
+			        			new Vector3f(((TriangularPrism) shapeClicked).getTx(), ((TriangularPrism) shapeClicked).getTy(), 0.0f));
+			        	holdPosition.mul(resize);
+			        	
+			        	((TriangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+			        	((TriangularPrism) shapeClicked).setResize(resize);
+			        	((TriangularPrism) shapeClicked).setHeight(h);
+			        	((TriangularPrism) shapeClicked).setWidth(w);
+			        	((TriangularPrism) shapeClicked).setDepth(d);
+		        	}
+		        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+			        	holdPosition.setTranslation(
+			        			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+			        	holdPosition.mul(resize);
+			        	
+			        	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+			        	((HexagonalPrism) shapeClicked).setResize(resize);
+		        	}
+		        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+			        	holdPosition.setTranslation(
+			        			new Vector3f(((RectangularPrism) shapeClicked).getTx(), ((RectangularPrism) shapeClicked).getTy(), 0.0f));
+			        	holdPosition.mul(resize);
+			        	
+			        	((RectangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+			        	((RectangularPrism) shapeClicked).setResize(resize);
+		        	}
+		        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+			        	holdPosition.setTranslation(
+			        			new Vector3f(((Pyramid) shapeClicked).getTx(), ((Pyramid) shapeClicked).getTy(), 0.0f));
+			        	holdPosition.mul(resize);
+			        	
+			        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
+			        	((Pyramid) shapeClicked).setResize(resize);
+		        	}
+		        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+			        //	holdPosition.setTranslation(
+			        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+			        //	holdPosition.mul(resize);
+			        	
+			        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+			        //	((HexagonalPrism) shapeClicked).setResize(resize);
+		        	//}
+		        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+			        //	holdPosition.setTranslation(
+			        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+			        //	holdPosition.mul(resize);
+			        	
+			        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+			        //	((HexagonalPrism) shapeClicked).setResize(resize);
+		        	//}
+		        	
+		        	System.out.println(shapeClicked.getUserData() + ": Width changed - " + width.getValue());
 		        }
 		      };
 		      
@@ -160,14 +281,72 @@ public class ResizePanel implements ListSelectionListener  {
 			    ChangeListener depthListener = new ChangeListener() {
 			        public void stateChanged(ChangeEvent e) {
 			        	
+			        	Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+			        	
 			        	if (maintainRatio.isSelected()) {
 			        		height.setValue(depth.getValue());
 			        		width.setValue(depth.getValue());
 			        	}
 
-			        	//s.setShapeDepth((Integer)depth.getValue());
-			        	//s.getCanvas().repaint();
-			        }
+			        	double h = (Double.valueOf(height.getValue().toString()).doubleValue())/10;
+			        	double w = (Double.valueOf(width.getValue().toString()).doubleValue())/10;
+			        	double d = (Double.valueOf(depth.getValue().toString()).doubleValue())/10;
+			        				        	
+			        	Transform3D resize = new Transform3D();
+			        	Transform3D holdPosition = new Transform3D();
+			        	resize.setScale(new Vector3d(w, h, d));
+			        	
+			        	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+				        	holdPosition.setTranslation(
+				        			new Vector3f(((TriangularPrism) shapeClicked).getTx(), ((TriangularPrism) shapeClicked).getTy(), 0.0f));
+				        	holdPosition.mul(resize);
+				        	
+				        	((TriangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+				        	((TriangularPrism) shapeClicked).setResize(resize);
+			        	}
+			        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+				        	holdPosition.setTranslation(
+				        			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+				        	holdPosition.mul(resize);
+				        	
+				        	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+				        	((HexagonalPrism) shapeClicked).setResize(resize);
+			        	}
+			        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+				        	holdPosition.setTranslation(
+				        			new Vector3f(((RectangularPrism) shapeClicked).getTx(), ((RectangularPrism) shapeClicked).getTy(), 0.0f));
+				        	holdPosition.mul(resize);
+				        	
+				        	((RectangularPrism) shapeClicked).getTg().setTransform(holdPosition);
+				        	((RectangularPrism) shapeClicked).setResize(resize);
+			        	}
+			        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+				        	holdPosition.setTranslation(
+				        			new Vector3f(((Pyramid) shapeClicked).getTx(), ((Pyramid) shapeClicked).getTy(), 0.0f));
+				        	holdPosition.mul(resize);
+				        	
+				        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
+				        	((Pyramid) shapeClicked).setResize(resize);
+			        	}
+			        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+				        //	holdPosition.setTranslation(
+				        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+				        //	holdPosition.mul(resize);
+				        	
+				        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+				        //	((HexagonalPrism) shapeClicked).setResize(resize);
+			        	//}
+			        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+				        //	holdPosition.setTranslation(
+				        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+				        //	holdPosition.mul(resize);
+				        	
+				        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
+				        //	((HexagonalPrism) shapeClicked).setResize(resize);
+			        	//}
+			        	
+			        	System.out.println(shapeClicked.getUserData() + ": Depth changed - " + depth.getValue()); 
+			        	}
 			      };
 	    
 	      
@@ -176,15 +355,9 @@ public class ResizePanel implements ListSelectionListener  {
 	    depth.addChangeListener(depthListener);
    
 
-	    
-
-	    //maintainRatio.addItemListener(listener);
 	    maintainRatio.setFont(new Font("sansserif",Font.PLAIN,11));
 	    bottomPanel.add(maintainRatio);
 	  
-
-
-
 	}
 	
 

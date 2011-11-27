@@ -7,6 +7,7 @@ import javax.swing.*;
 import com.sun.j3d.utils.picking.PickCanvas;
 import com.sun.j3d.utils.picking.PickResult;
 
+
 public class SwingTest extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	private static int sphereCount = 0;
 	private static int rectPrismCount = 0;
@@ -28,6 +29,9 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private Node shapeClicked;
 	private Node shapeToDrag;
 	private TransformGroup tgArray;
+	
+	private Transform3D changeSize;
+ 	private Transform3D stayInPos;
 
 	
 	Color3f red = new Color3f (Color.RED);
@@ -43,9 +47,13 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	Color3f gray = new Color3f (Color.GRAY);
 	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
 
-	 public SwingTest() {
+
+	
+	public SwingTest() {
 		init();
-	 }
+	}
+	
+
 	
 	 protected void init() {
 		 VirtualUniverse universe = createVirtualUniverse();
@@ -66,11 +74,15 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  locale.addBranchGraph(sceneBranchGroup);
 		  addViewBranchGroup(locale, viewBranchGroup);
 	 }
+	
+
 	 
 	 protected void addCanvas3D(Canvas3D c3d)  {
 		 add( "Center", c3d );
 	 }
 	
+
+	 
 	 protected View createView(ViewPlatform vp) {
 	 	View view = new View();
 	
@@ -95,6 +107,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 	return view;
 	 }
 	
+
 	 protected Background createBackground() {
 	 	Background background = new Background(white);
 		background.setApplicationBounds(createApplicationBounds());
@@ -102,10 +115,12 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		return background;
 	 }
 	
-	 protected Bounds createApplicationBounds() {
+
+	protected Bounds createApplicationBounds() {
 		return new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
-	 }
+	}
 	
+
 	 protected Canvas3D createCanvas3D(boolean offscreen) {
 		 GraphicsConfigTemplate3D gc3D = new GraphicsConfigTemplate3D();
 		 gc3D.setSceneAntialiasing( GraphicsConfigTemplate.PREFERRED );
@@ -118,6 +133,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return c3d;
 	 }
 	
+
 	 public TransformGroup[] getViewTransformGroupArray() {
 		 TransformGroup[] tgArray = new TransformGroup[1];
 		 tgArray[0] = new TransformGroup();
@@ -132,14 +148,18 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return tgArray;
 	 }
 	
+
+	 
 	 protected void addViewBranchGroup( Locale locale, BranchGroup bg ) {
 		 locale.addBranchGraph( bg );
 	 }
 	
+
 	 protected Locale createLocale( VirtualUniverse u ) {
 		 return new Locale( u );
 	 }
 	
+
 	 protected ViewPlatform createViewPlatform() {
 		 ViewPlatform vp = new ViewPlatform();
 		 vp.setViewAttachPolicy( View.RELATIVE_TO_FIELD_OF_VIEW );
@@ -148,6 +168,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return vp;
 	 }
 	
+
 	 protected BranchGroup createViewBranchGroup(TransformGroup[] tgArray, ViewPlatform vp) {
 		 BranchGroup vpBranchGroup = new BranchGroup();
 	
@@ -169,10 +190,13 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return vpBranchGroup;
 	 }
 	
+	 
 	 protected VirtualUniverse createVirtualUniverse() {
 		 return new VirtualUniverse();
 	 }
 	
+
+
 	 protected BranchGroup createSceneBranchGroup() {
 		  BranchGroup objRoot = new BranchGroup();
 	
@@ -210,7 +234,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  return objRoot;
 	 }
 
-	 protected BranchGroup createPyramid() {
+
+	protected BranchGroup createPyramid() {
 		 BranchGroup bg = new BranchGroup();
 		 bg.setCapability( BranchGroup.ALLOW_DETACH ); //makes the shape deletable
 		 
@@ -220,7 +245,9 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 setShapeClicked(pyramid);
 		 
 		 return bg;
-	  }
+	 }
+	 
+	 
 	 
 	 protected BranchGroup createHexPrism() {
 		 BranchGroup bg = new BranchGroup();
@@ -234,6 +261,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return bg;
 	 }
 	 
+	 
+
 	 protected BranchGroup createRectPrism() {
 		 BranchGroup bg = new BranchGroup();
 		 bg.setCapability( BranchGroup.ALLOW_DETACH ); //makes the shape deletable
@@ -245,6 +274,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  
 		 return bg;
 	 }
+	 
 	 
 	 protected BranchGroup createTriPrism() {
 		 BranchGroup bg = new BranchGroup();
@@ -258,6 +288,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 return bg;
 	 }
 	 
+	
 	 protected BranchGroup createSphere() {
 		 BranchGroup bg = new BranchGroup();
 		 bg.setCapability( BranchGroup.ALLOW_DETACH ); //makes the shape deletable
@@ -267,6 +298,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  
 		 return bg;
 	 }
+	
 	 
 	 //allows dynamic removal of the shape BranchGroups at runtime
 	 protected void removeShape(String name) {
@@ -285,6 +317,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		    	  }
 		      }		      
 	 }
+
 	 
 /***********************************************************************/
 /************************** ACCESSORS/MUTATORS *************************/
@@ -301,73 +334,91 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		return c3d;
 	}
 
+
 	public void setC3d(Canvas3D c3d) {
 		this.c3d = c3d;
 	}
+	
 	
 	public static int getRectPrismCount() {
 		return rectPrismCount;
 	}
 
+
 	public static void setRectPrismCount(int rectPrismCount2) {
 		rectPrismCount = rectPrismCount2;
 	}
+	
 	
 	public static int getPyramidCount() {
 		return pyramidCount;
 	}
 
+
 	public static void setPyramidCount(int pyramidCount2) {
 		pyramidCount = pyramidCount2;
 	}
+	
 	
 	public static int getTriPrismCount() {
 		return triPrismCount;
 	}
 
+
 	public static void setTriPrismCount(int triPrismCount2) {
 		triPrismCount = triPrismCount2;
 	}
+	
 	
 	public static int getSphereCount() {
 		return sphereCount;
 	}
 
+
 	public static void setSphereCount(int sphereCount2) {
 		sphereCount = sphereCount2;
 	}
+	
 	
 	public static int getHexPrismCount() {
 		return hexPrismCount;
 	}
 
+
 	public static void setHexPrismCount(int hexPrismCount2) {
 		hexPrismCount = hexPrismCount2;
 	}
+	
 	
 	public String getSelectedUserData() {
 		return selectedUserData;
 	}
 
+
 	public void setSelectedUserData(String selectedUserData) {
 		this.selectedUserData = selectedUserData;
 	}
+
 
 	public Node getShapeClicked() {
 		return shapeClicked;
 	}
 
+
 	public void setShapeClicked(Node shapeClicked) {
 		this.shapeClicked = shapeClicked;
 	}
+	
 	
 	public TransformGroup getTgArray() {
 		return tgArray;
 	}
 
+
 	public void setTgArray(TransformGroup tgArray2) {
 		this.tgArray = tgArray2;
 	}
+	
 	
 	/*************** Mouse cursor ****************/
 	public String getCurPos() {
@@ -394,54 +445,23 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		this.mouseY = mouseY;
 	}
 	
+	
+
 /***********************************************************************/
 /************************* MOUSE/KEY LISTENERS *************************/
 /***********************************************************************/
 	public void mouseClicked(MouseEvent e) { 
 	    PickResult result = pickCanvas.pickClosest();
 	    shapeClicked = result.getNode(PickResult.SHAPE3D);
-	    
-	    System.out.println("Shape clicked: " + shapeClicked);
-		
-	 	Transform3D changeSize = new Transform3D();
-	 	changeSize.setScale(new Vector3d(1.5, 1.5, 1.0));
-	 	
-	 	if (getShapeClicked().getClass().getName().equals("TriangularPrism")) {
-	 		System.out.println("That's a triprism");
-	 		((TriangularPrism) shapeClicked).getTg().setTransform(changeSize);
-	 	}
-	 	
-	 	else if (getShapeClicked().getClass().getName().equals("HexagonalPrism")) {
-	 		System.out.println("That's a hexprism");
-	 		((HexagonalPrism) shapeClicked).getTg().setTransform(changeSize);
-	 	}
-	 	
-	 	else if (getShapeClicked().getClass().getName().equals("Pyramid")) {
-	 		System.out.println("That's a pyramid");
-	 		((Pyramid) shapeClicked).getTg().setTransform(changeSize);
-	 	}
-	 	
-	 	else if (getShapeClicked().getClass().getName().equals("RectangularPrism")) {
-	 		System.out.println("That's a rectprism");
-	 		((RectangularPrism) shapeClicked).getTg().setTransform(changeSize);
-	 	}
-	 	
-	 	else if (getShapeClicked().getClass().getName().equals("Sphere")) {
-	 		System.out.println("That's a sphere");
-	 		//((aSphere) shapeClicked).getTg().setTransform(changeSize);
-	 	}
-
-	 	//else if (getShapeClicked().getClass().getName().equals("Cylinder")) {
-	 	//	System.out.println("That's a cylinder");
-	 	//	((Cylinder) shapeClicked).getTg().setTransform(changeSize);
-	 	//}
+    	System.out.println("Shape clicked: " + shapeClicked.getUserData());
 	}
 	
+
 	public void mousePressed(MouseEvent e) {
 		mouseX = e.getX();
 		mouseY = e.getY();
 
-		System.out.println("Mouse pressed at x=" + mouseX + ", y=" + mouseY);
+		//System.out.println("Mouse pressed at x=" + mouseX + ", y=" + mouseY);
 		mouseButton = e.getButton();
 
 	    pickCanvas.setShapeLocation(e);
@@ -449,19 +469,49 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	
 	    if (result == null) {
 	       System.out.println("Nothing picked");
-	    } else {
+	    } 
+	    else {
 	    	shapeToDrag = result.getNode(PickResult.SHAPE3D);
-	    	String shapeName = shapeToDrag.getClass().getName();
-	    	
-	    	System.out.println("You clicked on a : " + shapeName);
-	    	
-	    		String data = (String)result.getNode(PickResult.SHAPE3D).getUserData();
-	    		System.out.println("The data is: " + data);
+
+	    	String data = (String)result.getNode(PickResult.SHAPE3D).getUserData();
+	    	//System.out.println("Repositioning: " + data);
 	    		
-	    		setSelectedUserData(data);
-	       }
+	    	setSelectedUserData(data);
+	    }
+	    
+	    
+		if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
+			tx = ((TriangularPrism) shapeToDrag).getTx();
+			ty = ((TriangularPrism) shapeToDrag).getTy();
+	 	}
+	 	
+	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
+			tx = ((HexagonalPrism) shapeToDrag).getTx();
+			ty = ((HexagonalPrism) shapeToDrag).getTy();
+	 	}
+	 	
+	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
+			tx = ((Pyramid) shapeToDrag).getTx();
+			ty = ((Pyramid) shapeToDrag).getTy();
+	 	}
+	 	
+	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
+			tx = ((RectangularPrism) shapeToDrag).getTx();
+			ty = ((RectangularPrism) shapeToDrag).getTy();
+	 	}
+	 	
+	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
+			//tx = ((Sphere) shapeToDrag).getTx();
+			//ty = ((Sphere) shapeToDrag).getTy();
+	 	//}
+	 	
+	 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+			//tx = ((Cylinder) shapeToDrag).getTx();
+			//ty = ((Cylinder) shapeToDrag).getTy();
+	 	//}
 	}
 	
+
 	public void mouseDragged(MouseEvent e) {
 		if (shapeToDrag == null)
 			return;
@@ -539,20 +589,26 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 	Transform3D dragShape = new Transform3D();
 	 	dragShape.setTranslation(new Vector3f (tx, ty, 0.0f ));
 	 	
+
+	 	
 	 	if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
-	 		((TriangularPrism) shapeToDrag).getTg().setTransform(dragShape);
+		 	dragShape.mul(((TriangularPrism) shapeToDrag).getResize());
+		 	((TriangularPrism) shapeToDrag).getTg().setTransform(dragShape);
 	 	}
 	 	
 	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
-	 		((HexagonalPrism) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
+		 	dragShape.mul(((HexagonalPrism) shapeToDrag).getResize());
+		 	((HexagonalPrism) shapeToDrag).getTg().setTransform(dragShape);
+		}
 	 	
 	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-	 		((Pyramid) shapeToDrag).getTg().setTransform(dragShape);
+		 	dragShape.mul(((Pyramid) shapeToDrag).getResize());
+		 	((Pyramid) shapeToDrag).getTg().setTransform(dragShape);
 	 	}
 	 	
 	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
-	 		((RectangularPrism) shapeToDrag).getTg().setTransform(dragShape);
+		 	dragShape.mul(((RectangularPrism) shapeToDrag).getResize());
+		 	((RectangularPrism) shapeToDrag).getTg().setTransform(dragShape);
 	 	}
 	 	
 	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
@@ -572,9 +628,10 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 
 		setCurPos("(" + mouseX + "," + mouseY + ")");
 		
-		System.out.println("(" + mouseX + "," + mouseY + ")");
+		//System.out.println("(" + mouseX + "," + mouseY + ")");
 	
 	}
+	
 	
 	public void mouseReleased(MouseEvent e) { 
 		
@@ -611,12 +668,14 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 	
 		shapeToDrag = null;
 	}
-			
+		
+		
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DELETE)
 			removeShape(getSelectedUserData());
 	}
 
+	
 	/* unused */
 	public void keyReleased(KeyEvent e) { }
 	public void keyTyped(KeyEvent e) { }
