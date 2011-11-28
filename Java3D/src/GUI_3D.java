@@ -436,11 +436,11 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
 	}
 		
 	public void mouseMoved(MouseEvent e){
-		//statusBar.setText(" Cursor Position: " + s.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
 		
 	}
 	

@@ -545,6 +545,21 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 	//}
 	}
 	
+	
+	public void mouseMoved(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		
+		mouseX = x;
+		mouseY = y;
+
+		setMouseX(x);
+		setMouseY(y);
+
+		setCurPos("(" + mouseX + "," + mouseY + ")");
+		
+	}
+	
 
 	public void mouseDragged(MouseEvent e) {
 		if (shapeToDrag == null)
@@ -715,7 +730,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	/* unused */
 	public void keyReleased(KeyEvent e) { }
 	public void keyTyped(KeyEvent e) { }
-	public void mouseMoved(MouseEvent e) { }
 	public void mouseEntered(MouseEvent e) { }
 	public void mouseExited(MouseEvent e) { }
 }
