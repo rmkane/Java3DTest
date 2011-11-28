@@ -70,21 +70,6 @@ public class HexagonalPrism extends Shape3D {
 	
 	private float tx = 0.0f;
 	private float ty = 0.0f;
-
-
-	Color3f red = new Color3f (Color.RED);
-	Color3f pink = new Color3f (Color.PINK);
-	Color3f orange = new Color3f (Color.ORANGE);
-	Color3f yellow = new Color3f (Color.YELLOW);
-	Color3f green = new Color3f (Color.GREEN);
-	Color3f blue = new Color3f (Color.BLUE);
-	Color3f cyan = new Color3f (Color.CYAN);
-	Color3f purple = new Color3f (Color.MAGENTA);
-	Color3f black = new Color3f (Color.BLACK);
-	Color3f white = new Color3f (Color.WHITE);
-	Color3f gray = new Color3f (Color.GRAY);
-	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
-	
 	
 	//FRONT
 	Point3f f_center = new Point3f( 0.0f, 0.0f, 0.5f);  //center
@@ -109,189 +94,46 @@ public class HexagonalPrism extends Shape3D {
     
     public HexagonalPrism() {
 		TriangleArray hexPrismGeometry = new TriangleArray(72, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
-		hexPrismGeometry.setCoordinate(0, f_se);
-		hexPrismGeometry.setCoordinate(1, f_center);
-		hexPrismGeometry.setCoordinate(2, f_sw);
-		hexPrismGeometry.setColor(0, red);
-		hexPrismGeometry.setColor(1, red);
-		hexPrismGeometry.setColor(2, red);
- 
+		
 		//front face
-		hexPrismGeometry.setCoordinate(3, f_e);
-		hexPrismGeometry.setCoordinate(4, f_center);
-		hexPrismGeometry.setCoordinate(5, f_se);
-		hexPrismGeometry.setColor(3, red);
-		hexPrismGeometry.setColor(4, red);
-		hexPrismGeometry.setColor(5, red);
-		
-		hexPrismGeometry.setCoordinate(6, f_ne);
-		hexPrismGeometry.setCoordinate(7, f_center);
-		hexPrismGeometry.setCoordinate(8, f_e);
-		hexPrismGeometry.setColor(6, red);
-		hexPrismGeometry.setColor(7, red);
-		hexPrismGeometry.setColor(8, red);
- 	
-		hexPrismGeometry.setCoordinate(9, f_nw);
-		hexPrismGeometry.setCoordinate(10, f_center);
-		hexPrismGeometry.setCoordinate(11, f_ne);
-		hexPrismGeometry.setColor(9, red);
-		hexPrismGeometry.setColor(10, red);
-		hexPrismGeometry.setColor(11, red);
- 
-		hexPrismGeometry.setCoordinate(12, f_w);
-		hexPrismGeometry.setCoordinate(13, f_center);
-		hexPrismGeometry.setCoordinate(14, f_nw);
-		hexPrismGeometry.setColor(12, red);
-		hexPrismGeometry.setColor(13, red);
-		hexPrismGeometry.setColor(14, red);
- 
-		hexPrismGeometry.setCoordinate(15, f_sw);
-		hexPrismGeometry.setCoordinate(16, f_center);
-		hexPrismGeometry.setCoordinate(17, f_w);
-		hexPrismGeometry.setColor(15, red);
-		hexPrismGeometry.setColor(16, red);
-		hexPrismGeometry.setColor(17, red);
-		
+		face(hexPrismGeometry, 0, f_se, f_center, f_sw, Colors.RED);
+		face(hexPrismGeometry, 3, f_e, f_center, f_se, Colors.RED);		
+		face(hexPrismGeometry, 6, f_ne, f_center, f_e, Colors.RED);
+		face(hexPrismGeometry, 9, f_nw, f_center, f_ne, Colors.RED);
+		face(hexPrismGeometry, 12, f_w, f_center, f_nw, Colors.RED);
+		face(hexPrismGeometry, 15, f_sw, f_center, f_w, Colors.RED);
 		
 		//back face
-		hexPrismGeometry.setCoordinate(18, b_sw);
-		hexPrismGeometry.setCoordinate(19, b_center);
-		hexPrismGeometry.setCoordinate(20, b_se);
-		hexPrismGeometry.setColor(18, blue);
-		hexPrismGeometry.setColor(19, blue);
-		hexPrismGeometry.setColor(20, blue);
-		
-		hexPrismGeometry.setCoordinate(21, b_se);
-		hexPrismGeometry.setCoordinate(22, b_center);
-		hexPrismGeometry.setCoordinate(23, b_e);
-		hexPrismGeometry.setColor(21, blue);
-		hexPrismGeometry.setColor(22, blue);
-		hexPrismGeometry.setColor(23, blue);
-		
-		hexPrismGeometry.setCoordinate(24, b_e);
-		hexPrismGeometry.setCoordinate(25, b_center);
-		hexPrismGeometry.setCoordinate(26, b_ne);
-		hexPrismGeometry.setColor(24, blue);
-		hexPrismGeometry.setColor(25, blue);
-		hexPrismGeometry.setColor(26, blue);
-		
-		hexPrismGeometry.setCoordinate(27, b_ne);
-		hexPrismGeometry.setCoordinate(28, b_center);
-		hexPrismGeometry.setCoordinate(29, b_nw);
-		hexPrismGeometry.setColor(27, blue);
-		hexPrismGeometry.setColor(28, blue);
-		hexPrismGeometry.setColor(29, blue);
-		
-		hexPrismGeometry.setCoordinate(30, b_nw);
-		hexPrismGeometry.setCoordinate(31, b_center);
-		hexPrismGeometry.setCoordinate(32, b_w);
-		hexPrismGeometry.setColor(30, blue);
-		hexPrismGeometry.setColor(31, blue);
-		hexPrismGeometry.setColor(32, blue);
-		
-		hexPrismGeometry.setCoordinate(33, b_w);
-		hexPrismGeometry.setCoordinate(34, b_center);
-		hexPrismGeometry.setCoordinate(35, b_sw);
-		hexPrismGeometry.setColor(33, blue);
-		hexPrismGeometry.setColor(34, blue);
-		hexPrismGeometry.setColor(35, blue);
-		
+		face(hexPrismGeometry, 18, b_sw, b_center, b_se, Colors.BLUE);
+		face(hexPrismGeometry, 21, b_se, b_center, b_e, Colors.BLUE);
+		face(hexPrismGeometry, 24, b_e, b_center, b_ne, Colors.BLUE);
+		face(hexPrismGeometry, 27, b_ne, b_center, b_nw, Colors.BLUE);
+		face(hexPrismGeometry, 30, b_nw, b_center, b_w, Colors.BLUE);
+		face(hexPrismGeometry, 33, b_w, b_center, b_sw, Colors.BLUE);
 		
 		//north-east face
-		hexPrismGeometry.setCoordinate(36, b_e);
-		hexPrismGeometry.setCoordinate(37, f_ne);
-		hexPrismGeometry.setCoordinate(38, f_e);
-		hexPrismGeometry.setColor(36, purple);
-		hexPrismGeometry.setColor(37, purple);
-		hexPrismGeometry.setColor(38, purple);
-		
-		hexPrismGeometry.setCoordinate(39, b_ne);
-		hexPrismGeometry.setCoordinate(40, f_ne);
-		hexPrismGeometry.setCoordinate(41, b_e);
-		hexPrismGeometry.setColor(39, purple);
-		hexPrismGeometry.setColor(40, purple);
-		hexPrismGeometry.setColor(41, purple);
-		
+		face(hexPrismGeometry, 36, b_e, f_ne, f_e, Colors.PURPLE);
+		face(hexPrismGeometry, 39, b_ne, f_ne, b_e, Colors.PURPLE);
 		
 		//south-east face
-		hexPrismGeometry.setCoordinate(42, b_se);
-		hexPrismGeometry.setCoordinate(43, f_e);
-		hexPrismGeometry.setCoordinate(44, f_se);
-		hexPrismGeometry.setColor(42, green);
-		hexPrismGeometry.setColor(43, green);
-		hexPrismGeometry.setColor(44, green);
-		
-		hexPrismGeometry.setCoordinate(45, b_e);
-		hexPrismGeometry.setCoordinate(46, f_e);
-		hexPrismGeometry.setCoordinate(47, b_se);
-		hexPrismGeometry.setColor(45, green);
-		hexPrismGeometry.setColor(46, green);
-		hexPrismGeometry.setColor(47, green);
-		
+		face(hexPrismGeometry, 42, b_se, f_e, f_se, Colors.GREEN);
+		face(hexPrismGeometry, 45, b_e, f_e, b_se, Colors.GREEN);
 		
 		//south-west face
-		hexPrismGeometry.setCoordinate(48, f_sw);
-		hexPrismGeometry.setCoordinate(49, b_w);
-		hexPrismGeometry.setCoordinate(50, b_sw);
-		hexPrismGeometry.setColor(48, yellow);
-		hexPrismGeometry.setColor(49, yellow);
-		hexPrismGeometry.setColor(50, yellow);
-		
-		hexPrismGeometry.setCoordinate(51, f_w);
-		hexPrismGeometry.setCoordinate(52, b_w);
-		hexPrismGeometry.setCoordinate(53, f_sw);
-		hexPrismGeometry.setColor(51, yellow);
-		hexPrismGeometry.setColor(52, yellow);
-		hexPrismGeometry.setColor(53, yellow);
-		
+		face(hexPrismGeometry, 48, f_sw, b_w, b_sw, Colors.YELLOW);
+		face(hexPrismGeometry, 51, f_w, b_w, f_sw, Colors.YELLOW);
 		
 		//north-west face
-		hexPrismGeometry.setCoordinate(54, f_w);
-		hexPrismGeometry.setCoordinate(55, b_nw);
-		hexPrismGeometry.setCoordinate(56, b_w);
-		hexPrismGeometry.setColor(54, gray);
-		hexPrismGeometry.setColor(55, gray);
-		hexPrismGeometry.setColor(56, gray);
-		
-		hexPrismGeometry.setCoordinate(57, f_nw);
-		hexPrismGeometry.setCoordinate(58, b_nw);
-		hexPrismGeometry.setCoordinate(59, f_w);
-		hexPrismGeometry.setColor(57, gray);
-		hexPrismGeometry.setColor(58, gray);
-		hexPrismGeometry.setColor(59, gray);
-		
+		face(hexPrismGeometry, 54, f_w, b_nw, b_w, Colors.GRAY);
+		face(hexPrismGeometry, 57, f_nw, b_nw, f_w, Colors.GRAY);	
 		
 		//top face
-		hexPrismGeometry.setCoordinate(60, f_nw);
-		hexPrismGeometry.setCoordinate(61, f_ne);
-		hexPrismGeometry.setCoordinate(62, b_nw);
-		hexPrismGeometry.setColor(60, orange);
-		hexPrismGeometry.setColor(61, orange);
-		hexPrismGeometry.setColor(62, orange);
-		
-		hexPrismGeometry.setCoordinate(63, b_ne);
-		hexPrismGeometry.setCoordinate(64, b_nw);
-		hexPrismGeometry.setCoordinate(65, f_ne);
-		hexPrismGeometry.setColor(63, orange);
-		hexPrismGeometry.setColor(64, orange);
-		hexPrismGeometry.setColor(65, orange);
-		
+		face(hexPrismGeometry, 60, f_nw, f_ne, b_nw, Colors.ORANGE);
+		face(hexPrismGeometry, 63, b_ne, b_nw, f_ne, Colors.ORANGE);
 		
 		//bottom face
-		hexPrismGeometry.setCoordinate(66, b_se);
-		hexPrismGeometry.setCoordinate(67, f_sw);
-		hexPrismGeometry.setCoordinate(68, b_sw);
-		hexPrismGeometry.setColor(66, cyan);
-		hexPrismGeometry.setColor(67, cyan);
-		hexPrismGeometry.setColor(68, cyan);
-		
-		hexPrismGeometry.setCoordinate(69, f_se);
-		hexPrismGeometry.setCoordinate(70, f_sw);
-		hexPrismGeometry.setCoordinate(71, b_se);
-		hexPrismGeometry.setColor(69, cyan);
-		hexPrismGeometry.setColor(70, cyan);
-		hexPrismGeometry.setColor(71, cyan);
-		
+		face(hexPrismGeometry, 66, b_se, f_sw, b_sw, Colors.CYAN);
+		face(hexPrismGeometry, 69, f_se, f_sw, b_se, Colors.CYAN);		
 		
 		this.setGeometry(hexPrismGeometry);
 		this.setAppearance(new Appearance());
@@ -316,68 +158,37 @@ public class HexagonalPrism extends Shape3D {
 	 	setResize(defaultSize);
     }
     
+    private void face(TriangleArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
+    	hexPrismGeometry.setCoordinate(index, coordinate1);
+		hexPrismGeometry.setCoordinate(index+1, coordinate2);
+		hexPrismGeometry.setCoordinate(index+2, coordinate3);
+		hexPrismGeometry.setColor(index, color);
+		hexPrismGeometry.setColor(index+1, color);
+		hexPrismGeometry.setColor(index+2, color);
+    }
+    
+    private void edge(QuadArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Point3f coordinate4, Color3f color) {
+    	hexPrismGeometry.setCoordinate(index, coordinate1);
+		hexPrismGeometry.setCoordinate(index+1, coordinate2);
+		hexPrismGeometry.setCoordinate(index+2, coordinate3);
+		hexPrismGeometry.setCoordinate(index+3, coordinate4);
+		hexPrismGeometry.setColor(index, color);
+		hexPrismGeometry.setColor(index+1, color);
+		hexPrismGeometry.setColor(index+2, color);
+		hexPrismGeometry.setColor(index+3, color);
+    }
+    
     
     public Node hexPrismEdges() {
 		QuadArray hexPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
 		
-		hexPrismEdgeGeometry.setCoordinate(0, f_ne);
-		hexPrismEdgeGeometry.setCoordinate(1, b_ne);
-		hexPrismEdgeGeometry.setCoordinate(2, b_nw);
-		hexPrismEdgeGeometry.setCoordinate(3, f_nw);
-		hexPrismEdgeGeometry.setColor(0, black);
-		hexPrismEdgeGeometry.setColor(1, black);
-		hexPrismEdgeGeometry.setColor(2, black);
-		hexPrismEdgeGeometry.setColor(3, black);
-		
-		hexPrismEdgeGeometry.setCoordinate(4, f_e);
-		hexPrismEdgeGeometry.setCoordinate(5, b_e);
-		hexPrismEdgeGeometry.setCoordinate(6, b_ne);
-		hexPrismEdgeGeometry.setCoordinate(7, f_ne);
-		hexPrismEdgeGeometry.setColor(4, black);
-		hexPrismEdgeGeometry.setColor(5, black);
-		hexPrismEdgeGeometry.setColor(6, black);
-		hexPrismEdgeGeometry.setColor(7, black);
-		
-		hexPrismEdgeGeometry.setCoordinate(8, f_se);
-		hexPrismEdgeGeometry.setCoordinate(9, b_se);
-		hexPrismEdgeGeometry.setCoordinate(10, b_e);
-		hexPrismEdgeGeometry.setCoordinate(11, f_e);
-		hexPrismEdgeGeometry.setColor(8, black);
-		hexPrismEdgeGeometry.setColor(9, black);
-		hexPrismEdgeGeometry.setColor(10, black);
-		hexPrismEdgeGeometry.setColor(11, black);
-		
-		
-		hexPrismEdgeGeometry.setCoordinate(12, f_sw);
-		hexPrismEdgeGeometry.setCoordinate(13, f_se);
-		hexPrismEdgeGeometry.setCoordinate(14, b_se);
-		hexPrismEdgeGeometry.setCoordinate(15, b_sw);
-		hexPrismEdgeGeometry.setColor(12, black);
-		hexPrismEdgeGeometry.setColor(13, black);
-		hexPrismEdgeGeometry.setColor(14, black);
-		hexPrismEdgeGeometry.setColor(15, black);
-		
-		
-		hexPrismEdgeGeometry.setCoordinate(16, b_sw);
-		hexPrismEdgeGeometry.setCoordinate(17, f_sw);
-		hexPrismEdgeGeometry.setCoordinate(18, f_w);
-		hexPrismEdgeGeometry.setCoordinate(19, b_w);
-		hexPrismEdgeGeometry.setColor(16, black);
-		hexPrismEdgeGeometry.setColor(17, black);
-		hexPrismEdgeGeometry.setColor(18, black);
-		hexPrismEdgeGeometry.setColor(19, black);
-		
-		
-		hexPrismEdgeGeometry.setCoordinate(20, b_w);
-		hexPrismEdgeGeometry.setCoordinate(21, f_w);
-		hexPrismEdgeGeometry.setCoordinate(22, f_nw);
-		hexPrismEdgeGeometry.setCoordinate(23, b_nw);
-		hexPrismEdgeGeometry.setColor(20, black);
-		hexPrismEdgeGeometry.setColor(21, black);
-		hexPrismEdgeGeometry.setColor(22, black);
-		hexPrismEdgeGeometry.setColor(23, black);
-		
-		
+		edge(hexPrismEdgeGeometry, 0, f_ne, b_ne, b_nw, f_nw, Colors.BLACK);
+		edge(hexPrismEdgeGeometry, 4, f_e, b_e, b_ne, f_ne, Colors.BLACK);
+		edge(hexPrismEdgeGeometry, 8, f_se, b_se, b_e, f_e, Colors.BLACK);
+		edge(hexPrismEdgeGeometry, 12, f_sw, f_se, b_se, b_sw, Colors.BLACK);
+		edge(hexPrismEdgeGeometry, 16, b_sw, f_sw, f_w, b_w, Colors.BLACK);
+		edge(hexPrismEdgeGeometry, 20, b_w, f_w, f_nw, b_nw, Colors.BLACK);		
+				
 		Appearance app = new Appearance();
 		
 		// Set up the polygon attributes

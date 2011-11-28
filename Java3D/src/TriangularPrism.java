@@ -71,21 +71,6 @@ public class TriangularPrism extends Shape3D {
 
 	private float tx = 0.0f;
 	private float ty = 0.0f;
-
-
-	Color3f red = new Color3f (Color.RED);
-	Color3f pink = new Color3f (Color.PINK);
-	Color3f orange = new Color3f (Color.ORANGE);
-	Color3f yellow = new Color3f (Color.YELLOW);
-	Color3f green = new Color3f (Color.GREEN);
-	Color3f blue = new Color3f (Color.BLUE);
-	Color3f cyan = new Color3f (Color.CYAN);
-	Color3f purple = new Color3f (Color.MAGENTA);
-	Color3f black = new Color3f (Color.BLACK);
-	Color3f white = new Color3f (Color.WHITE);
-	Color3f gray = new Color3f (Color.GRAY);
-	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
-	
 	
 	Point3f top1 = new Point3f(0.0f, 0.5f, 1.0f);  //top front
 	Point3f top2 = new Point3f(0.0f, 0.5f, -1.0f);  //top back
@@ -99,69 +84,15 @@ public class TriangularPrism extends Shape3D {
     
     public TriangularPrism() {
    		TriangleArray triPrismGeometry = new TriangleArray(24, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
-		triPrismGeometry.setCoordinate(0, frontR);
-		triPrismGeometry.setCoordinate(1, top1);
-		triPrismGeometry.setCoordinate(2, frontL);
-		triPrismGeometry.setColor(0, red);
-		triPrismGeometry.setColor(1, red);
-		triPrismGeometry.setColor(2, red);
 		
- 
-		triPrismGeometry.setCoordinate(3, backR);
-		triPrismGeometry.setCoordinate(4, top1);
-		triPrismGeometry.setCoordinate(5, frontR);
-		triPrismGeometry.setColor(3, blue);
-		triPrismGeometry.setColor(4, blue);
-		triPrismGeometry.setColor(5, blue);
-		
-		triPrismGeometry.setCoordinate(6, top1);
-		triPrismGeometry.setCoordinate(7, backR);
-		triPrismGeometry.setCoordinate(8, top2);
-		triPrismGeometry.setColor(6, blue);
-		triPrismGeometry.setColor(7, blue);
-		triPrismGeometry.setColor(8, blue);
-		
- 
-		triPrismGeometry.setCoordinate(9, backL);
-		triPrismGeometry.setCoordinate(10, top2);
-		triPrismGeometry.setCoordinate(11, backR);
-		triPrismGeometry.setColor(9, green);
-		triPrismGeometry.setColor(10, green);
-		triPrismGeometry.setColor(11, green);
- 
-		
-		triPrismGeometry.setCoordinate(12, frontL);
-		triPrismGeometry.setCoordinate(13, top2);
-		triPrismGeometry.setCoordinate(14, backL);
-		triPrismGeometry.setColor(12, purple);
-		triPrismGeometry.setColor(13, purple);
-		triPrismGeometry.setColor(14, purple);
- 
-		triPrismGeometry.setCoordinate(15, top2);
-		triPrismGeometry.setCoordinate(16, frontL);
-		triPrismGeometry.setCoordinate(17, top1);
-		triPrismGeometry.setColor(15, purple);
-		triPrismGeometry.setColor(16, purple);
-		triPrismGeometry.setColor(17, purple);
-		
-		
-		triPrismGeometry.setCoordinate(18, frontL);
-		triPrismGeometry.setCoordinate(19, backR);
-		triPrismGeometry.setCoordinate(20, frontR);
-		triPrismGeometry.setColor(18, gray);
-		triPrismGeometry.setColor(19, gray);
-		triPrismGeometry.setColor(20, gray);
-		
-		
-		triPrismGeometry.setCoordinate(21, backR);
-		triPrismGeometry.setCoordinate(22, frontL);
-		triPrismGeometry.setCoordinate(23, backL);
-		triPrismGeometry.setColor(21, gray);
-		triPrismGeometry.setColor(22, gray);
-		triPrismGeometry.setColor(23, gray);
-		
-		
-		
+   		face(triPrismGeometry, 0, frontR, top1, frontL, Colors.RED);	
+   		face(triPrismGeometry, 3, backR, top1, frontR, Colors.BLUE);
+   		face(triPrismGeometry, 6, top1, backR, top2, Colors.BLUE);
+   		face(triPrismGeometry, 9, backL, top2, backR, Colors.GREEN);
+   		face(triPrismGeometry, 12, frontL, top2, backL, Colors.PURPLE);
+   		face(triPrismGeometry, 15, top2, frontL, top1, Colors.PURPLE);
+   		face(triPrismGeometry, 18, frontL, backR, frontR, Colors.GRAY);
+   		face(triPrismGeometry, 21, backR, frontL, backL, Colors.GRAY);		
 		
 		this.setGeometry(triPrismGeometry);
 		this.setAppearance(new Appearance());
@@ -178,38 +109,33 @@ public class TriangularPrism extends Shape3D {
 	
     }
     
+    private void face(TriangleArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
+    	hexPrismGeometry.setCoordinate(index, coordinate1);
+		hexPrismGeometry.setCoordinate(index+1, coordinate2);
+		hexPrismGeometry.setCoordinate(index+2, coordinate3);
+		hexPrismGeometry.setColor(index, color);
+		hexPrismGeometry.setColor(index+1, color);
+		hexPrismGeometry.setColor(index+2, color);
+    }
+    
+    private void edge(QuadArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Point3f coordinate4, Color3f color) {
+    	hexPrismGeometry.setCoordinate(index, coordinate1);
+		hexPrismGeometry.setCoordinate(index+1, coordinate2);
+		hexPrismGeometry.setCoordinate(index+2, coordinate3);
+		hexPrismGeometry.setCoordinate(index+3, coordinate4);
+		hexPrismGeometry.setColor(index, color);
+		hexPrismGeometry.setColor(index+1, color);
+		hexPrismGeometry.setColor(index+2, color);
+		hexPrismGeometry.setColor(index+3, color);
+    }
+    
     
     public Node triPrismEdges() {
 		QuadArray triPrismEdgeGeometry = new QuadArray(12, QuadArray.COORDINATES | GeometryArray.COLOR_3);
 		
-		
-		triPrismEdgeGeometry.setCoordinate(0, frontR);
-		triPrismEdgeGeometry.setCoordinate(1, backR);
-		triPrismEdgeGeometry.setCoordinate(2, top2);
-		triPrismEdgeGeometry.setCoordinate(3, top1);
-		triPrismEdgeGeometry.setColor(0, black);
-		triPrismEdgeGeometry.setColor(1, black);
-		triPrismEdgeGeometry.setColor(2, black);
-		triPrismEdgeGeometry.setColor(3, black);
-		
-		triPrismEdgeGeometry.setCoordinate(4, backL);
-		triPrismEdgeGeometry.setCoordinate(5, frontL);
-		triPrismEdgeGeometry.setCoordinate(6, top1);
-		triPrismEdgeGeometry.setCoordinate(7, top2);
-		triPrismEdgeGeometry.setColor(4, black);
-		triPrismEdgeGeometry.setColor(5, black);
-		triPrismEdgeGeometry.setColor(6, black);
-		triPrismEdgeGeometry.setColor(7, black);
-		
-		triPrismEdgeGeometry.setCoordinate(8, frontL);
-		triPrismEdgeGeometry.setCoordinate(9, frontR);
-		triPrismEdgeGeometry.setCoordinate(10, backR);
-		triPrismEdgeGeometry.setCoordinate(11, backL);
-		triPrismEdgeGeometry.setColor(8, black);
-		triPrismEdgeGeometry.setColor(9, black);
-		triPrismEdgeGeometry.setColor(10, black);
-		triPrismEdgeGeometry.setColor(11, black);
-		
+		edge(triPrismEdgeGeometry, 0, frontR, backR, top2, top1, Colors.BLACK);
+		edge(triPrismEdgeGeometry, 4, backL, frontL, top1, top2, Colors.BLACK);
+		edge(triPrismEdgeGeometry, 8, frontL, frontR, backR, backL, Colors.BLACK);		
 		
 		Appearance app = new Appearance();
 		

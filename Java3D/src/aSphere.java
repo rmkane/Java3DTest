@@ -72,29 +72,14 @@ public class aSphere extends Shape3D {
 	
 	private float tx = 0.0f;
 	private float ty = 0.0f;
-
-
-	Color3f red = new Color3f (Color.RED);
-	Color3f pink = new Color3f (Color.PINK);
-	Color3f orange = new Color3f (Color.ORANGE);
-	Color3f yellow = new Color3f (Color.YELLOW);
-	Color3f green = new Color3f (Color.GREEN);
-	Color3f blue = new Color3f (Color.BLUE);
-	Color3f cyan = new Color3f (Color.CYAN);
-	Color3f purple = new Color3f (Color.MAGENTA);
-	Color3f black = new Color3f (Color.BLACK);
-	Color3f white = new Color3f (Color.WHITE);
-	Color3f gray = new Color3f (Color.GRAY);
-	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
-
     
     public aSphere() {
    		
     	Sphere sphere = new Sphere(1, 1, 35);
 		
     	Appearance ap = new Appearance();
-    	ColoringAttributes ca = new ColoringAttributes(blue, ColoringAttributes.NICEST); 
-    	Material mat = new Material(black, black, blue, white, 30f);
+    	ColoringAttributes ca = new ColoringAttributes(Colors.BLUE, ColoringAttributes.NICEST); 
+    	Material mat = new Material(Colors.BLACK, Colors.BLACK, Colors.BLUE, Colors.WHITE, 30f);
     	ap.setColoringAttributes(ca);
     	ap.setMaterial(mat);
     	

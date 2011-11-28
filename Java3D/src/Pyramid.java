@@ -69,22 +69,7 @@ public class Pyramid extends Shape3D {
 	} 
 	
 	float tx = 0.0f;
-	private float ty = 0.0f;
-
-
-	Color3f red = new Color3f (Color.RED);
-	Color3f pink = new Color3f (Color.PINK);
-	Color3f orange = new Color3f (Color.ORANGE);
-	Color3f yellow = new Color3f (Color.YELLOW);
-	Color3f green = new Color3f (Color.GREEN);
-	Color3f blue = new Color3f (Color.BLUE);
-	Color3f cyan = new Color3f (Color.CYAN);
-	Color3f purple = new Color3f (Color.MAGENTA);
-	Color3f black = new Color3f (Color.BLACK);
-	Color3f white = new Color3f (Color.WHITE);
-	Color3f gray = new Color3f (Color.GRAY);
-	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
-	
+	private float ty = 0.0f;	
 	
 	Point3f frontL = new Point3f(-1.0f, -1.0f, 1.0f); // front left
 	Point3f frontR = new Point3f(1.0f, -1.0f, 1.0f); // front right
@@ -95,48 +80,13 @@ public class Pyramid extends Shape3D {
     
     public Pyramid() {
 		TriangleArray pyramidGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
-		pyramidGeometry.setCoordinate(0, frontR);
-		pyramidGeometry.setCoordinate(1, top);
-		pyramidGeometry.setCoordinate(2, frontL);
-		pyramidGeometry.setColor(0, red);
-		pyramidGeometry.setColor(1, red);
-		pyramidGeometry.setColor(2, red);
- 
-		pyramidGeometry.setCoordinate(3, backR);
-		pyramidGeometry.setCoordinate(4, top);
-		pyramidGeometry.setCoordinate(5, frontR);
-		pyramidGeometry.setColor(3, blue);
-		pyramidGeometry.setColor(4, blue);
-		pyramidGeometry.setColor(5, blue);
- 
-		pyramidGeometry.setCoordinate(6, backL);
-		pyramidGeometry.setCoordinate(7, top);
-		pyramidGeometry.setCoordinate(8, backR);
-		pyramidGeometry.setColor(6, gray);
-		pyramidGeometry.setColor(7, gray);
-		pyramidGeometry.setColor(8, gray);
- 
-		pyramidGeometry.setCoordinate(9, frontL);
-		pyramidGeometry.setCoordinate(10, top);
-		pyramidGeometry.setCoordinate(11, backL);
-		pyramidGeometry.setColor(9, green);
-		pyramidGeometry.setColor(10, green);
-		pyramidGeometry.setColor(11, green);
- 
-		pyramidGeometry.setCoordinate(12, backL);
-		pyramidGeometry.setCoordinate(13, backR);
-		pyramidGeometry.setCoordinate(14, frontR);
-		pyramidGeometry.setColor(12, purple);
-		pyramidGeometry.setColor(13, purple);
-		pyramidGeometry.setColor(14, purple);
- 
-		pyramidGeometry.setCoordinate(15, frontR);
-		pyramidGeometry.setCoordinate(16, frontL);
-		pyramidGeometry.setCoordinate(17, backL);
-		pyramidGeometry.setColor(15, purple);
-		pyramidGeometry.setColor(16, purple);
-		pyramidGeometry.setColor(17, purple);
 		
+		face(pyramidGeometry, 0, frontR, top, frontL, Colors.ORANGE);
+		face(pyramidGeometry, 3, backR, top, frontR, Colors.BLUE);
+		face(pyramidGeometry, 6, backL, top, backR, Colors.RED);
+		face(pyramidGeometry, 9, frontL, top, backL, Colors.GREEN);
+		face(pyramidGeometry, 12, backL, backR, frontR, Colors.PURPLE);
+		face(pyramidGeometry, 15, frontR, frontL, backL, Colors.PURPLE);		
 
 		this.setGeometry(pyramidGeometry);
 		this.setAppearance(new Appearance());
@@ -152,52 +102,34 @@ public class Pyramid extends Shape3D {
 	 	setResize(defaultSize);
     }
     
+    private void face(TriangleArray pyramidGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
+    	pyramidGeometry.setCoordinate(index, coordinate1);
+    	pyramidGeometry.setCoordinate(index+1, coordinate2);
+    	pyramidGeometry.setCoordinate(index+2, coordinate3);
+    	pyramidGeometry.setColor(index, color);
+    	pyramidGeometry.setColor(index+1, color);
+    	pyramidGeometry.setColor(index+2, color);
+    }
+    
+    private void edge(TriangleArray pyramidEdgeGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
+    	pyramidEdgeGeometry.setCoordinate(index, coordinate1);
+    	pyramidEdgeGeometry.setCoordinate(index+1, coordinate2);
+    	pyramidEdgeGeometry.setCoordinate(index+2, coordinate3);
+    	pyramidEdgeGeometry.setColor(index, color);
+    	pyramidEdgeGeometry.setColor(index+1, color);
+    	pyramidEdgeGeometry.setColor(index+2, color);
+    }
     
     public Node pyramidEdges() {
 		TriangleArray pyramidEdgeGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
-		pyramidEdgeGeometry.setCoordinate(0, frontR);
-		pyramidEdgeGeometry.setCoordinate(1, top);
-		pyramidEdgeGeometry.setCoordinate(2, frontL);
-		pyramidEdgeGeometry.setColor(0, black);
-		pyramidEdgeGeometry.setColor(1, black);
-		pyramidEdgeGeometry.setColor(2, black);
- 
-		pyramidEdgeGeometry.setCoordinate(3, backR);
-		pyramidEdgeGeometry.setCoordinate(4, top);
-		pyramidEdgeGeometry.setCoordinate(5, frontR);
-		pyramidEdgeGeometry.setColor(3, black);
-		pyramidEdgeGeometry.setColor(4, black);
-		pyramidEdgeGeometry.setColor(5, black);
- 
-		pyramidEdgeGeometry.setCoordinate(6, backL);
-		pyramidEdgeGeometry.setCoordinate(7, top);
-		pyramidEdgeGeometry.setCoordinate(8, backR);
-		pyramidEdgeGeometry.setColor(6, black);
-		pyramidEdgeGeometry.setColor(7, black);
-		pyramidEdgeGeometry.setColor(8, black);
- 
-		pyramidEdgeGeometry.setCoordinate(9, frontL);
-		pyramidEdgeGeometry.setCoordinate(10, top);
-		pyramidEdgeGeometry.setCoordinate(11, backL);
-		pyramidEdgeGeometry.setColor(9, black);
-		pyramidEdgeGeometry.setColor(10, black);
-		pyramidEdgeGeometry.setColor(11, black);
- 
-		pyramidEdgeGeometry.setCoordinate(12, backL);
-		pyramidEdgeGeometry.setCoordinate(13, backR);
-		pyramidEdgeGeometry.setCoordinate(14, frontR);
-		pyramidEdgeGeometry.setColor(12, black);
-		pyramidEdgeGeometry.setColor(13, black);
-		pyramidEdgeGeometry.setColor(14, black);
- 
-		pyramidEdgeGeometry.setCoordinate(15, frontR);
-		pyramidEdgeGeometry.setCoordinate(16, frontL);
-		pyramidEdgeGeometry.setCoordinate(17, backL);
-		pyramidEdgeGeometry.setColor(15, black);
-		pyramidEdgeGeometry.setColor(16, black);
-		pyramidEdgeGeometry.setColor(17, black);
 		
-		
+		edge(pyramidEdgeGeometry, 0, frontR, top, frontL, Colors.BLACK);
+		edge(pyramidEdgeGeometry, 3, backR, top, frontR, Colors.BLACK);
+		edge(pyramidEdgeGeometry, 6, backL, top, backR, Colors.BLACK);
+		edge(pyramidEdgeGeometry, 9, frontL, top, backL, Colors.BLACK);
+		edge(pyramidEdgeGeometry, 12, backL, backR, frontR, Colors.BLACK);
+		edge(pyramidEdgeGeometry, 15, frontR, frontL, backL, Colors.BLACK);
+				
 		Appearance app = new Appearance();
 		
 		// Set up the polygon attributes

@@ -34,22 +34,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private Transform3D changeSize;
  	private Transform3D stayInPos;
 
-	
-	Color3f red = new Color3f (Color.RED);
-	Color3f pink = new Color3f (Color.PINK);
-	Color3f orange = new Color3f (Color.ORANGE);
-	Color3f yellow = new Color3f (Color.YELLOW);
-	Color3f green = new Color3f (Color.GREEN);
-	Color3f blue = new Color3f (Color.BLUE);
-	Color3f cyan = new Color3f (Color.CYAN);
-	Color3f purple = new Color3f (Color.MAGENTA);
-	Color3f black = new Color3f (Color.BLACK);
-	Color3f white = new Color3f (Color.WHITE);
-	Color3f gray = new Color3f (Color.GRAY);
-	Color3f lightgray = new Color3f (Color.LIGHT_GRAY);
-
-
-	
 	public SwingTest() {
 		init();
 	}
@@ -110,7 +94,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	
 
 	 protected Background createBackground() {
-	 	Background background = new Background(white);
+	 	Background background = new Background(Colors.WHITE);
 		background.setApplicationBounds(createApplicationBounds());
 		
 		return background;
@@ -215,11 +199,11 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  sceneBranchGroup.setCapability( Group.ALLOW_CHILDREN_WRITE );
 
 		  //ambient light
-		  AmbientLight aLgt = new AmbientLight( white );
+		  AmbientLight aLgt = new AmbientLight( Colors.WHITE );
 		  aLgt.setInfluencingBounds( bounds );
 		
 		  //directional light
-		  DirectionalLight lgt1 = new DirectionalLight(white, new Vector3f( -1.0f,-1.0f,-1.0f ) );
+		  DirectionalLight lgt1 = new DirectionalLight(Colors.WHITE, new Vector3f( -1.0f,-1.0f,-1.0f ) );
 		  lgt1.setInfluencingBounds( bounds );
 		
 		  objRoot.addChild(aLgt);
