@@ -14,6 +14,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private static int hexPrismCount = 0;
 	private static int triPrismCount = 0;
 	private static int pyramidCount = 0;
+	private static int cylinderCount = 0;
 	
 	private int mouseX, mouseY;
 	private int mouseButton;
@@ -246,6 +247,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 return bg;
 	 }
+	
+	
 	 
 	 
 	 
@@ -262,7 +265,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 }
 	 
 	 
-
 	 protected BranchGroup createRectPrism() {
 		 BranchGroup bg = new BranchGroup();
 		 bg.setCapability( BranchGroup.ALLOW_DETACH ); //makes the shape deletable
@@ -297,6 +299,18 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 bg.addChild(sphere.createRotator());
 		 
 		 setShapeClicked(sphere);
+
+		 return bg;
+	 }
+	 
+	 protected BranchGroup createCylinder() {
+		 BranchGroup bg = new BranchGroup();
+		 bg.setCapability( BranchGroup.ALLOW_DETACH ); //makes the shape deletable
+		 
+		 aCylinder cylinder = new aCylinder();		 
+		 bg.addChild(cylinder.createRotator());
+		 
+		 setShapeClicked(cylinder);
 
 		 return bg;
 	 }
@@ -361,6 +375,18 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	}
 	
 	
+	public static int getCylinderCount() {
+		return cylinderCount;
+	}
+
+
+
+	public static void setCylinderCount(int cylinderCount2) {
+		SwingTest.cylinderCount = cylinderCount2;
+	}
+
+
+
 	public static int getTriPrismCount() {
 		return triPrismCount;
 	}
