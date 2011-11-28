@@ -6,6 +6,10 @@ UPDATE (11/27/11):
 
 - Spheres are now fully functional (where before they could not be moved or resized)
 
+- Added aCylinder class (Functionality exists, but it does not show up)
+
+- Refactored the code for the Square Prism, Triangular Prism, Hexagonal Prism, and the Square Pyramid. (Do we have a Triangular Pyramid?)
+
 
 
 -------------------
