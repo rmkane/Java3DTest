@@ -1,4 +1,14 @@
 -------------------
+UPDATE (11/27/11):
+-------------------
+
+- Changed sphere class structure to more closely resemble other shapes
+
+- Spheres are now fully functional (where before they could not be moved or resized)
+
+
+
+-------------------
 UPDATE (11/26/11):
 -------------------
 

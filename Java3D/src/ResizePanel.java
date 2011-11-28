@@ -181,14 +181,14 @@ public class ResizePanel implements ListSelectionListener  {
 		        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
 		        	((Pyramid) shapeClicked).setResize(resize);
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
-		        //	holdPosition.setTranslation(
-		        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
-		        //	holdPosition.mul(resize);
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+		        	holdPosition.setTranslation(
+		        			new Vector3f(((aSphere) shapeClicked).getTx(), ((aSphere) shapeClicked).getTy(), 0.0f));
+		        	holdPosition.mul(resize);
 		        	
-		        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
-		        //	((HexagonalPrism) shapeClicked).setResize(resize);
-	        	//}
+		        	((aSphere) shapeClicked).getTg().setTransform(holdPosition);
+		        	((aSphere) shapeClicked).setResize(resize);
+	        	}
 	        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
 		        //	holdPosition.setTranslation(
 		        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
@@ -256,14 +256,14 @@ public class ResizePanel implements ListSelectionListener  {
 			        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
 			        	((Pyramid) shapeClicked).setResize(resize);
 		        	}
-		        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
-			        //	holdPosition.setTranslation(
-			        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
-			        //	holdPosition.mul(resize);
-			        	
-			        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
-			        //	((HexagonalPrism) shapeClicked).setResize(resize);
-		        	//}
+		        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+			        	holdPosition.setTranslation(
+			        			new Vector3f(((aSphere) shapeClicked).getTx(), ((aSphere) shapeClicked).getTy(), 0.0f));
+			        	holdPosition.mul(resize);
+		        	
+			        	((aSphere) shapeClicked).getTg().setTransform(holdPosition);
+			        	((aSphere) shapeClicked).setResize(resize);
+		        	}
 		        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
 			        //	holdPosition.setTranslation(
 			        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
@@ -328,14 +328,14 @@ public class ResizePanel implements ListSelectionListener  {
 				        	((Pyramid) shapeClicked).getTg().setTransform(holdPosition);
 				        	((Pyramid) shapeClicked).setResize(resize);
 			        	}
-			        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
-				        //	holdPosition.setTranslation(
-				        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
-				        //	holdPosition.mul(resize);
-				        	
-				        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
-				        //	((HexagonalPrism) shapeClicked).setResize(resize);
-			        	//}
+			        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+				        	holdPosition.setTranslation(
+				        			new Vector3f(((aSphere) shapeClicked).getTx(), ((aSphere) shapeClicked).getTy(), 0.0f));
+				        	holdPosition.mul(resize);
+			        		
+				        	((aSphere) shapeClicked).getTg().setTransform(holdPosition);
+				        	((aSphere) shapeClicked).setResize(resize);
+			        	}
 			        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
 				        //	holdPosition.setTranslation(
 				        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));

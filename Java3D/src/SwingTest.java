@@ -295,7 +295,9 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 aSphere sphere = new aSphere();		 
 		 bg.addChild(sphere.createRotator());
-		  
+		 
+		 setShapeClicked(sphere);
+
 		 return bg;
 	 }
 	
@@ -310,11 +312,10 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		    	  
 		    	  if (((String)((Group)((Group)(((Group)sgObject).getChild(0))).getChild(0)).getChild(0).getUserData()).equalsIgnoreCase(selectedUserData)) {
 		    		  sceneBranchGroup.removeChild(index);
+		    		  System.out.println("Removed: " + selectedUserData);
 		    	  }
-		    	  else {
-		    		  System.out.println(index);
+		    	  else
 		    	  	  index++;
-		    	  }
 		      }		      
 	 }
 
@@ -466,12 +467,18 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 
 	    pickCanvas.setShapeLocation(e);
 	    PickResult result = pickCanvas.pickClosest();
+	    
+	    //System.out.println(result.getClass());
 	
 	    if (result == null) {
 	       System.out.println("Nothing picked");
 	    } 
+	    
+	    
 	    else {
 	    	shapeToDrag = result.getNode(PickResult.SHAPE3D);
+	    	
+	    	//System.out.println(shapeToDrag.getClass().getName());
 
 	    	String data = (String)result.getNode(PickResult.SHAPE3D).getUserData();
 	    	//System.out.println("Repositioning: " + data);
@@ -500,10 +507,11 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 			ty = ((RectangularPrism) shapeToDrag).getTy();
 	 	}
 	 	
-	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
-			//tx = ((Sphere) shapeToDrag).getTx();
-			//ty = ((Sphere) shapeToDrag).getTy();
-	 	//}
+	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+	 		//System.out.println(shapeToDrag.getClass());
+			tx = ((aSphere) shapeToDrag).getTx();
+			ty = ((aSphere) shapeToDrag).getTy();
+	 	}
 	 	
 	 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
 			//tx = ((Cylinder) shapeToDrag).getTx();
@@ -539,10 +547,11 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 			ty = ((RectangularPrism) shapeToDrag).getTy();
 	 	}
 	 	
-	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
-			//tx = ((Sphere) shapeToDrag).getTx();
-			//ty = ((Sphere) shapeToDrag).getTy();
-	 	//}
+	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+	 		//System.out.println("LOOOOOOOL");
+			tx = ((aSphere) shapeToDrag).getTx();
+			ty = ((aSphere) shapeToDrag).getTy();
+	 	}
 	 	
 	 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
 			//tx = ((Cylinder) shapeToDrag).getTx();
@@ -574,10 +583,10 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 				((RectangularPrism) shapeToDrag).setTy(ty);
 		 	}
 		 	
-		 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
-		 		//((Pyramid) shapeToDrag).setTx(tx);
-		 		//((Pyramid) shapeToDrag).setTy(ty);
-		 	//}
+		 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+		 		((aSphere) shapeToDrag).setTx(tx);
+		 		((aSphere) shapeToDrag).setTy(ty);
+		 	}
 		 	
 		 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
 		 		//((Pyramid) shapeToDrag).setTx(tx);
@@ -611,9 +620,10 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 	((RectangularPrism) shapeToDrag).getTg().setTransform(dragShape);
 	 	}
 	 	
-	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
-	 		//((aSphere) shapeToDrag).getTg().setTransform(dragShape);
-	 	//}
+	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+	 		dragShape.mul(((aSphere) shapeToDrag).getResize());
+	 		((aSphere) shapeToDrag).getTg().setTransform(dragShape);
+	 	}
 	 	
 	 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
 	 	//	((Cylinder) shapeToDrag).getTg().setTransform(dragShape);
@@ -656,10 +666,10 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 		((RectangularPrism) shapeToDrag).setTy(ty);
 	 	}
 	 	
-	 	//else if (shapeToDrag.getClass().getName().equals("Sphere")) {
- 			//((Sphere) shapeToDrag).setTx(tx);
- 			//((Sphere) shapeToDrag).setTy(ty);
-	 	//}
+	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+ 			((aSphere) shapeToDrag).setTx(tx);
+ 			((aSphere) shapeToDrag).setTy(ty);
+	 	}
 	 	
 	 	//else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
  			//((Cylinder) shapeToDrag).setTx(tx);
