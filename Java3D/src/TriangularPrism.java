@@ -128,7 +128,9 @@ public class TriangularPrism extends Shape3D {
 	 	Transform3D defaultSize = new Transform3D();
 	 	defaultSize.setScale(new Vector3d(1.0, 1.0, 1.0));
 	 	setResize(defaultSize);
-	 	GUI_3D.sessionLog.add("TriPrism created at");
+	 	
+	 	//sends message to logger
+	 	GUI_3D.sessionLog.add("TriPrism created at " + "0,0,0");
 	 	GUI_3D.sessionLog.writeOut(GUI_3D.sessionLog.getFilename(), GUI_3D.sessionLog.getLog());
     }
 
