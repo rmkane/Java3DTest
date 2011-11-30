@@ -288,17 +288,29 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		bottomCenter.setLayout(new BorderLayout());
 		
 		String currentLog = "2011_11_29_20_29_08.log"; //Will add a loop later to find latest log
-		String output = "Logging...";
-		try {
-			FileInputStream fstream = new FileInputStream(currentLog); 
-			DataInputStream in = new DataInputStream(fstream);
-		} catch (FileNotFoundException e1) {
-			output = "No log found";
-		}
+		String output = "Logging... \n";
 		
 		logText = new JTextArea(output); // **LOGGER PANEL**
 		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
+		
+		//This loop reads every line in the file and adds it to the top of the logger window
+		try {
+			BufferedReader input =  new BufferedReader(new FileReader(currentLog));
+			try { 
+				String line = null;
+				while (( line = input.readLine()) != null){
+					logText.insert(line + "\n", 0);
+				}
+			}
+			finally{ 
+				input.close(); 
+			}	
+		} 
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
 		logScroll = new JScrollPane(logText);
 		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		logScroll.setPreferredSize(new Dimension(0, 150));
