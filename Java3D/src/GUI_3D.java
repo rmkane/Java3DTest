@@ -74,13 +74,14 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	private JTextArea logText;
 	private JScrollPane logScroll;
 	private JLabel statusBar;
+	static Logger sessionLog = new Logger();
 	
 	public GUI_3D() {
 		swingTest = new SwingTest();
 		c3d = swingTest.getC3d();
 		c3d.addMouseMotionListener(this);
 		c3d.addMouseListener(this);
-
+		
 		init();
 	}
 
@@ -156,6 +157,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		hexprism_b = new JButton("[hex prism]");
 		line_b = new JButton("[line]");
 		
+		sessionLog.add("hello");
 		
 		rectPrism_b.addActionListener(new ActionListener() {
 			 
@@ -287,10 +289,25 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		JPanel bottomCenter = new JPanel();
 		bottomCenter.setLayout(new BorderLayout());
 		
-		String currentLog = "2011_11_29_20_29_08.log"; //Will add a loop later to find latest log
-		String output = "Logging... \n";
+		sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
+		String currentLog = sessionLog.getFilename(); 
+		String current = "";
 		
-		logText = new JTextArea(output); // **LOGGER PANEL**
+		/*
+		File directory = new File(new File(".").getAbsolutePath()); //Yo dawg, I heard you like new Files
+		String file[] = directory.list();
+		for (int i = 0; i < file.length; i++) {
+			current = file[i];
+			String[] splitName = current.split("_");
+			if(splitName[0].equals("2011")){
+				currentLog = current; //Finds the latest log by looking at the end of the directory. Could be more robust
+			}
+			else{}
+		}
+		*/
+		
+		String output = "Logging... \n";	
+		logText = new JTextArea(currentLog); // **LOGGER PANEL**
 		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
 		
@@ -312,6 +329,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		}
 		
 		logScroll = new JScrollPane(logText);
+		
 		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		logScroll.setPreferredSize(new Dimension(0, 150));
 
