@@ -13,13 +13,17 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.media.j3d.Alpha;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Node;
+import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Transform3D;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +35,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.vecmath.Vector3f;
 
 
 
@@ -42,6 +47,8 @@ public class RotatePanel  {
     JPanel buttonsPanel = new JPanel();
     JPanel blankPanel = new JPanel();
     
+	Transform3D yAxis = new Transform3D();
+    
 	//private Scene s;
 	//private GLCanvas c;
     
@@ -50,7 +57,6 @@ public class RotatePanel  {
 	
 	public RotatePanel(JPanel panel)
 	{
-		
 	    panel.setLayout(new BorderLayout());
 	    
 
@@ -93,7 +99,9 @@ public class RotatePanel  {
 	    /**********************************
 	     -----------CHECK BUTTONS----------
 	     **********************************/
-        final JCheckBox x_cb = new JCheckBox("x");
+        final JRadioButton x_cb = new JRadioButton("x");
+        x_cb.setSelected(true);
+        yAxis.rotZ(Math.PI / 2.0);
 	    constraints.gridx = 1;
 	    constraints.gridy = 2;
 	    constraints.gridwidth = 1;
@@ -101,7 +109,7 @@ public class RotatePanel  {
 	    constraints.weightx = constraints.weighty = 1.0;
 	    rotatePanel1.add(x_cb, constraints);
 
-	    final JCheckBox y_cb = new JCheckBox("y");
+	    final JRadioButton y_cb = new JRadioButton("y");
 	    constraints.gridx = 2;
 	    constraints.gridy = 2;
 	    constraints.gridwidth = 1;
@@ -109,7 +117,7 @@ public class RotatePanel  {
 	    constraints.weightx = constraints.weighty = 1.0;
 	    rotatePanel1.add(y_cb, constraints);
 	    
-	    final JCheckBox z_cb = new JCheckBox("z");
+	    final JRadioButton z_cb = new JRadioButton("z");
 	    constraints.gridx = 3;
 	    constraints.gridy = 2;
 	    constraints.gridwidth = 1;
@@ -117,20 +125,24 @@ public class RotatePanel  {
 	    constraints.weightx = constraints.weighty = 1.0;
 	    rotatePanel1.add(z_cb, constraints);
 	    
+	    //group radio buttons together (when one is clicked, the others are deselected)
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(x_cb);
+	    group.add(y_cb);
+	    group.add(z_cb);
+	    
 
 	    ItemListener listener = new ItemListener()
 	    {
 	        public void itemStateChanged(ItemEvent e) {
-	        	//s.setXAxisRotation(0.0f);
-	        	//s.setYAxisRotation(0.0f);
-	        	//s.setZAxisRotation(0.0f);
+	        	Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
 	        	
-	        	//if (x_cb.isSelected())
-	        		//s.setXAxisRotation(1.0f);
-	        	//if (y_cb.isSelected())
-	        		//s.setYAxisRotation(1.0f);
-	        	//if (z_cb.isSelected())
-	        		//s.setZAxisRotation(1.0f);
+	        	if (x_cb.isSelected())
+	        		yAxis.rotZ(Math.PI / 2.0);
+	        	else if (y_cb.isSelected())
+	        		yAxis.rotY( Math.PI / 2.0 );
+	        	else if (z_cb.isSelected())
+	        		yAxis.rotX(Math.PI / 2.0);
 	        }
 	    };
 	    
@@ -184,22 +196,11 @@ public class RotatePanel  {
 	    ((JSpinner.DefaultEditor)numRotations.getEditor()).getTextField().setEditable(false); 
 	    numRotations.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
 	    
-	    
-	    /*
-	    ChangeListener listener = new ChangeListener() {
-	        public void stateChanged(ChangeEvent e) {
-	          System.out.println("Source: " + e.getSource());
-	        }
-	      };
-	    
-	      
-	    numRotations.addChangeListener(listener);
-	    */
-	    
 
 	    final JSpinner speed = new JSpinner(speedModel);
 	    ((JSpinner.DefaultEditor)speed.getEditor()).getTextField().setEditable(false); 
 	    speed.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
+	    speed.setValue(10);
 
         
 
@@ -255,26 +256,56 @@ public class RotatePanel  {
 	    pause_b.setFont(new Font("sansserif",Font.PLAIN,11));
 	    
 	    
+
+	    
 	    start_b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
-            	System.out.println("Selected shape: " + GUI_3D.getSwingTest().getSelectedUserData());
+        	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
             	
             	GUI_3D.rotateSpeed = (Integer)speed.getValue();
 
             	
-            	//s.setNumRotations((Integer)numRotations.getValue());
-            	//s.setRotationSpeed((Integer)speed.getValue());
- 
-            	//if (!((s.getXAxisRotation() == 0.0f) && (s.getYAxisRotation() == 0.0f) 
-            			//&& (s.getZAxisRotation() == 0.0f)))
-            		//s.animator.start();
+            	Alpha alpha = new Alpha();
             	
-            	//s.drawPyramid(3, 1, 2, 2, 2); 
-            	//s.animator.stop();
+            	
+            	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+            		alpha = ((TriangularPrism) shapeClicked).getRotationAlpha();
+            		((TriangularPrism) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+	        		alpha = ((HexagonalPrism) shapeClicked).getRotationAlpha();
+            		((HexagonalPrism) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+	        		alpha = ((RectangularPrism) shapeClicked).getRotationAlpha();
+            		((RectangularPrism) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+	        		alpha = ((Pyramid) shapeClicked).getRotationAlpha();
+            		((Pyramid) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+	        		alpha = ((aSphere) shapeClicked).getRotationAlpha();
+            		((aSphere) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+            		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
+        			//((aCylinder) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	//}
+            
+            	
+            	
+        		if (alpha.finished()){
+        			alpha.setLoopCount((Integer)numRotations.getValue());
+        			alpha.setStartTime(System.currentTimeMillis());
+        			alpha.setIncreasingAlphaDuration((21 - (Integer)speed.getValue())*200);
+        			alpha.setMode(Alpha.INCREASING_ENABLE);
+        		}
             } 
         });      
 	    
+	    //int numRotations1 = 1;
 	   
 	    buttonsPanel.setLayout(new GridLayout(1,2,7,0));
 	    buttonsPanel.add(start_b, constraints);

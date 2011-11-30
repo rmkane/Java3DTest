@@ -20,6 +20,17 @@ public class HexagonalPrism extends Shape3D {
 	private double width = 10; 
 	private double depth = 10;
 	
+	private Alpha rotationAlpha;
+	
+	public Alpha getRotationAlpha() {
+		return rotationAlpha;
+	}
+
+
+	public void setRotationAlpha(Alpha rotationAlpha) {
+		this.rotationAlpha = rotationAlpha;
+	}
+	
 	public double getHeight() {
 		return height;
 	}
@@ -96,12 +107,12 @@ public class HexagonalPrism extends Shape3D {
 		TriangleArray hexPrismGeometry = new TriangleArray(72, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
 		
 		//front face
-		face(hexPrismGeometry, 0, f_se, f_center, f_sw, Colors.RED);
-		face(hexPrismGeometry, 3, f_e, f_center, f_se, Colors.RED);		
-		face(hexPrismGeometry, 6, f_ne, f_center, f_e, Colors.RED);
-		face(hexPrismGeometry, 9, f_nw, f_center, f_ne, Colors.RED);
-		face(hexPrismGeometry, 12, f_w, f_center, f_nw, Colors.RED);
-		face(hexPrismGeometry, 15, f_sw, f_center, f_w, Colors.RED);
+		face(hexPrismGeometry, 0, f_se, f_center, f_sw, Colors.GREEN);
+		face(hexPrismGeometry, 3, f_e, f_center, f_se, Colors.GREEN);		
+		face(hexPrismGeometry, 6, f_ne, f_center, f_e, Colors.GREEN);
+		face(hexPrismGeometry, 9, f_nw, f_center, f_ne, Colors.GREEN);
+		face(hexPrismGeometry, 12, f_w, f_center, f_nw, Colors.GREEN);
+		face(hexPrismGeometry, 15, f_sw, f_center, f_w, Colors.GREEN);
 		
 		//back face
 		face(hexPrismGeometry, 18, b_sw, b_center, b_se, Colors.BLUE);
@@ -116,8 +127,8 @@ public class HexagonalPrism extends Shape3D {
 		face(hexPrismGeometry, 39, b_ne, f_ne, b_e, Colors.PURPLE);
 		
 		//south-east face
-		face(hexPrismGeometry, 42, b_se, f_e, f_se, Colors.GREEN);
-		face(hexPrismGeometry, 45, b_e, f_e, b_se, Colors.GREEN);
+		face(hexPrismGeometry, 42, b_se, f_e, f_se, Colors.RED);
+		face(hexPrismGeometry, 45, b_e, f_e, b_se, Colors.RED);
 		
 		//south-west face
 		face(hexPrismGeometry, 48, f_sw, b_w, b_sw, Colors.YELLOW);
@@ -220,7 +231,7 @@ public class HexagonalPrism extends Shape3D {
 		 /* axes of rotation */
 	     //yAxis.rotZ(Math.PI / 2.0);  	//X AXIS
 	     //yAxis.rotY( Math.PI / 2.0 ); //Y AXIS
-	     yAxis.rotX(Math.PI / 2.0);   //Z AXIS
+	     //yAxis.rotX(Math.PI / 2.0);   //Z AXIS
 		    
 		 TransformGroup spin = new TransformGroup(yAxis);
 		 spin.setUserData("TG: SPIN");
@@ -233,8 +244,9 @@ public class HexagonalPrism extends Shape3D {
 		 spin.addChild(hexPrismEdges());
 
 		    
-		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
-	     rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
+		rotationAlpha = new Alpha(0, Alpha.INCREASING_ENABLE, 0, 0, 4000, 0, 0, 0, 0, 0);
+			
+		rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f);
 
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
@@ -291,5 +303,15 @@ public class HexagonalPrism extends Shape3D {
 
 	public void setTy(float ty) {
 		this.ty = ty;
+	}
+	
+	
+    public RotationInterpolator getRotator() {
+		return rotator;
+	}
+
+
+	public void setRotator(RotationInterpolator rotator) {
+		this.rotator = rotator;
 	}
 }

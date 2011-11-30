@@ -21,6 +21,27 @@ public class aSphere extends Shape3D {
 	private double width = 10; 
 	private double depth = 10;
 	
+	private Alpha rotationAlpha;
+	
+	public Alpha getRotationAlpha() {
+		return rotationAlpha;
+	}
+
+
+	public void setRotationAlpha(Alpha rotationAlpha) {
+		this.rotationAlpha = rotationAlpha;
+	}
+	
+	
+    public RotationInterpolator getRotator() {
+		return rotator;
+	}
+
+
+	public void setRotator(RotationInterpolator rotator) {
+		this.rotator = rotator;
+	}
+	
 	public double getHeight() {
 		return height;
 	}
@@ -121,8 +142,9 @@ public class aSphere extends Shape3D {
 		 spin.addChild(this); //add rectPrism shape to the spin TG
 
 		    
-		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
-	     rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
+		rotationAlpha = new Alpha(0, Alpha.INCREASING_ENABLE, 0, 0, 4000, 0, 0, 0, 0, 0);
+			
+		rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f);
 
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);

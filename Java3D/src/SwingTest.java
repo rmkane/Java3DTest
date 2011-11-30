@@ -681,7 +681,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	 	}
 	 	
 	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-	 		//System.out.println("That's a pyramid");
 	 		((Pyramid) shapeToDrag).setTx(tx);
 	 		((Pyramid) shapeToDrag).setTy(ty);
 	 	}

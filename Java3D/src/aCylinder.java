@@ -62,22 +62,24 @@ public class aCylinder extends Shape3D {
 	private float tx = 0.0f;
 	private float ty = 0.0f;
 	
+	private Cylinder cylinder;
+	
     
     public aCylinder() {
    		
-    	Cylinder cylinder = new Cylinder(2, 1);
+    	cylinder = new Cylinder(1, 2);
 		
     	Appearance ap = new Appearance();
     	ColoringAttributes ca = new ColoringAttributes(Colors.BLUE, ColoringAttributes.NICEST); 
-    	Material mat = new Material(Colors.BLUE, Colors.BLACK, Colors.BLUE, Colors.WHITE, 30f);
+    	Material mat = new Material(Colors.BLACK, Colors.BLACK, Colors.BLUE, Colors.WHITE, 30f);
     	ap.setColoringAttributes(ca);
     	ap.setMaterial(mat);
     	
-    	this.setAppearance(ap);
+    	cylinder.setAppearance(ap);
 
 		//set userData (id)
 		int cylinderCount = SwingTest.getCylinderCount();
-		this.setUserData( "Cylinder".concat(Integer.toString(cylinderCount)) );
+		cylinder.setUserData( "Cylinder".concat(Integer.toString(cylinderCount)) );
 		
 		System.out.println("Created: " + getUserData());
 		
@@ -85,6 +87,8 @@ public class aCylinder extends Shape3D {
 	 	SwingTest.setCylinderCount(cylinderCount);
 	 	
 	 	this.setGeometry(cylinder.getShape(cylinderCount).getGeometry());
+	 	
+	 	System.out.println(cylinder.getShape(cylinderCount).getGeometry());
 	 	
 	 	Transform3D defaultSize = new Transform3D();
 	 	defaultSize.setScale(new Vector3d(1.0, 1.0, 1.0));
@@ -107,7 +111,7 @@ public class aCylinder extends Shape3D {
 		 
 		 spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		 
-		 spin.addChild(this); //add rectPrism shape to the spin TG
+		 spin.addChild(cylinder); //add rectPrism shape to the spin TG
 		    
 		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
 	     rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
@@ -118,7 +122,7 @@ public class aCylinder extends Shape3D {
 		 
 		 
 		 TransformGroup tg = new TransformGroup() ;
-		 tg.setUserData("TG: TG".concat(Integer.toString(SwingTest.getRectPrismCount())));
+		 tg.setUserData("TG: TG".concat(Integer.toString(SwingTest.getCylinderCount())));
 		 tg.setCapability( TransformGroup.ALLOW_TRANSFORM_WRITE ) ;
 		 setTg(tg);
 		 

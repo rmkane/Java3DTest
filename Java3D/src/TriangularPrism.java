@@ -16,6 +16,18 @@ public class TriangularPrism extends Shape3D {
 	private Transform3D changeSize;
 	private Transform3D resize;
 	
+	private Alpha rotationAlpha;
+	
+	public Alpha getRotationAlpha() {
+		return rotationAlpha;
+	}
+
+
+	public void setRotationAlpha(Alpha rotationAlpha) {
+		this.rotationAlpha = rotationAlpha;
+	}
+
+
 	private double height = 10; 
 	private double width = 10; 
 	private double depth = 10;
@@ -67,6 +79,16 @@ public class TriangularPrism extends Shape3D {
 	public void setChangeSize(Transform3D changeSize) {
 		this.changeSize = changeSize;
 	}
+	
+    
+    public RotationInterpolator getRotator() {
+		return rotator;
+	}
+
+
+	public void setRotator(RotationInterpolator rotator) {
+		this.rotator = rotator;
+	}
 
 
 	private float tx = 0.0f;
@@ -85,12 +107,12 @@ public class TriangularPrism extends Shape3D {
     public TriangularPrism() {
    		TriangleArray triPrismGeometry = new TriangleArray(24, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
 		
-   		face(triPrismGeometry, 0, frontR, top1, frontL, Colors.RED);	
+   		face(triPrismGeometry, 0, frontR, top1, frontL, Colors.PURPLE);	
    		face(triPrismGeometry, 3, backR, top1, frontR, Colors.BLUE);
    		face(triPrismGeometry, 6, top1, backR, top2, Colors.BLUE);
    		face(triPrismGeometry, 9, backL, top2, backR, Colors.GREEN);
-   		face(triPrismGeometry, 12, frontL, top2, backL, Colors.PURPLE);
-   		face(triPrismGeometry, 15, top2, frontL, top1, Colors.PURPLE);
+   		face(triPrismGeometry, 12, frontL, top2, backL, Colors.YELLOW);
+   		face(triPrismGeometry, 15, top2, frontL, top1, Colors.YELLOW);
    		face(triPrismGeometry, 18, frontL, backR, frontR, Colors.GRAY);
    		face(triPrismGeometry, 21, backR, frontL, backL, Colors.GRAY);		
 		
@@ -108,8 +130,9 @@ public class TriangularPrism extends Shape3D {
 	 	setResize(defaultSize);
 	
     }
-    
-    private void face(TriangleArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
+
+
+	private void face(TriangleArray hexPrismGeometry, int index, Point3f coordinate1, Point3f coordinate2, Point3f coordinate3, Color3f color) {
     	hexPrismGeometry.setCoordinate(index, coordinate1);
 		hexPrismGeometry.setCoordinate(index+1, coordinate2);
 		hexPrismGeometry.setCoordinate(index+2, coordinate3);
@@ -167,7 +190,7 @@ public class TriangularPrism extends Shape3D {
 
 		 /* axes of rotation */
 	     //yAxis.rotZ(Math.PI / 2.0);  	//X AXIS
-	     yAxis.rotY( Math.PI / 2.0 ); //Y AXIS
+	     //yAxis.rotY( Math.PI / 2.0 ); //Y AXIS
 	     //yAxis.rotX(Math.PI / 2.0);   //Z AXIS
 		    
 		 TransformGroup spin = new TransformGroup(yAxis);
@@ -181,14 +204,15 @@ public class TriangularPrism extends Shape3D {
 		 spin.addChild(triPrismEdges());
 
 		    
-	      Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
+	      rotationAlpha = new Alpha(0, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
 
-	      //rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f );
-	      rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
+	      rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f );
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
 		 rotator.setSchedulingBounds(bounds);
 		 spin.addChild(rotator);  //add interpolator rotator to the spin TG
+		 
+
 		 
 		 
 		 TransformGroup tg = new TransformGroup() ;
