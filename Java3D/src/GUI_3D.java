@@ -1,3 +1,5 @@
+import java.io.*; //needed for logger
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Hashtable;
-
 
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Transform3D;
@@ -286,7 +287,16 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		JPanel bottomCenter = new JPanel();
 		bottomCenter.setLayout(new BorderLayout());
 		
-		logText = new JTextArea(); // **LOGGER PANEL**
+		String currentLog = "2011_11_29_20_29_08.log"; //Will add a loop later to find latest log
+		String output = "Logging...";
+		try {
+			FileInputStream fstream = new FileInputStream(currentLog); 
+			DataInputStream in = new DataInputStream(fstream);
+		} catch (FileNotFoundException e1) {
+			output = "No log found";
+		}
+		
+		logText = new JTextArea(output); // **LOGGER PANEL**
 		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
 		logScroll = new JScrollPane(logText);
