@@ -173,7 +173,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Triangular Prism");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createTriPrism() );
-                sessionLog.add("TriPrism created at");
+                //sessionLog.add("TriPrism created at hhhhh");
             }
         });    
 		
@@ -292,7 +292,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		bottomCenter.setLayout(new BorderLayout());
 		
 		
-		logPart();
+		logPart("current");
 
 		
 		JSlider zoom = new JSlider(JSlider.HORIZONTAL, 5, 200, 100);
@@ -349,9 +349,16 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		frame.setVisible(true);
 	}
 
-	void logPart(){
-		String currentLog = sessionLog.getFilename(); 
-		String current = "";
+	void logPart(String filePath){
+		String currentLog;
+		String current;
+		
+		if(filePath == "current"){
+			currentLog = sessionLog.getFilename(); 
+		}
+		else{
+			currentLog = filePath;
+		}
 		
 		/*
 		File directory = new File(new File(".").getAbsolutePath()); //Yo dawg, I heard you like new Files
@@ -420,7 +427,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		// NOT COMPLETE
 		public void actionPerformed(ActionEvent e) {
 
-			JFileChooser chooser = new JFileChooser();
+			JFileChooser chooser = new JFileChooser(new File(".").getAbsolutePath());
+			//chooser.addChoosableFileFilter(filter);
 			//CustomFileFilter filter = new CustomFileFilter();
 			//filter.addExtension("log"); // Only choose text files
 			//filter.setDescription("Log Files");
@@ -428,8 +436,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 			
 			int returnVal = chooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				System.out.println("You chose to open this file: "
-						+ chooser.getSelectedFile().getName());
+				System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				logPart(chooser.getSelectedFile().getName());
 			}
 		}
 	}
