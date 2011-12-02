@@ -265,6 +265,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
         JPanel aestheticsPane = new JPanel();
         aestheticsPane.setMaximumSize(new Dimension(150, 110));
         aestheticsPane.setPreferredSize(new Dimension(150, 110));
+        
+        
         rightToolbar.add(aestheticsPane);
         aestheticsPane.setBorder(LineBorder.createGrayLineBorder());
         

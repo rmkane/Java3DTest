@@ -6,9 +6,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.media.j3d.Appearance;
+import javax.media.j3d.LineAttributes;
+import javax.media.j3d.Node;
+import javax.media.j3d.Shape3D;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.vecmath.Color3f;
+import javax.vecmath.Vector3f;
 
 
 
@@ -54,17 +62,116 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    //c.anchor = GridBagConstraints.NORTHWEST;
 	    
 
-	    //Color colors[] = { Color.black, Color.blue, Color.cyan, Color.darkGray,
-	           // Color.gray, Color.green, Color.lightGray, Color.magenta,
-	           // Color.orange, Color.pink, Color.red, Color.white, Color.yellow };
+	    final Color3f colors[] = { Colors.RED, Colors.PINK, Colors.ORANGE, Colors.YELLOW, Colors.GREEN, Colors.BLUE, Colors.CYAN,
+	    		Colors.PURPLE, Colors.BLACK, Colors.WHITE, Colors.GRAY };
 	    
-	    String colornames[] = { "", "", "", "", "", "", "", "", "", "", "", "", "" };
-	    String faces[] = { "Face 1", "Face 2", "Face 3", "Face 4", "Face 5" };
+	    String colorNames[] = { "red", "pink", "orng", "ylw", "grn", "blue", "cyan", "prpl", "blk", "wht", "gray" };
+	    String weights[] = { "1", "2", "3", "4", "5" };
 	    
-	    JComboBox faceColors = new JComboBox(colornames);
-	    JComboBox faceSelection = new JComboBox(faces);
-	    JComboBox edgeColors = new JComboBox(colornames);
-	    JComboBox edgeWeight = new JComboBox(colornames);
+	    String faces[] = { };
+	    
+
+	    final JComboBox faceColors = new JComboBox(colorNames);
+	    final JComboBox faceSelection = new JComboBox(faces);
+	    final JComboBox edgeColors = new JComboBox(colorNames);
+	    final JComboBox edgeWeight = new JComboBox(weights);
+	    
+	    edgeColors.setSelectedItem("blk");
+	    
+	    faceColors.setFont(new Font("sansserif",Font.PLAIN,10));
+	    faceSelection.setFont(new Font("sansserif",Font.PLAIN,10));
+	    edgeColors.setFont(new Font("sansserif",Font.PLAIN,10));
+	    edgeWeight.setFont(new Font("sansserif",Font.PLAIN,10));
+	    
+	    
+	    faceColors.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+        	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+        	    
+        	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+            	    for (int i = 0; i < 4; i++)
+            	    	((TriangularPrism)shapeClicked).getTriPrismGeometry().setColor(i, Colors.GREEN);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+	        	    for (int i = 0; i < 4; i++)
+	        	    	((HexagonalPrism)shapeClicked).getHexPrismGeometry().setColor(i, Colors.GREEN);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+	        	    for (int i = 0; i < 4; i++)
+	        	    	((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(i, Colors.GREEN);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+	        	    for (int i = 0; i < 4; i++)
+	        	    	((Pyramid)shapeClicked).getPyramidGeometry().setColor(i, Colors.GREEN);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+            		System.out.println("Sphere");
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	//}
+            }});
+	    
+	    
+	    edgeColors.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+        	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+        	    
+        	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+            	    for (int i = 0; i < 12; i++)
+            	    	((TriangularPrism)shapeClicked).getTriPrismEdgeGeometry().setColor(i, colors[edgeColors.getSelectedIndex()]);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+	        	    for (int i = 0; i < 24; i++)
+	        	    	((HexagonalPrism)shapeClicked).getHexPrismEdgeGeometry().setColor(i, colors[edgeColors.getSelectedIndex()]);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+	        	    for (int i = 0; i < 24; i++)
+	        	    	((RectangularPrism)shapeClicked).getRectPrismEdgeGeometry().setColor(i, colors[edgeColors.getSelectedIndex()]);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+	        	    for (int i = 0; i < 18; i++)
+	        	    	((Pyramid)shapeClicked).getPyramidEdgeGeometry().setColor(i, colors[edgeColors.getSelectedIndex()]);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+            		System.out.println("Sphere has no edges!");
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	//}
+            }});
+	    
+	    
+	    edgeWeight.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+        	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+        	                	
+        	    LineAttributes lineattributes = new LineAttributes();
+        	    lineattributes.setLineWidth(Float.valueOf(edgeWeight.getSelectedItem().toString()).floatValue());
+        		lineattributes.setLineAntialiasingEnable(true);
+        		lineattributes.setLinePattern(LineAttributes.PATTERN_SOLID);
+        	    
+        	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+            		((TriangularPrism) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+            		((HexagonalPrism) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+            		((RectangularPrism) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+            		((Pyramid) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+            		System.out.println("Sphere has no edges!");
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	//}
+            }});
+	   
+	    
 	    
 	    
 	    c.gridx = 1;
@@ -194,10 +301,6 @@ public class AestheticsPanel implements ListSelectionListener  {
 	}
 
 
-	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void valueChanged(ListSelectionEvent arg0) { }
 	
 }

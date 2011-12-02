@@ -20,7 +20,32 @@ public class RectangularPrism extends Shape3D {
 	private double depth = 10;
 	
 	private Alpha rotationAlpha;
+	private QuadArray rectPrismGeometry;
+	private QuadArray rectPrismEdgeGeometry;
 	
+	private Appearance app;
+	
+	
+	public Appearance getApp() {
+		return app;
+	}
+
+
+	public void setApp(Appearance app) {
+		this.app = app;
+	}
+
+
+	public QuadArray getRectPrismGeometry() {
+		return rectPrismGeometry;
+	}
+
+
+	public void setRectPrismGeometry(QuadArray rectPrismGeometry) {
+		this.rectPrismGeometry = rectPrismGeometry;
+	}
+
+
 	public Alpha getRotationAlpha() {
 		return rotationAlpha;
 	}
@@ -86,7 +111,8 @@ public class RectangularPrism extends Shape3D {
 	Point3f t_backL = new Point3f(-1.0f, 1.0f, -1.0f); // back left
 
 	public RectangularPrism() {
-		QuadArray rectPrismGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		rectPrismGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		rectPrismGeometry.setCapability(QuadArray.ALLOW_COLOR_WRITE);
 		
 		face(rectPrismGeometry, 0, b_frontL, b_frontR, t_frontR, t_frontL, Colors.RED);
 		face(rectPrismGeometry, 4, b_frontR, b_backR, t_backR, t_frontR, Colors.BLUE);
@@ -96,8 +122,10 @@ public class RectangularPrism extends Shape3D {
 		face(rectPrismGeometry, 20, b_backL, b_backR, b_frontR, b_frontL, Colors.PURPLE);
 
 		this.setGeometry(rectPrismGeometry);
+		
 		this.setAppearance(new Appearance());
-
+		
+		
 		// set userData (id)
 		int rectPrismCount = SwingTest.getRectPrismCount();
 		this.setUserData("rectPrism".concat(Integer.toString(rectPrismCount)));
@@ -136,7 +164,9 @@ public class RectangularPrism extends Shape3D {
 	}
 
 	public Node rectPrismEdges() {
-		QuadArray rectPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		rectPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | QuadArray.NORMALS | GeometryArray.COLOR_3);
+		rectPrismEdgeGeometry.setCapability(QuadArray.ALLOW_COLOR_WRITE);
+		//rectPrismEdgeGeometry.setCapability(QuadArray.ALLOW_COORDINATE_WRITE);
 		
 		edge(rectPrismEdgeGeometry, 0, b_frontL, b_frontR, t_frontR, t_frontL, Colors.BLACK);
 		edge(rectPrismEdgeGeometry, 4, b_frontR, b_backR, t_backR, t_frontR, Colors.BLACK);
@@ -145,7 +175,8 @@ public class RectangularPrism extends Shape3D {
 		edge(rectPrismEdgeGeometry, 16, t_frontL, t_frontR, t_backR, t_backL, Colors.BLACK);
 		edge(rectPrismEdgeGeometry, 20, b_backL, b_backR, b_frontR, b_frontL, Colors.BLACK);
 
-		Appearance app = new Appearance();
+		app = new Appearance();
+		app.setCapability(Appearance.ALLOW_LINE_ATTRIBUTES_WRITE);
 
 		// Set up the polygon attributes
 		PolygonAttributes pa = new PolygonAttributes();
@@ -155,6 +186,7 @@ public class RectangularPrism extends Shape3D {
 		app.setPolygonAttributes(pa);
 
 		LineAttributes lineattributes = new LineAttributes();
+
 		lineattributes.setLineWidth(5.0f);
 		lineattributes.setLineAntialiasingEnable(true);
 		lineattributes.setLinePattern(LineAttributes.PATTERN_SOLID);
@@ -167,6 +199,16 @@ public class RectangularPrism extends Shape3D {
 
 		return rectPrismEdges;
 	}
+
+	public QuadArray getRectPrismEdgeGeometry() {
+		return rectPrismEdgeGeometry;
+	}
+
+
+	public void setRectPrismEdgeGeometry(QuadArray rectPrismEdgeGeometry) {
+		this.rectPrismEdgeGeometry = rectPrismEdgeGeometry;
+	}
+
 
 	TransformGroup createRotator() {
 		Transform3D yAxis = new Transform3D();

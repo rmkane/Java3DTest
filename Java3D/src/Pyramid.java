@@ -21,6 +21,20 @@ public class Pyramid extends Shape3D {
 	private double depth = 10;
 	
 	private Alpha rotationAlpha;
+	private TriangleArray pyramidGeometry;
+	private TriangleArray pyramidEdgeGeometry;
+	
+	private Appearance app;
+	
+	
+	public Appearance getApp() {
+		return app;
+	}
+
+
+	public void setApp(Appearance app) {
+		this.app = app;
+	}
 	
 	public Alpha getRotationAlpha() {
 		return rotationAlpha;
@@ -100,7 +114,8 @@ public class Pyramid extends Shape3D {
 
     
     public Pyramid() {
-		TriangleArray pyramidGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		pyramidGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		pyramidGeometry.setCapability(TriangleArray.ALLOW_COLOR_WRITE);
 		
 		face(pyramidGeometry, 0, frontR, top, frontL, Colors.ORANGE);
 		face(pyramidGeometry, 3, backR, top, frontR, Colors.BLUE);
@@ -142,16 +157,18 @@ public class Pyramid extends Shape3D {
     }
     
     public Node pyramidEdges() {
-		TriangleArray pyramidEdgeGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		pyramidEdgeGeometry = new TriangleArray(18, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		pyramidEdgeGeometry.setCapability(TriangleArray.ALLOW_COLOR_WRITE);
 		
 		edge(pyramidEdgeGeometry, 0, frontR, top, frontL, Colors.BLACK);
 		edge(pyramidEdgeGeometry, 3, backR, top, frontR, Colors.BLACK);
 		edge(pyramidEdgeGeometry, 6, backL, top, backR, Colors.BLACK);
 		edge(pyramidEdgeGeometry, 9, frontL, top, backL, Colors.BLACK);
-		edge(pyramidEdgeGeometry, 12, backL, backR, frontR, Colors.BLACK);
-		edge(pyramidEdgeGeometry, 15, frontR, frontL, backL, Colors.BLACK);
+		//edge(pyramidEdgeGeometry, 12, backL, backR, frontR, Colors.BLACK);
+		//edge(pyramidEdgeGeometry, 15, frontR, frontL, backL, Colors.BLACK);
 				
-		Appearance app = new Appearance();
+		app = new Appearance();
+		app.setCapability(Appearance.ALLOW_LINE_ATTRIBUTES_WRITE);
 		
 		// Set up the polygon attributes
         PolygonAttributes pa = new PolygonAttributes();
@@ -176,7 +193,27 @@ public class Pyramid extends Shape3D {
     
     
     
-    TransformGroup createRotator() {
+    public TriangleArray getPyramidGeometry() {
+		return pyramidGeometry;
+	}
+
+
+	public void setPyramidGeometry(TriangleArray pyramidGeometry) {
+		this.pyramidGeometry = pyramidGeometry;
+	}
+
+
+	public TriangleArray getPyramidEdgeGeometry() {
+		return pyramidEdgeGeometry;
+	}
+
+
+	public void setPyramidEdgeGeometry(TriangleArray pyramidEdgeGeometry) {
+		this.pyramidEdgeGeometry = pyramidEdgeGeometry;
+	}
+
+
+	TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
 		 /* axes of rotation */

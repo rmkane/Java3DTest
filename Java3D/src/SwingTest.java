@@ -22,7 +22,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private String curPos;
 	
 	private static BranchGroup    sceneBranchGroup = null;
-	private RotationInterpolator  rotator = null;
 	private static Canvas3D c3d;
 	private static PickCanvas pickCanvas;
 	
@@ -31,9 +30,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private Node shapeToDrag;
 	private TransformGroup tgArray;
 	
-	private Transform3D changeSize;
- 	private Transform3D stayInPos;
-
 	public SwingTest() {
 		init();
 	}
@@ -203,7 +199,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		  aLgt.setInfluencingBounds( bounds );
 		
 		  //directional light
-		  DirectionalLight lgt1 = new DirectionalLight(Colors.WHITE, new Vector3f( -1.0f,-1.0f,-1.0f ) );
+		  DirectionalLight lgt1 = new DirectionalLight(Colors.WHITE, new Vector3f(4.0f, -5.0f, -10.0f) );
 		  lgt1.setInfluencingBounds( bounds );
 		
 		  objRoot.addChild(aLgt);

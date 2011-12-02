@@ -17,6 +17,20 @@ public class TriangularPrism extends Shape3D {
 	private Transform3D resize;
 	
 	private Alpha rotationAlpha;
+	private TriangleArray triPrismGeometry;
+	private QuadArray triPrismEdgeGeometry;
+	
+	private Appearance app;
+	
+	
+	public Appearance getApp() {
+		return app;
+	}
+
+
+	public void setApp(Appearance app) {
+		this.app = app;
+	}
 	
 	public Alpha getRotationAlpha() {
 		return rotationAlpha;
@@ -105,7 +119,8 @@ public class TriangularPrism extends Shape3D {
 
     
     public TriangularPrism() {
-   		TriangleArray triPrismGeometry = new TriangleArray(24, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+   		triPrismGeometry = new TriangleArray(24, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+   		triPrismGeometry.setCapability(TriangleArray.ALLOW_COLOR_WRITE);
 		
    		face(triPrismGeometry, 0, frontR, top1, frontL, Colors.PURPLE);	
    		face(triPrismGeometry, 3, backR, top1, frontR, Colors.BLUE);
@@ -154,19 +169,21 @@ public class TriangularPrism extends Shape3D {
     
     
     public Node triPrismEdges() {
-		QuadArray triPrismEdgeGeometry = new QuadArray(12, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		triPrismEdgeGeometry = new QuadArray(12, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		triPrismEdgeGeometry.setCapability(QuadArray.ALLOW_COLOR_WRITE);
 		
 		edge(triPrismEdgeGeometry, 0, frontR, backR, top2, top1, Colors.BLACK);
 		edge(triPrismEdgeGeometry, 4, backL, frontL, top1, top2, Colors.BLACK);
 		edge(triPrismEdgeGeometry, 8, frontL, frontR, backR, backL, Colors.BLACK);		
 		
-		Appearance app = new Appearance();
+		app = new Appearance();
+		app.setCapability(Appearance.ALLOW_LINE_ATTRIBUTES_WRITE);
 		
 		// Set up the polygon attributes
         PolygonAttributes pa = new PolygonAttributes();
         pa.setPolygonMode(pa.POLYGON_LINE);
         pa.setCullFace(pa.CULL_NONE);
-        pa.setPolygonOffsetFactor(-0.5f);
+        pa.setPolygonOffsetFactor(-0.9f);
         app.setPolygonAttributes(pa);
         
         LineAttributes lineattributes = new LineAttributes();
@@ -185,7 +202,27 @@ public class TriangularPrism extends Shape3D {
     
     
     
-    TransformGroup createRotator() {
+    public TriangleArray getTriPrismGeometry() {
+		return triPrismGeometry;
+	}
+
+
+	public void setTriPrismGeometry(TriangleArray triPrismGeometry) {
+		this.triPrismGeometry = triPrismGeometry;
+	}
+
+
+	public QuadArray getTriPrismEdgeGeometry() {
+		return triPrismEdgeGeometry;
+	}
+
+
+	public void setTriPrismEdgeGeometry(QuadArray triPrismEdgeGeometry) {
+		this.triPrismEdgeGeometry = triPrismEdgeGeometry;
+	}
+
+
+	TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
 		 /* axes of rotation */

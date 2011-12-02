@@ -21,6 +21,20 @@ public class HexagonalPrism extends Shape3D {
 	private double depth = 10;
 	
 	private Alpha rotationAlpha;
+	private TriangleArray hexPrismGeometry;
+	private QuadArray hexPrismEdgeGeometry;
+	
+	private Appearance app;
+	
+	
+	public Appearance getApp() {
+		return app;
+	}
+
+
+	public void setApp(Appearance app) {
+		this.app = app;
+	}
 	
 	public Alpha getRotationAlpha() {
 		return rotationAlpha;
@@ -104,7 +118,8 @@ public class HexagonalPrism extends Shape3D {
 
     
     public HexagonalPrism() {
-		TriangleArray hexPrismGeometry = new TriangleArray(72, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		hexPrismGeometry = new TriangleArray(72, TriangleArray.COORDINATES | GeometryArray.COLOR_3);
+		hexPrismGeometry.setCapability(TriangleArray.ALLOW_COLOR_WRITE);
 		
 		//front face
 		face(hexPrismGeometry, 0, f_se, f_center, f_sw, Colors.GREEN);
@@ -191,7 +206,8 @@ public class HexagonalPrism extends Shape3D {
     
     
     public Node hexPrismEdges() {
-		QuadArray hexPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		hexPrismEdgeGeometry = new QuadArray(24, QuadArray.COORDINATES | GeometryArray.COLOR_3);
+		hexPrismEdgeGeometry.setCapability(QuadArray.ALLOW_COLOR_WRITE);
 		
 		edge(hexPrismEdgeGeometry, 0, f_ne, b_ne, b_nw, f_nw, Colors.BLACK);
 		edge(hexPrismEdgeGeometry, 4, f_e, b_e, b_ne, f_ne, Colors.BLACK);
@@ -200,7 +216,8 @@ public class HexagonalPrism extends Shape3D {
 		edge(hexPrismEdgeGeometry, 16, b_sw, f_sw, f_w, b_w, Colors.BLACK);
 		edge(hexPrismEdgeGeometry, 20, b_w, f_w, f_nw, b_nw, Colors.BLACK);		
 				
-		Appearance app = new Appearance();
+		app = new Appearance();
+		app.setCapability(Appearance.ALLOW_LINE_ATTRIBUTES_WRITE);
 		
 		// Set up the polygon attributes
         PolygonAttributes pa = new PolygonAttributes();
@@ -225,7 +242,27 @@ public class HexagonalPrism extends Shape3D {
     
     
     
-    TransformGroup createRotator() {
+    public TriangleArray getHexPrismGeometry() {
+		return hexPrismGeometry;
+	}
+
+
+	public void setHexPrismGeometry(TriangleArray hexPrismGeometry) {
+		this.hexPrismGeometry = hexPrismGeometry;
+	}
+
+
+	public QuadArray getHexPrismEdgeGeometry() {
+		return hexPrismEdgeGeometry;
+	}
+
+
+	public void setHexPrismEdgeGeometry(QuadArray hexPrismEdgeGeometry) {
+		this.hexPrismEdgeGeometry = hexPrismEdgeGeometry;
+	}
+
+
+	TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
 		 /* axes of rotation */
