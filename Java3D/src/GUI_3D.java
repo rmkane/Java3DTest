@@ -60,7 +60,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	
 	// Menu
 	private JMenuBar menubar;
-	private JMenu file, edit, help;
+	private JMenu file, help;
 	private JMenuItem save, load, exit, blank, about;
 	
 	// Panels
@@ -102,11 +102,11 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 
 		// File
 		file = new JMenu("File");// Items under File
-		edit = new JMenu("Edit");// Items under Edit
+
 		help = new JMenu("Help");
 
 		menubar.add(file);
-		menubar.add(edit);
+
 		menubar.add(Box.createHorizontalGlue()); // adheres Help menu to right side
 		menubar.add(help);
 
@@ -121,7 +121,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		
 		// Edit
 		blank = new JMenuItem("Blank Button");
-		edit.add(blank);
+
 		
 
 		// Help
