@@ -1,6 +1,8 @@
 import java.awt.Color;
+
 import javax.media.j3d.*;
 import javax.vecmath.*;
+
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.geometry.Cylinder;
 
@@ -15,29 +17,7 @@ public class aCylinder extends Shape3D {
 	private Transform3D resize;
 	
 	private double height = 10; 
-	private double width = 10; 
-	private double depth = 10;
-	
-	private Alpha rotationAlpha;
-	
-	public Alpha getRotationAlpha() {
-		return rotationAlpha;
-	}
-
-
-	public void setRotationAlpha(Alpha rotationAlpha) {
-		this.rotationAlpha = rotationAlpha;
-	}
-	
-	
-    public RotationInterpolator getRotator() {
-		return rotator;
-	}
-
-
-	public void setRotator(RotationInterpolator rotator) {
-		this.rotator = rotator;
-	}
+	private double radius = 10; 
 	
 	public double getHeight() {
 		return height;
@@ -49,26 +29,15 @@ public class aCylinder extends Shape3D {
 	}
 
 
-	public double getWidth() {
-		return width;
+	public double getRadius() {
+		return radius;
 	}
 
 
-	public void setWidth(double width) {
-		this.width = width;
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 
-
-	public double getDepth() {
-		return depth;
-	}
-
-
-	public void setDepth(double depth) {
-		this.depth = depth;
-	}
-
-//
 	public Transform3D getResize() {
 		return resize;
 	}
@@ -90,10 +59,13 @@ public class aCylinder extends Shape3D {
 	
 	private float tx = 0.0f;
 	private float ty = 0.0f;
+	
+	private Cylinder cylinder;
+	
     
     public aCylinder() {
    		
-    	Cylinder cylinder = new Cylinder(1, 1);
+    	cylinder = new Cylinder(1, 2);
 		
     	Appearance ap = new Appearance();
     	ColoringAttributes ca = new ColoringAttributes(Colors.BLUE, ColoringAttributes.NICEST); 
@@ -101,27 +73,43 @@ public class aCylinder extends Shape3D {
     	ap.setColoringAttributes(ca);
     	ap.setMaterial(mat);
     	
-    	this.setAppearance(ap);
+    	cylinder.setAppearance(ap);
 
 		//set userData (id)
 		int cylinderCount = SwingTest.getCylinderCount();
-		this.setUserData( "Cylinder".concat(Integer.toString(cylinderCount)) );
+		cylinder.setUserData( "Cylinder".concat(Integer.toString(cylinderCount)) );
 		
 		System.out.println("Created: " + getUserData());
 		
 		cylinderCount++;
 	 	SwingTest.setCylinderCount(cylinderCount);
 	 	
-	 	this.setGeometry(cylinder.getShape(1).getGeometry());
+	 	this.setGeometry(cylinder.getShape(cylinderCount).getGeometry());
+	 	
+	 	System.out.println(cylinder.getShape(cylinderCount).getGeometry());
 	 	
 	 	Transform3D defaultSize = new Transform3D();
 	 	defaultSize.setScale(new Vector3d(1.0, 1.0, 1.0));
 	 	setResize(defaultSize);
+	 	
+	 	this.setUserData("TEST");
+	 	this.setId("Test2");
+	 	//System.out.println(getUserData());
     }
     
     
     
-    TransformGroup createRotator() {
+    public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
 		 /* axes of rotation */
@@ -135,14 +123,10 @@ public class aCylinder extends Shape3D {
 		 
 		 spin.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 		 
-
-		 spin.addChild(this); //add rectPrism shape to the spin TG
-
+		 spin.addChild(cylinder); //add rectPrism shape to the spin TG
 		    
-		rotationAlpha = new Alpha(0, Alpha.INCREASING_ENABLE, 0, 0, 4000, 0, 0, 0, 0, 0);
-			
-		rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI*2.0f);
-
+		 Alpha rotationAlpha = new Alpha(-1, Alpha.INCREASING_ENABLE, 0, 0,  4000, 0, 0, 0, 0, 0);
+	     rotator = new RotationInterpolator(rotationAlpha, spin, yAxis, 0.0f, (float) Math.PI* GUI_3D.rotateSpeed );
 		    
 		 BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 100.0);
 		 rotator.setSchedulingBounds(bounds);
@@ -150,7 +134,7 @@ public class aCylinder extends Shape3D {
 		 
 		 
 		 TransformGroup tg = new TransformGroup() ;
-		 tg.setUserData("TG: TG".concat(Integer.toString(SwingTest.getRectPrismCount())));
+		 tg.setUserData("TG: TG".concat(Integer.toString(SwingTest.getCylinderCount())));
 		 tg.setCapability( TransformGroup.ALLOW_TRANSFORM_WRITE ) ;
 		 setTg(tg);
 		 

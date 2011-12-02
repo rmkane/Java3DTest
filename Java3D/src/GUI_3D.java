@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -60,7 +62,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	
 	// Menu
 	private JMenuBar menubar;
-	private JMenu file, help;
+	private JMenu file, edit, help;
 	private JMenuItem save, load, exit, blank, about;
 	
 	// Panels
@@ -102,11 +104,11 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 
 		// File
 		file = new JMenu("File");// Items under File
-
+		edit = new JMenu("Edit");// Items under Edit
 		help = new JMenu("Help");
 
 		menubar.add(file);
-
+		menubar.add(edit);
 		menubar.add(Box.createHorizontalGlue()); // adheres Help menu to right side
 		menubar.add(help);
 
@@ -121,7 +123,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		
 		// Edit
 		blank = new JMenuItem("Blank Button");
-
+		edit.add(blank);
 		
 
 		// Help
@@ -165,6 +167,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                // System.out.println("Created: RectPrism");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createRectPrism() );
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
             }
         });  
 		
@@ -173,7 +177,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Triangular Prism");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createTriPrism() );
-                //sessionLog.add("TriPrism created at hhhhh");
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
             }
         });    
 		
@@ -182,7 +187,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Pyramid");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createPyramid() );
-                //System.out.println("Shape clicked: " + swingTest.getShapeClicked());
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
                 
             }
         });    
@@ -192,6 +198,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Cylinder");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createCylinder() );
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
             }
         });    
 		
@@ -200,6 +208,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Sphere");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createSphere() );
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
             }
         });    
 		
@@ -208,6 +218,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Hexagonal Prism");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createHexPrism() );
+        		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+        				"  |  Total Shapes: " + swingTest.getTotalShapes());
             }
         });    
 
@@ -494,15 +506,25 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+				"  |  Total Shapes: " + swingTest.getTotalShapes());
 	}
 		
 	public void mouseMoved(MouseEvent e){
-		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: x  |  Total Shapes: x");
+		if (swingTest.getShapeClicked() == null)
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: (none)  |  Total Shapes: " 
+					+ swingTest.getTotalShapes());
+		else
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+				"  |  Total Shapes: " + swingTest.getTotalShapes());
 		
 	}
 	
-	public void mouseClicked(MouseEvent arg0) { }
+	public void mouseClicked(MouseEvent arg0) { 
+		statusBar.setText(" Cursor Position: " + swingTest.getCurPos() + "  |  Selected: " + swingTest.getShapeClicked().getUserData() + 
+				"  |  Total Shapes: " + swingTest.getTotalShapes());
+	}
+	
 	public void mouseEntered(MouseEvent arg0) { }
 	public void mouseExited(MouseEvent arg0) { }
 	public void mousePressed(MouseEvent arg0) { }

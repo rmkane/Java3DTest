@@ -251,7 +251,7 @@ public class RotatePanel  {
 	    panel.add(rotatePanel2, BorderLayout.PAGE_END);
 	    
 	    JButton start_b = new JButton("start");
-	    JButton pause_b = new JButton("pause");
+	    final JButton pause_b = new JButton("pause");
 	    start_b.setFont(new Font("sansserif",Font.PLAIN,11));
 	    pause_b.setFont(new Font("sansserif",Font.PLAIN,11));
 	    
@@ -271,28 +271,32 @@ public class RotatePanel  {
             	
             	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
             		alpha = ((TriangularPrism) shapeClicked).getRotationAlpha();
-            		alpha.pause();
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
 	        		alpha = ((HexagonalPrism) shapeClicked).getRotationAlpha();
-	        		alpha.pause();
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
 	        		alpha = ((RectangularPrism) shapeClicked).getRotationAlpha();
-	        		alpha.pause();
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
 	        		alpha = ((Pyramid) shapeClicked).getRotationAlpha();
-	        		alpha.pause();
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
 	        		alpha = ((aSphere) shapeClicked).getRotationAlpha();
-	        		alpha.pause();
 	        	}
 	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
             		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
-        			//alpha.pause();
 	        	//}
+            	
+        		if (alpha.isPaused()) {
+        			alpha.resume();
+        			pause_b.setText("pause");
+        		}
+        		else if (!alpha.finished()) {
+        			alpha.pause();
+        			pause_b.setText("resume");
+        		}
+        			
             } 
         });  
 	    

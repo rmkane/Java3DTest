@@ -10,7 +10,7 @@ public class RectangularPrism extends Shape3D {
 	private BranchGroup branchGroup;
 	private String id;
 
-	private static MouseTranslate myMouseTranslate;
+	private static CustomMouseTranslate myMouseTranslate;
 	private TransformGroup tg;
 	private Transform3D changeSize;
 	private Transform3D resize;
@@ -180,8 +180,8 @@ public class RectangularPrism extends Shape3D {
 
 		// Set up the polygon attributes
 		PolygonAttributes pa = new PolygonAttributes();
-		pa.setPolygonMode(pa.POLYGON_LINE);
-		pa.setCullFace(pa.CULL_NONE);
+		pa.setPolygonMode(PolygonAttributes.POLYGON_LINE);
+		pa.setCullFace(PolygonAttributes.CULL_NONE);
 		pa.setPolygonOffsetFactor(-0.5f);
 		app.setPolygonAttributes(pa);
 
@@ -243,7 +243,7 @@ public class RectangularPrism extends Shape3D {
 
 		TransformGroup mouseTG = new TransformGroup();
 		mouseTG.setUserData("TG: MOUSETG");
-		myMouseTranslate = new MouseTranslate();
+		myMouseTranslate = new CustomMouseTranslate();
 		myMouseTranslate.setTransformGroup(tg);
 		myMouseTranslate.setSchedulingBounds(bounds);
 		mouseTG.addChild(myMouseTranslate);

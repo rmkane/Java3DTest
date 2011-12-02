@@ -11,7 +11,7 @@ public class TriangularPrism extends Shape3D {
 	private BranchGroup branchGroup;
 	private String id;
 	
-	private static MouseTranslate myMouseTranslate;
+	private static CustomMouseTranslate myMouseTranslate;
 	private TransformGroup tg;
 	private Transform3D changeSize;
 	private Transform3D resize;
@@ -258,18 +258,18 @@ public class TriangularPrism extends Shape3D {
 		 setTg(tg);
 		 
 		 
-		 tg.addChild(spin) ;
-		 
-		 TransformGroup mouseTG = new TransformGroup();	
-		 mouseTG.setUserData("TG: MOUSETG");
-		 myMouseTranslate = new MouseTranslate();
-		 myMouseTranslate.setTransformGroup(tg);
-		 myMouseTranslate.setSchedulingBounds(bounds);
-		 mouseTG.addChild(myMouseTranslate);
-		                    
-		 tg.addChild(mouseTG);
-		 
-		 return tg;
+			tg.addChild(spin);
+
+			TransformGroup mouseTG = new TransformGroup();
+			mouseTG.setUserData("TG: MOUSETG");
+			myMouseTranslate = new CustomMouseTranslate();
+			myMouseTranslate.setTransformGroup(tg);
+			myMouseTranslate.setSchedulingBounds(bounds);
+			mouseTG.addChild(myMouseTranslate);
+
+			tg.addChild(mouseTG);
+
+			return tg;
     }
     
     

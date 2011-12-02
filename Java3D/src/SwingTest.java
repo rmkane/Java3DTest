@@ -16,6 +16,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	private static int pyramidCount = 0;
 	private static int cylinderCount = 0;
 	
+	private int totalShapes = 0;
+	
 	private int mouseX, mouseY;
 	private int mouseButton;
 	private float tx, ty;
@@ -225,6 +227,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 bg.addChild(pyramid.createRotator());
 		 setShapeClicked(pyramid);
 		 
+		 totalShapes++;
+		 
 		 return bg;
 	 }
 	
@@ -240,6 +244,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 bg.addChild(hexPrism.createRotator());
 		 setShapeClicked(hexPrism);
+		 
+		 totalShapes++;
 		  
 		 return bg;
 	 }
@@ -253,6 +259,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 bg.addChild(rectPrism.createRotator());
 		 setShapeClicked(rectPrism);
+		 
+		 totalShapes++;
 		  
 		 return bg;
 	 }
@@ -266,6 +274,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 bg.addChild(triPrism.createRotator());
 		 setShapeClicked(triPrism);
+		 
+		 totalShapes++;
 		  
 		 return bg;
 	 }
@@ -279,6 +289,8 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 bg.addChild(sphere.createRotator());
 		 
 		 setShapeClicked(sphere);
+		 
+		 totalShapes++;
 
 		 return bg;
 	 }
@@ -292,11 +304,25 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 
 		 setShapeClicked(cylinder);
 
+		 totalShapes++;
+		 
 		 return bg;
 	 }
 	
 	 
-	 //allows dynamic removal of the shape BranchGroups at runtime
+	 public int getTotalShapes() {
+		return totalShapes;
+	}
+
+
+
+	public void setTotalShapes(int totalShapes) {
+		this.totalShapes = totalShapes;
+	}
+
+
+
+	//allows dynamic removal of the shape BranchGroups at runtime
 	 protected void removeShape(String name) {
 		      Enumeration e = sceneBranchGroup.getAllChildren();
 		      int index = 0;
@@ -307,6 +333,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		    	  if (((String)((Group)((Group)(((Group)sgObject).getChild(0))).getChild(0)).getChild(0).getUserData()).equalsIgnoreCase(selectedUserData)) {
 		    		  sceneBranchGroup.removeChild(index);
 		    		  System.out.println("Removed: " + selectedUserData);
+		    		  totalShapes--;
 		    	  }
 		    	  else
 		    	  	  index++;
@@ -468,61 +495,62 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		mouseX = e.getX();
 		mouseY = e.getY();
 
-		//System.out.println("Mouse pressed at x=" + mouseX + ", y=" + mouseY);
 		mouseButton = e.getButton();
 
 	    pickCanvas.setShapeLocation(e);
 	    PickResult result = pickCanvas.pickClosest();
 	    
-	    //System.out.println(result.getClass());
+	    if (mouseButton == MouseEvent.BUTTON1) {
 	
-	    if (result == null) {
-	       System.out.println("Nothing picked");
-	    } 
-	    
-	    
-	    else {
-	    	shapeToDrag = result.getNode(PickResult.SHAPE3D);
-	    	
-	    	//System.out.println(shapeToDrag.getClass().getName());
-
-	    	String data = (String)result.getNode(PickResult.SHAPE3D).getUserData();
-	    	//System.out.println("Repositioning: " + data);
-	    		
-	    	setSelectedUserData(data);
+		    if (result == null) {
+		       System.out.println("Nothing picked");
+		    } 
+		    
+		    
+		    else {
+		    	shapeToDrag = result.getNode(PickResult.SHAPE3D);
+		    	
+		    	//System.out.println(shapeToDrag.getClass().getName());
+	
+		    	String data = (String)result.getNode(PickResult.SHAPE3D).getUserData();
+		    	//System.out.println("Repositioning: " + data);
+		    		
+		    	setSelectedUserData(data);
+		    }
+		    
+		    
+			if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
+				tx = ((TriangularPrism) shapeToDrag).getTx();
+				ty = ((TriangularPrism) shapeToDrag).getTy();
+				//System.out.println("tx = " + tx + ", ty = " + ty);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
+				tx = ((HexagonalPrism) shapeToDrag).getTx();
+				ty = ((HexagonalPrism) shapeToDrag).getTy();
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
+				tx = ((Pyramid) shapeToDrag).getTx();
+				ty = ((Pyramid) shapeToDrag).getTy();
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
+				tx = ((RectangularPrism) shapeToDrag).getTx();
+				ty = ((RectangularPrism) shapeToDrag).getTy();
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+		 		//System.out.println(shapeToDrag.getClass());
+				tx = ((aSphere) shapeToDrag).getTx();
+				ty = ((aSphere) shapeToDrag).getTy();
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+				tx = ((aCylinder) shapeToDrag).getTx();
+				ty = ((aCylinder) shapeToDrag).getTy();
+		 	}
 	    }
-	    
-	    
-		if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
-			tx = ((TriangularPrism) shapeToDrag).getTx();
-			ty = ((TriangularPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
-			tx = ((HexagonalPrism) shapeToDrag).getTx();
-			ty = ((HexagonalPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-			tx = ((Pyramid) shapeToDrag).getTx();
-			ty = ((Pyramid) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
-			tx = ((RectangularPrism) shapeToDrag).getTx();
-			ty = ((RectangularPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
-	 		//System.out.println(shapeToDrag.getClass());
-			tx = ((aSphere) shapeToDrag).getTx();
-			ty = ((aSphere) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
-			tx = ((aCylinder) shapeToDrag).getTx();
-			ty = ((aCylinder) shapeToDrag).getTy();
-	 	}
 	}
 	
 	
@@ -542,47 +570,93 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 	
 
 	public void mouseDragged(MouseEvent e) {
-		if (shapeToDrag == null)
-			return;
-
 		int x = e.getX();
 		int y = e.getY();
 		
-		if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
-			tx = ((TriangularPrism) shapeToDrag).getTx();
-			ty = ((TriangularPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
-			tx = ((HexagonalPrism) shapeToDrag).getTx();
-			ty = ((HexagonalPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-			tx = ((Pyramid) shapeToDrag).getTx();
-			ty = ((Pyramid) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
-			tx = ((RectangularPrism) shapeToDrag).getTx();
-			ty = ((RectangularPrism) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
-			tx = ((aSphere) shapeToDrag).getTx();
-			ty = ((aSphere) shapeToDrag).getTy();
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("aCylinder")) {
-			tx = ((aCylinder) shapeToDrag).getTx();
-			ty = ((aCylinder) shapeToDrag).getTy();
-	 	}
+		tx += (x - mouseX) * 0.02f;
+		ty -= (y - mouseY) * 0.02f;
 		
+	 	Transform3D dragShape = new Transform3D();
+	 	dragShape.setTranslation(new Vector3f (tx, ty, 0.0f ));
+	 	
+		
+		if (mouseButton == MouseEvent.BUTTON3) {
+		}
+		
+		else if (shapeToDrag == null) {
+			System.out.println("NULL");
+			return;
+		}
 
-		if (mouseButton == MouseEvent.BUTTON1) {
-			tx += (x - mouseX) * 0.02f;
-			ty -= (y - mouseY) * 0.02f;
-			
+
+		else if (mouseButton == MouseEvent.BUTTON1) {
+			if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
+				((TriangularPrism) shapeToDrag).setTx(tx);
+				((TriangularPrism) shapeToDrag).setTy(ty);
+			 	dragShape.mul(((TriangularPrism) shapeToDrag).getResize());
+			 	((TriangularPrism) shapeToDrag).getTg().setTransform(dragShape);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
+				((HexagonalPrism) shapeToDrag).setTx(tx);
+				((HexagonalPrism) shapeToDrag).setTy(ty);
+			 	dragShape.mul(((HexagonalPrism) shapeToDrag).getResize());
+			 	((HexagonalPrism) shapeToDrag).getTg().setTransform(dragShape);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
+				((Pyramid) shapeToDrag).setTx(tx);
+				((Pyramid) shapeToDrag).setTy(ty);
+			 	dragShape.mul(((Pyramid) shapeToDrag).getResize());
+			 	((Pyramid) shapeToDrag).getTg().setTransform(dragShape);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
+				((RectangularPrism) shapeToDrag).setTx(tx);
+				((RectangularPrism) shapeToDrag).setTy(ty);
+			 	dragShape.mul(((RectangularPrism) shapeToDrag).getResize());
+			 	((RectangularPrism) shapeToDrag).getTg().setTransform(dragShape);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
+		 		((aSphere) shapeToDrag).setTx(tx);
+		 		((aSphere) shapeToDrag).setTy(ty);
+		 		dragShape.mul(((aSphere) shapeToDrag).getResize());
+		 		((aSphere) shapeToDrag).getTg().setTransform(dragShape);
+		 	}
+		 	
+		 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+		 		((aCylinder) shapeToDrag).setTx(tx);
+		 		((aCylinder) shapeToDrag).setTy(ty);
+		 	}
+		}
+		
+		mouseX = x;
+		mouseY = y;
+
+		setMouseX(x);
+		setMouseY(y);
+
+		setCurPos("(" + mouseX + "," + mouseY + ")");
+	}
+	
+	
+	public Node getShapeToDrag() {
+		return shapeToDrag;
+	}
+
+
+
+	public void setShapeToDrag(Node shapeToDrag) {
+		this.shapeToDrag = shapeToDrag;
+	}
+
+
+
+	public void mouseReleased(MouseEvent e) { 
+		if (mouseButton == MouseEvent.BUTTON3) { }
+		
+		else if (mouseButton == MouseEvent.BUTTON1) {
 		 	if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
 				((TriangularPrism) shapeToDrag).setTx(tx);
 				((TriangularPrism) shapeToDrag).setTy(ty);
@@ -613,87 +687,6 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 		((aCylinder) shapeToDrag).setTy(ty);
 		 	}
 		}
-		
-		
-	 	Transform3D dragShape = new Transform3D();
-	 	dragShape.setTranslation(new Vector3f (tx, ty, 0.0f ));
-	 	
-
-	 	
-	 	if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
-		 	dragShape.mul(((TriangularPrism) shapeToDrag).getResize());
-		 	((TriangularPrism) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
-		 	dragShape.mul(((HexagonalPrism) shapeToDrag).getResize());
-		 	((HexagonalPrism) shapeToDrag).getTg().setTransform(dragShape);
-		}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-		 	dragShape.mul(((Pyramid) shapeToDrag).getResize());
-		 	((Pyramid) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
-		 	dragShape.mul(((RectangularPrism) shapeToDrag).getResize());
-		 	((RectangularPrism) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
-	 		dragShape.mul(((aSphere) shapeToDrag).getResize());
-	 		((aSphere) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
-	 		((aCylinder) shapeToDrag).getTg().setTransform(dragShape);
-	 	}
-		
-
-		mouseX = x;
-		mouseY = y;
-
-		setMouseX(x);
-		setMouseY(y);
-
-		setCurPos("(" + mouseX + "," + mouseY + ")");
-		
-		//System.out.println("(" + mouseX + "," + mouseY + ")");
-	
-	}
-	
-	
-	public void mouseReleased(MouseEvent e) { 
-		
-	 	if (shapeToDrag.getClass().getName().equals("TriangularPrism")) {
-	 		((TriangularPrism) shapeToDrag).setTx(tx);
-	 		((TriangularPrism) shapeToDrag).setTy(ty);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("HexagonalPrism")) {
-	 		((HexagonalPrism) shapeToDrag).setTx(tx);
-	 		((HexagonalPrism) shapeToDrag).setTy(ty);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Pyramid")) {
-	 		((Pyramid) shapeToDrag).setTx(tx);
-	 		((Pyramid) shapeToDrag).setTy(ty);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("RectangularPrism")) {
-	 		((RectangularPrism) shapeToDrag).setTx(tx);
-	 		((RectangularPrism) shapeToDrag).setTy(ty);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("aSphere")) {
- 			((aSphere) shapeToDrag).setTx(tx);
- 			((aSphere) shapeToDrag).setTy(ty);
-	 	}
-	 	
-	 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
- 			((aCylinder) shapeToDrag).setTx(tx);
- 			((aCylinder) shapeToDrag).setTy(ty);
-	 	}
 	 	
 		shapeToDrag = null;
 	}
