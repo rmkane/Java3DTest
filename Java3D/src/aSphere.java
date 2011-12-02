@@ -1,8 +1,11 @@
 import java.awt.Color;
+
 import javax.media.j3d.*;
 import javax.vecmath.*;
+
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.geometry.Sphere;
+
 
 public class aSphere extends Shape3D {
 	private RotationInterpolator rotator;
@@ -19,7 +22,18 @@ public class aSphere extends Shape3D {
 	private double depth = 10;
 	
 	private Alpha rotationAlpha;
+	private Appearance ap;
 	
+	public Appearance getAp() {
+		return ap;
+	}
+
+
+	public void setAp(Appearance ap) {
+		this.ap = ap;
+	}
+
+
 	public Alpha getRotationAlpha() {
 		return rotationAlpha;
 	}
@@ -68,7 +82,7 @@ public class aSphere extends Shape3D {
 		this.depth = depth;
 	}
 
-//
+
 	public Transform3D getResize() {
 		return resize;
 	}
@@ -95,10 +109,11 @@ public class aSphere extends Shape3D {
    		
     	Sphere sphere = new Sphere(1, 1, 35);
 		
-    	Appearance ap = new Appearance();
-    	ColoringAttributes ca = new ColoringAttributes(Colors.BLUE, ColoringAttributes.NICEST); 
+    	ap = new Appearance();
+    	ap.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
+    	
     	Material mat = new Material(Colors.BLACK, Colors.BLACK, Colors.BLUE, Colors.WHITE, 30f);
-    	ap.setColoringAttributes(ca);
+    	mat.setCapability(Material.ALLOW_COMPONENT_WRITE);
     	ap.setMaterial(mat);
     	
     	this.setAppearance(ap);
@@ -119,9 +134,9 @@ public class aSphere extends Shape3D {
 	 	setResize(defaultSize);
     }
     
-    
-    
-    TransformGroup createRotator() {
+   
+
+	TransformGroup createRotator() {
     	Transform3D yAxis = new Transform3D();
 
 		 /* axes of rotation */
