@@ -398,7 +398,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		//logText.insert(sessionLog.getLog(),0);
 		
 		logScroll = new JScrollPane(logText);
-	
+		logText.setEditable(false);
 		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		logScroll.setPreferredSize(new Dimension(0, 150));
 	}
