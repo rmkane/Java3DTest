@@ -1,11 +1,8 @@
 import java.awt.Color;
-
 import javax.media.j3d.*;
 import javax.vecmath.*;
-
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.geometry.Sphere;
-
 
 public class aSphere extends Shape3D {
 	private RotationInterpolator rotator;
@@ -71,7 +68,7 @@ public class aSphere extends Shape3D {
 		this.depth = depth;
 	}
 
-
+//
 	public Transform3D getResize() {
 		return resize;
 	}
