@@ -191,7 +191,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 			 
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Cylinder");
-                //swingTest.getSceneBranchGroup().addChild( swingTest.createCylinder() );
+                swingTest.getSceneBranchGroup().addChild( swingTest.createCylinder() );
             }
         });    
 		

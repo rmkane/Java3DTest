@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
@@ -14,7 +16,7 @@ public class aCylinder extends Shape3D {
 	private Transform3D changeSize;
 	private Transform3D resize;
 	
-	private double height = 10;
+	private double height = 10; 
 	private double radius = 10; 
 	
 	public double getHeight() {
