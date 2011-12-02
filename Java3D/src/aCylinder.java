@@ -1,12 +1,8 @@
-import java.awt.Color;
-
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
 import com.sun.j3d.utils.behaviors.mouse.MouseTranslate;
 import com.sun.j3d.utils.geometry.Cylinder;
-import com.sun.j3d.utils.geometry.Sphere;
-
 
 public class aCylinder extends Shape3D {
 	private RotationInterpolator rotator;
@@ -18,7 +14,7 @@ public class aCylinder extends Shape3D {
 	private Transform3D changeSize;
 	private Transform3D resize;
 	
-	private double height = 10; 
+	private double height = 10;
 	private double radius = 10; 
 	
 	public double getHeight() {
