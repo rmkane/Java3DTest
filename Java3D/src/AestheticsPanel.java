@@ -90,19 +90,19 @@ public class AestheticsPanel implements ListSelectionListener  {
         	    
         	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
             	    for (int i = 0; i < 4; i++)
-            	    	((TriangularPrism)shapeClicked).getTriPrismGeometry().setColor(i, Colors.GREEN);
+            	    	((TriangularPrism)shapeClicked).getTriPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
 	        	    for (int i = 0; i < 4; i++)
-	        	    	((HexagonalPrism)shapeClicked).getHexPrismGeometry().setColor(i, Colors.GREEN);
+	        	    	((HexagonalPrism)shapeClicked).getHexPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
 	        	    for (int i = 0; i < 4; i++)
-	        	    	((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(i, Colors.GREEN);
+	        	    	((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
 	        	    for (int i = 0; i < 4; i++)
-	        	    	((Pyramid)shapeClicked).getPyramidGeometry().setColor(i, Colors.GREEN);
+	        	    	((Pyramid)shapeClicked).getPyramidGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
             		System.out.println("Sphere");
