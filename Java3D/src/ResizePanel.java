@@ -172,6 +172,8 @@ public class ResizePanel implements ListSelectionListener  {
 		        	
 		        	((RectangularPrism) shapeClicked).getTg().setTransform(holdPosition);
 		        	((RectangularPrism) shapeClicked).setResize(resize);
+		        	
+		        	//((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(0, Colors.GREEN);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
 		        	holdPosition.setTranslation(
@@ -189,13 +191,13 @@ public class ResizePanel implements ListSelectionListener  {
 		        	((aSphere) shapeClicked).getTg().setTransform(holdPosition);
 		        	((aSphere) shapeClicked).setResize(resize);
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
 		        //	holdPosition.setTranslation(
-		        //			new Vector3f(((HexagonalPrism) shapeClicked).getTx(), ((HexagonalPrism) shapeClicked).getTy(), 0.0f));
+		        //			new Vector3f(((aCylinder) shapeClicked).getTx(), ((aCylinder) shapeClicked).getTy(), 0.0f));
 		        //	holdPosition.mul(resize);
 		        	
-		        //	((HexagonalPrism) shapeClicked).getTg().setTransform(holdPosition);
-		        //	((HexagonalPrism) shapeClicked).setResize(resize);
+		        //	((aCylinder) shapeClicked).getTg().setTransform(holdPosition);
+		        //	((aCylinder) shapeClicked).setResize(resize);
 	        	//}
 	        	
 	        	System.out.println(shapeClicked.getUserData() + ": Height changed - " + height.getValue());

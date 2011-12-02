@@ -128,7 +128,7 @@ public class RectangularPrism extends Shape3D {
 		
 		// set userData (id)
 		int rectPrismCount = SwingTest.getRectPrismCount();
-		this.setUserData("rectPrism".concat(Integer.toString(rectPrismCount)));
+		this.setUserData("RectPrism".concat(Integer.toString(rectPrismCount)));
 
 		System.out.println("Created: " + this.getUserData());
 
@@ -187,7 +187,7 @@ public class RectangularPrism extends Shape3D {
 
 		LineAttributes lineattributes = new LineAttributes();
 
-		lineattributes.setLineWidth(5.0f);
+		lineattributes.setLineWidth(1.0f);
 		lineattributes.setLineAntialiasingEnable(true);
 		lineattributes.setLinePattern(LineAttributes.PATTERN_SOLID);
 

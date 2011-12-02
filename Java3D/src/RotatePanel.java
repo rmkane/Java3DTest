@@ -258,6 +258,46 @@ public class RotatePanel  {
 	    
 
 	    
+	    pause_b.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+        	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+            	
+            	GUI_3D.rotateSpeed = (Integer)speed.getValue();
+
+            	
+            	Alpha alpha = new Alpha();
+            	
+            	
+            	if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
+            		alpha = ((TriangularPrism) shapeClicked).getRotationAlpha();
+            		alpha.pause();
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
+	        		alpha = ((HexagonalPrism) shapeClicked).getRotationAlpha();
+	        		alpha.pause();
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
+	        		alpha = ((RectangularPrism) shapeClicked).getRotationAlpha();
+	        		alpha.pause();
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
+	        		alpha = ((Pyramid) shapeClicked).getRotationAlpha();
+	        		alpha.pause();
+	        	}
+	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
+	        		alpha = ((aSphere) shapeClicked).getRotationAlpha();
+	        		alpha.pause();
+	        	}
+	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+            		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
+        			//alpha.pause();
+	        	//}
+            } 
+        });  
+	    
+	    
+	    
 	    start_b.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
@@ -293,7 +333,6 @@ public class RotatePanel  {
             		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
         			//((aCylinder) shapeClicked).getRotator().setTransformAxis(yAxis);
 	        	//}
-            
             	
             	
         		if (alpha.finished()){
@@ -303,7 +342,8 @@ public class RotatePanel  {
         			alpha.setMode(Alpha.INCREASING_ENABLE);
         		}
             } 
-        });      
+        }); 
+	    
 	    
 	    //int numRotations1 = 1;
 	   

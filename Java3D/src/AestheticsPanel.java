@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 
 import javax.media.j3d.Appearance;
 import javax.media.j3d.LineAttributes;
+import javax.media.j3d.Material;
 import javax.media.j3d.Node;
 import javax.media.j3d.Shape3D;
 import javax.swing.BoxLayout;
@@ -89,11 +90,11 @@ public class AestheticsPanel implements ListSelectionListener  {
         	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
         	    
         	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
-            	    for (int i = 0; i < 4; i++)
+            	    for (int i = 0; i < 3; i++)
             	    	((TriangularPrism)shapeClicked).getTriPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
-	        	    for (int i = 0; i < 4; i++)
+	        	    for (int i = 0; i < 18; i++)
 	        	    	((HexagonalPrism)shapeClicked).getHexPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
@@ -101,11 +102,12 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        	    	((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
-	        	    for (int i = 0; i < 4; i++)
+	        	    for (int i = 0; i < 3; i++)
 	        	    	((Pyramid)shapeClicked).getPyramidGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
-            		System.out.println("Sphere");
+	        		((aSphere)shapeClicked).getAp().setMaterial(new Material(Colors.BLACK, Colors.BLACK, 
+	        				colors[faceColors.getSelectedIndex()], Colors.WHITE, 30f));
 	        	}
 	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
         			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);

@@ -227,7 +227,7 @@ public class HexagonalPrism extends Shape3D {
         app.setPolygonAttributes(pa);
         
         LineAttributes lineattributes = new LineAttributes();
-        lineattributes.setLineWidth(5.0f);
+        lineattributes.setLineWidth(1.0f);
         lineattributes.setLineAntialiasingEnable(true);
         lineattributes.setLinePattern(LineAttributes.PATTERN_SOLID);
         
