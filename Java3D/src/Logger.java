@@ -96,10 +96,29 @@ public class Logger {
 	}
 
 	public void add(String action) {
-		log += action + "\n";
+		log = log + action + "\n";
 	}
 
 	public String getLog() {
+		/*
+		String returnedLine = "yo";
+		try {
+			BufferedReader input =  new BufferedReader(new FileReader(getFilename()));
+			try { 
+				String line = null;
+				while (( line = input.readLine()) != null){
+					returnedLine = line;
+					//logText.insert(line + "\n", 0);
+				}
+			}
+			finally{ 
+				input.close(); 
+			}	
+		} 
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		*/
 		return log;
 	}
 

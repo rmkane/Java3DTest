@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Calendar;
 import java.util.Hashtable;
 
 import javax.media.j3d.Canvas3D;
@@ -74,14 +75,16 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	private JTextArea logText;
 	private JScrollPane logScroll;
 	private JLabel statusBar;
+	static Logger sessionLog = new Logger();
+	static int a = 1;
 	
 	public GUI_3D() {
 		swingTest = new SwingTest();
 		c3d = swingTest.getC3d();
 		c3d.addMouseMotionListener(this);
 		c3d.addMouseListener(this);
-
-		init();
+		sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
+		init();	
 	}
 
 	public final void init() {
@@ -170,6 +173,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
             public void actionPerformed(ActionEvent e) {
                 //System.out.println("Created: Triangular Prism");
                 swingTest.getSceneBranchGroup().addChild( swingTest.createTriPrism() );
+                //sessionLog.add("TriPrism created at hhhhh");
             }
         });    
 		
@@ -289,25 +293,12 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		JPanel bottomCenter = new JPanel();
 		bottomCenter.setLayout(new BorderLayout());
 		
-		String currentLog = "2011_11_29_20_29_08.log"; //Will add a loop later to find latest log
-		String output = "Logging...";
-		try {
-			FileInputStream fstream = new FileInputStream(currentLog); 
-			DataInputStream in = new DataInputStream(fstream);
-		} catch (FileNotFoundException e1) {
-			output = "No log found";
-		}
 		
-		logText = new JTextArea(output); // **LOGGER PANEL**
-		logText.setLineWrap(true);
-		logText.setBorder(LineBorder.createGrayLineBorder());
-		logScroll = new JScrollPane(logText);
-		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		logScroll.setPreferredSize(new Dimension(0, 150));
+		logPart("current");
 
 		
 		JSlider zoom = new JSlider(JSlider.HORIZONTAL, 5, 200, 100);
-		
+	
 		zoom.setSnapToTicks(true);
 		zoom.setMajorTickSpacing(25);
 		zoom.setMinorTickSpacing(5);
@@ -360,6 +351,60 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		frame.setVisible(true);
 	}
 
+	void logPart(String filePath){
+		String currentLog;
+		String current;
+		
+		if(filePath == "current"){
+			currentLog = sessionLog.getFilename(); 
+		}
+		else{
+			currentLog = filePath;
+		}
+		
+		/*
+		File directory = new File(new File(".").getAbsolutePath()); //Yo dawg, I heard you like new Files
+		String file[] = directory.list();
+		for (int i = 0; i < file.length; i++) {
+			current = file[i];
+			String[] splitName = current.split("_");
+			if(splitName[0].equals("2011")){
+				currentLog = current; //Finds the latest log by looking at the end of the directory. Could be more robust
+			}
+			else{}
+		}
+		*/
+			
+		logText = new JTextArea("Logging... \n"); // **LOGGER PANEL**
+		logText.setLineWrap(true);
+		logText.setBorder(LineBorder.createGrayLineBorder());
+		
+		//This loop reads every line in the file and adds it to the top of the logger window
+		try {
+			BufferedReader input =  new BufferedReader(new FileReader(currentLog));
+			try { 
+				String line = null;
+				while (( line = input.readLine()) != null){
+					logText.append(line + "\n");
+				}
+			}
+			finally{ 
+				input.close(); 
+			}	
+		} 
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		
+		//logText.insert(sessionLog.getLog(),0);
+		
+		logScroll = new JScrollPane(logText);
+	
+		logScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		logScroll.setPreferredSize(new Dimension(0, 150));
+	}
+	
 	public void actionPerformed(ActionEvent e) { }
 
 	public static void main(String[] args) {
@@ -384,7 +429,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		// NOT COMPLETE
 		public void actionPerformed(ActionEvent e) {
 
-			JFileChooser chooser = new JFileChooser();
+			JFileChooser chooser = new JFileChooser(new File(".").getAbsolutePath());
+			//chooser.addChoosableFileFilter(filter);
 			//CustomFileFilter filter = new CustomFileFilter();
 			//filter.addExtension("log"); // Only choose text files
 			//filter.setDescription("Log Files");
@@ -392,8 +438,8 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 			
 			int returnVal = chooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				System.out.println("You chose to open this file: "
-						+ chooser.getSelectedFile().getName());
+				System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				logPart(chooser.getSelectedFile().getName());
 			}
 		}
 	}
