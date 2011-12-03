@@ -284,9 +284,9 @@ public class RotatePanel  {
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
 	        		alpha = ((aSphere) shapeClicked).getRotationAlpha();
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
-            		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
-	        	//}
+	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+            		alpha = ((aCylinder) shapeClicked).getRotationAlpha();
+	        	}
             	
         		if (alpha.isPaused()) {
         			alpha.resume();
@@ -333,10 +333,10 @@ public class RotatePanel  {
 	        		alpha = ((aSphere) shapeClicked).getRotationAlpha();
             		((aSphere) shapeClicked).getRotator().setTransformAxis(yAxis);
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
-            		//alpha = ((aCylinder) shapeClicked).getRotationAlpha();
-        			//((aCylinder) shapeClicked).getRotator().setTransformAxis(yAxis);
-	        	//}
+	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+            		alpha = ((aCylinder) shapeClicked).getRotationAlpha();
+        			((aCylinder) shapeClicked).getRotator().setTransformAxis(yAxis);
+	        	}
             	
             	
         		if (alpha.finished()){
