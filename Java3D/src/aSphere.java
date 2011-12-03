@@ -172,12 +172,12 @@ public class aSphere extends Shape3D {
 		 
 		 tg.addChild(spin) ;
 		 
-			TransformGroup mouseTG = new TransformGroup();
-			mouseTG.setUserData("TG: MOUSETG");
-			myMouseTranslate = new CustomMouseTranslate();
-			myMouseTranslate.setTransformGroup(tg);
-			myMouseTranslate.setSchedulingBounds(bounds);
-			mouseTG.addChild(myMouseTranslate);
+		 TransformGroup mouseTG = new TransformGroup();
+		 mouseTG.setUserData("TG: MOUSETG");
+		 myMouseTranslate = new CustomMouseTranslate();
+		 myMouseTranslate.setTransformGroup(tg);
+		 myMouseTranslate.setSchedulingBounds(bounds);
+		 mouseTG.addChild(myMouseTranslate);
 		              
 		        
 		 tg.addChild(mouseTG);

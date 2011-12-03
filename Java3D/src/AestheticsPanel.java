@@ -109,9 +109,10 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        		((aSphere)shapeClicked).getAp().setMaterial(new Material(Colors.BLACK, Colors.BLACK, 
 	        				colors[faceColors.getSelectedIndex()], Colors.WHITE, 30f));
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
-        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
-	        	//}
+	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+	        		((aCylinder)shapeClicked).getAp().setMaterial(new Material(Colors.BLACK, Colors.BLACK, 
+	        				colors[faceColors.getSelectedIndex()], Colors.WHITE, 30f));
+	        	}
             }});
 	    
 	    
@@ -138,9 +139,10 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
             		System.out.println("Sphere has no edges!");
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
-        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
-	        	//}
+	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+	        		System.out.println("Cylinder has no edges!");
+	        		//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
+	        	}
             }});
 	    
 	    
@@ -168,9 +170,10 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
             		System.out.println("Sphere has no edges!");
 	        	}
-	        	//else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
+	        		System.out.println("Cylinder has no edges!");
         			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
-	        	//}
+	        	}
             }});
 	   
 	    
