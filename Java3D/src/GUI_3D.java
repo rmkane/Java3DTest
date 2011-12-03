@@ -471,7 +471,9 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 			JTextArea aboutText = new JTextArea(
 					"This application was created by:"
 							+ "\n\nJennifer Hill\nRyan Kane\nDorothy Kirlew\n" +
-							"Donald Shaner\nand Sean Weber");
+							"Donald Shaner\nand Sean Weber" + "\n \n \n" +
+									"The 3D Manipulator is released under the GNU GPLv3 license, "  +
+									" freely distributable for educational use only.");
 			Font JTextFont = new Font("Verdana", Font.BOLD, 12);
 			aboutText.setFont(JTextFont);
 
