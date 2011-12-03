@@ -546,7 +546,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 				ty = ((aSphere) shapeToDrag).getTy();
 		 	}
 		 	
-		 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+		 	else if (shapeToDrag.getClass().getName().equals("aCylinder")) {
 				tx = ((aCylinder) shapeToDrag).getTx();
 				ty = ((aCylinder) shapeToDrag).getTy();
 		 	}
@@ -625,9 +625,11 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 		((aSphere) shapeToDrag).getTg().setTransform(dragShape);
 		 	}
 		 	
-		 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+		 	else if (shapeToDrag.getClass().getName().equals("aCylinder")) {
 		 		((aCylinder) shapeToDrag).setTx(tx);
 		 		((aCylinder) shapeToDrag).setTy(ty);
+		 		dragShape.mul(((aCylinder) shapeToDrag).getResize());
+		 		((aCylinder) shapeToDrag).getTg().setTransform(dragShape);
 		 	}
 		}
 		
@@ -682,7 +684,7 @@ public class SwingTest extends JPanel implements MouseListener, MouseMotionListe
 		 		((aSphere) shapeToDrag).setTy(ty);
 		 	}
 		 	
-		 	else if (shapeToDrag.getClass().getName().equals("Cylinder")) {
+		 	else if (shapeToDrag.getClass().getName().equals("aCylinder")) {
 		 		((aCylinder) shapeToDrag).setTx(tx);
 		 		((aCylinder) shapeToDrag).setTy(ty);
 		 	}
