@@ -69,10 +69,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 	// SHAPES (Solids):
 	// Prisms: Rectangular, Triangular, & Hexagonal
-	// Pyramids: Square & Rectangular
+	// Square Pyramid
 	// Cylinder
 	// Sphere
-	// Cone - We don't support this YET...
 	private final String rectangle = "rec", triangle = "tri", hexagon = "hex",
 			pyramid = "pyr", cylinder = "cyl", sphere = "sph";
 
@@ -104,6 +103,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 	// Panels
 	private JPanel mainPanel, rightToolbar, currentShapes, rotatePane,
 			resizePane, aestheticsPane, centerPanel;
+	
+	private AestheticsPanel aestheticsPanel;
 
 	// Shapes Toolbar
 	private JToolBar shapesToolbar;
@@ -118,6 +119,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 	static Logger sessionLog = new Logger();
 	static int a = 1;
 
+	
 	public GUI_3D() {
 		swingTest = new SwingTest();
 		c3d = swingTest.getC3d();
@@ -380,7 +382,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		rightToolbar.add(aestheticsPane);
 		aestheticsPane.setBorder(LineBorder.createGrayLineBorder());
 
-		new AestheticsPanel(aestheticsPane);
+		aestheticsPanel = new AestheticsPanel(aestheticsPane);
 
 		// creates center panel
 		centerPanel = new JPanel();
@@ -691,6 +693,38 @@ public class GUI_3D extends JPanel implements MouseListener,
 		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
 				+ "  |  Selected: " + swingTest.getShapeClicked().getUserData()
 				+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+		
+		System.out.println(swingTest.getShapeClicked().getUserData());
+		
+		int numFaces = 0;
+
+
+		if (swingTest.getShapeClicked().getClass().getName().equals("aSphere"))
+			numFaces = 1;
+		else if (swingTest.getShapeClicked().getClass().getName().equals("aCylinder"))
+			numFaces = 1;
+		else if (swingTest.getShapeClicked().getClass().getName().equals("Pyramid") 
+				|| swingTest.getShapeClicked().getClass().getName().equals("TriangularPrism"))
+			numFaces = 5;
+		else if (swingTest.getShapeClicked().getClass().getName().equals("RectangularPrism"))
+			numFaces = 6;
+		else if (swingTest.getShapeClicked().getClass().getName().equals("HexagonalPrism"))
+			numFaces = 8;
+		
+		
+		String[] f = new String[numFaces];
+		
+		for (int i = 0; i < numFaces; i++) {
+			f[i] = "Face ".concat(Integer.toString(i+1));
+		}
+		
+		
+		aestheticsPanel.getFaceSelection().removeAllItems();
+		
+		for (int i = 0; i < f.length; i++)
+			aestheticsPanel.getFaceSelection().insertItemAt(f[i], i);
+		
+		aestheticsPanel.getFaceSelection().setSelectedIndex(0);
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
