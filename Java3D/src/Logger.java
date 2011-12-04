@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Logger {
 
 	private String filename;
+	private final String EXT = ".log";
 	private String log;
 
 	// COMMANDS:
@@ -84,7 +85,7 @@ public class Logger {
 	}
 
 	public void setFilename(String filename) {
-		this.filename = filename + ".log";
+		this.filename = filename + EXT;
 	}
 
 	public void add(String action) {
@@ -102,11 +103,7 @@ public class Logger {
 		return log;
 	}
 
-	/**
-	 * This is what will happen in our program. We will have to create a new
-	 * logger and then add to the logger and when ready write out to the log
-	 * file. If needed you can write to a log file.
-	 */
+	/*
 	public static void main(String[] args) {
 		// Create a logger
 		Logger l = new Logger();
@@ -119,5 +116,5 @@ public class Logger {
 		l.add("zom;200;");
 		// Write over the file
 		l.writeOut(l.getFilename(), l.getLog());
-	}
+	} */
 }
