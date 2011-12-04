@@ -8,18 +8,10 @@ public class Logger {
 	private String filename;
 	private String log;
 
-	/** I have to create a Generate Shape Command: gen */
-   
-   /**
-    * Check out file://Common/extra/ReadLog.java
-    * It is not a runnable java file, but it shows how to read the log file
-    * We can look inot this further as a group.
-   */
-
 	// COMMANDS:
 	// Move, Rotate, Scale, Resize, Zoom
-	private final String mov = "mov", rot = "rot", scl = "scl", rsz = "rsz",
-			zom = "zom";
+	private final String create = "cre", move = "mov", rotate = "rot",
+			scale = "scl", resize = "rsz", zoom = "zom";
 
 	// SHAPES (Solids):
 	// Prisms: Rectangular, Triangular, & Hexagonal
@@ -27,8 +19,8 @@ public class Logger {
 	// Cylinder
 	// Sphere
 	// Cone - We don't support this YET...
-	private final String rec = "rec", tri = "tri", hex = "hex", sqp = "sqp",
-			rep = "rep", cyl = "cyl", sph = "sph";
+	private final String rectangle = "rec", triangle = "tri", hexagon = "hex",
+			pyramid = "pyr", cylinder = "cyl", sphere = "sph";
 
 	public Logger() {
 		init();
@@ -45,7 +37,6 @@ public class Logger {
 			File file = new File(getFilename());
 			Scanner scanner = new Scanner(file);
 			String log = "";
-			scanner.nextLine();
 			while (scanner.hasNextLine()) {
 				log += scanner.nextLine() + "\n";
 			}
@@ -67,6 +58,7 @@ public class Logger {
 			// Write text to file
 			out.print(log);
 			out.close();
+			this.log = "";
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,29 +88,17 @@ public class Logger {
 	}
 
 	public void add(String action) {
-		log = log + action + "\n";
+		log += (action + "\n");
 	}
 
 	public String getLog() {
 		/*
-		String returnedLine = "yo";
-		try {
-			BufferedReader input =  new BufferedReader(new FileReader(getFilename()));
-			try { 
-				String line = null;
-				while (( line = input.readLine()) != null){
-					returnedLine = line;
-					//logText.insert(line + "\n", 0);
-				}
-			}
-			finally{ 
-				input.close(); 
-			}	
-		} 
-		catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		*/
+		 * String returnedLine = "yo"; try { BufferedReader input = new
+		 * BufferedReader(new FileReader(getFilename())); try { String line =
+		 * null; while (( line = input.readLine()) != null){ returnedLine =
+		 * line; //logText.insert(line + "\n", 0); } } finally{ input.close(); }
+		 * } catch (IOException ex) { ex.printStackTrace(); }
+		 */
 		return log;
 	}
 
@@ -130,22 +110,13 @@ public class Logger {
 	public static void main(String[] args) {
 		// Create a logger
 		Logger l = new Logger();
-		// Move Triangular-Prism to right 3, back 5
-		l.add("mov" + "tri" + "3,5,0");
-		// Rotate Triangular-Prism 45 Degrees around y-axis
-		l.add("rot" + "tri" + "y,45");
-		// Zoom in 200%
-		l.add("zom" + "200");
-		// Scale Sphere to 10% of original size
-		l.add("scl" + "sph" + "10");
-		// Write-out
-		l.writeOut(l.getFilename(), l.getLog());
-		// Read File
-		l.readFile();
-		// Move Cylinder
-		l.add("mov" + "cyl" + "0,0,6");
-		// Scale Hexagonal-Prism to 50% of original size
-		l.add("scl" + "hex" + "50");
+		l.add("cre;tri");
+		l.add("mov;tri;3;6;2.2;");
+		l.add("cre;hex;");
+		l.add("rot;hex;x;3;");
+		l.writeOut(l.getFilename(), l.getLog()); // Write-out
+		l.readFile(); // Read File
+		l.add("zom;200;");
 		// Write over the file
 		l.writeOut(l.getFilename(), l.getLog());
 	}

@@ -24,7 +24,7 @@ public class ParseLog {
 		Scanner scan = null;
 
 		try {
-			selected_file = "2011_12_01_19_12_46.log";
+			selected_file = "2011_12_03_20_04_31.log";
 			file = new File(selected_file);
 			scan = new Scanner(file);
 		} catch (FileNotFoundException e) {
