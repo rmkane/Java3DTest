@@ -1,9 +1,11 @@
 import java.io.*; //needed for logger
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,10 +17,12 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.Transform3D;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -87,8 +91,10 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 	// Shapes Toolbar
 	private JToolBar shapesToolbar;
-	private JButton rectPrism_b, triprism_b, pyramid_b, cylinder_b, sphere_b,
-			hexprism_b, line_b;
+	private JButton btn_triPri, btn_recPri, btn_hexPri, btn_pyramid,
+			btn_cylinder, btn_sphere;
+	private Image img_triPri, img_recPri, img_hexPri, img_pyramid,
+			img_cylinder, img_sphere;
 
 	private JTextArea logText;
 	private JScrollPane logScroll;
@@ -110,6 +116,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		frame = new JFrame("3D GUI");
 		frame.setSize(900, 700);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addMouseListener(this);
@@ -161,19 +168,71 @@ public class GUI_3D extends JPanel implements MouseListener,
 		shapesToolbar.setFloatable(false);
 		mainPanel.add(shapesToolbar, BorderLayout.LINE_START);
 
-		shapesToolbar.setLayout(new GridLayout(7, 1, 0, 10));
+		shapesToolbar.setLayout(new GridLayout(7, 1, 0, 8));
 		shapesToolbar.setBorder(LineBorder.createGrayLineBorder());
 
 		// creates buttons for each shape
-		rectPrism_b = new JButton("[rect prism]");
-		triprism_b = new JButton("[tri prism]");
-		pyramid_b = new JButton("[pyramid]");
-		cylinder_b = new JButton("[cylinder]");
-		sphere_b = new JButton("[sphere]");
-		hexprism_b = new JButton("[hex prism]");
-		line_b = new JButton("[line]");
 
-		rectPrism_b.addActionListener(new ActionListener() {
+		btn_triPri = new JButton();
+		btn_recPri = new JButton();
+		btn_hexPri = new JButton();
+		btn_pyramid = new JButton();
+		btn_cylinder = new JButton();
+		btn_sphere = new JButton();
+
+		// change background color of buttons
+		btn_triPri.setBackground(Color.WHITE);
+		btn_recPri.setBackground(Color.WHITE);
+		btn_hexPri.setBackground(Color.WHITE);
+		btn_pyramid.setBackground(Color.WHITE);
+		btn_cylinder.setBackground(Color.WHITE);
+		btn_sphere.setBackground(Color.WHITE);
+
+		// adds images to the buttons
+		try {
+			img_triPri = ImageIO.read(getClass().getResource(
+					"resources/triangular_prism.png"));
+			btn_triPri.setIcon(new ImageIcon(img_triPri));
+		} catch (IOException ex) {
+			btn_triPri.setText("Tri Pri");
+		}
+		try {
+			img_recPri = ImageIO.read(getClass().getResource(
+					"resources/square_prism.png"));
+			btn_recPri.setIcon(new ImageIcon(img_recPri));
+		} catch (IOException ex) {
+			btn_recPri.setText("Sqr Pri");
+		}
+		try {
+			img_hexPri = ImageIO.read(getClass().getResource(
+					"resources/hexagonal_prism.png"));
+			btn_hexPri.setIcon(new ImageIcon(img_hexPri));
+		} catch (IOException ex) {
+			btn_hexPri.setText("Hex Pri");
+		}
+		try {
+			img_pyramid = ImageIO.read(getClass().getResource(
+					"resources/square_pyramid.png"));
+			btn_pyramid.setIcon(new ImageIcon(img_pyramid));
+		} catch (IOException ex) {
+			btn_pyramid.setText("Tri Pyr");
+		}
+		try {
+			img_cylinder = ImageIO.read(getClass().getResource(
+					"resources/cylinder.png"));
+			btn_cylinder.setIcon(new ImageIcon(img_cylinder));
+		} catch (IOException ex) {
+			btn_cylinder.setText("Cylinder");
+		}
+		try {
+			img_sphere = ImageIO.read(getClass().getResource(
+					"resources/sphere.png"));
+			btn_sphere.setIcon(new ImageIcon(img_sphere));
+		} catch (IOException ex) {
+			btn_sphere.setText("Sphere");
+		}
+
+		btn_recPri.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: RectPrism");
@@ -186,7 +245,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			}
 		});
 
-		triprism_b.addActionListener(new ActionListener() {
+		btn_triPri.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: Triangular Prism");
@@ -199,7 +258,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			}
 		});
 
-		pyramid_b.addActionListener(new ActionListener() {
+		btn_pyramid.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: Pyramid");
@@ -213,7 +272,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			}
 		});
 
-		cylinder_b.addActionListener(new ActionListener() {
+		btn_cylinder.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: Cylinder");
@@ -226,7 +285,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			}
 		});
 
-		sphere_b.addActionListener(new ActionListener() {
+		btn_sphere.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: Sphere");
@@ -239,7 +298,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			}
 		});
 
-		hexprism_b.addActionListener(new ActionListener() {
+		btn_hexPri.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				// System.out.println("Created: Hexagonal Prism");
@@ -253,13 +312,12 @@ public class GUI_3D extends JPanel implements MouseListener,
 		});
 
 		// adds buttons to left-hand toolbar
-		shapesToolbar.add(rectPrism_b);
-		shapesToolbar.add(triprism_b);
-		shapesToolbar.add(pyramid_b);
-		shapesToolbar.add(cylinder_b);
-		shapesToolbar.add(sphere_b);
-		shapesToolbar.add(hexprism_b);
-		shapesToolbar.add(line_b);
+		shapesToolbar.add(btn_recPri);
+		shapesToolbar.add(btn_triPri);
+		shapesToolbar.add(btn_pyramid);
+		shapesToolbar.add(btn_cylinder);
+		shapesToolbar.add(btn_sphere);
+		shapesToolbar.add(btn_hexPri);
 
 		// creates right-hand toolbar
 		rightToolbar = new JPanel();
@@ -453,19 +511,29 @@ public class GUI_3D extends JPanel implements MouseListener,
 					double x = Double.parseDouble(seg[2]); // X-Axis Translation
 					double y = Double.parseDouble(seg[3]); // Y-Axis Translation
 					double z = Double.parseDouble(seg[4]); // Z-Axis Translation
-					capture =  String.format("You moved a %s (%.2f, %.2f, %.2f).\n", shp, x, y, z);
+					capture = String.format(
+							"You moved a %s (%.2f, %.2f, %.2f).\n", shp, x, y,
+							z);
 				} else if (cmd.equals(rotate)) {
 					String axis = seg[2]; // Which axis?
 					int numRot = Integer.parseInt(seg[3]);
-					capture =  String.format("You rotated a %s %d times around the %s-axis.\n", shp, numRot, axis);
+					capture = String.format(
+							"You rotated a %s %d times around the %s-axis.\n",
+							shp, numRot, axis);
 				} else if (cmd.equals(scale)) {
 					double percent = Double.parseDouble(seg[2]); // Percentage
-					capture = String.format("You scaled a %s %.2f%%.\n", shp, percent);
+					capture = String.format("You scaled a %s %.2f%%.\n", shp,
+							percent);
 				} else if (cmd.equals(resize)) {
-					double height = Double.parseDouble(seg[2]); // X-Axis Translation
-					double width = Double.parseDouble(seg[3]); // Y-Axis Translation
-					double depth = Double.parseDouble(seg[4]); // Z-Axis Translation
-					capture = String.format("You resized a %s to %.2f&x%.2f&x%.2f&.\n", shp, height, width, depth);
+					double height = Double.parseDouble(seg[2]); // X-Axis
+																// Translation
+					double width = Double.parseDouble(seg[3]); // Y-Axis
+																// Translation
+					double depth = Double.parseDouble(seg[4]); // Z-Axis
+																// Translation
+					capture = String.format(
+							"You resized a %s to %.2f&x%.2f&x%.2f&.\n", shp,
+							height, width, depth);
 				}
 			}
 			logText.setText(logText.getText() + capture);
@@ -527,7 +595,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			sessionLog.add("zom;200;");
 			// Write over the file
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
-			
+
 			parseLog();
 		}
 	}
