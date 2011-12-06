@@ -103,7 +103,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 	// Panels
 	private JPanel mainPanel, rightToolbar, currentShapes, rotatePane,
 			resizePane, aestheticsPane, centerPanel;
-	
+
 	private AestheticsPanel aestheticsPanel;
 
 	// Shapes Toolbar
@@ -119,7 +119,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 	static Logger sessionLog = new Logger();
 	static int a = 1;
 
-	
 	public GUI_3D() {
 		swingTest = new SwingTest();
 		c3d = swingTest.getC3d();
@@ -250,90 +249,12 @@ public class GUI_3D extends JPanel implements MouseListener,
 			btn_sphere.setText("Sphere");
 		}
 
-		btn_recPri.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: RectPrism");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createRectPrism());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + rectangle);
-			}
-		});
-
-		btn_triPri.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Triangular Prism");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createTriPrism());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + triangle);
-			}
-		});
-
-		btn_pyramid.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Pyramid");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createPyramid());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + pyramid);
-
-			}
-		});
-
-		btn_cylinder.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Cylinder");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createCylinder());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + cylinder);
-			}
-		});
-
-		btn_sphere.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Sphere");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createSphere());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + sphere);
-			}
-		});
-
-		btn_hexPri.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				// System.out.println("Created: Hexagonal Prism");
-				swingTest.getSceneBranchGroup().addChild(
-						swingTest.createHexPrism());
-				statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
-						+ "  |  Selected: "
-						+ swingTest.getShapeClicked().getUserData()
-						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-				sessionLog.add(create +";" + hexagon);
-			}
-		});
+		btn_recPri.addActionListener(new CreateRectangularPrism());
+		btn_triPri.addActionListener(new CreateTriangularPrism());
+		btn_pyramid.addActionListener(new CreatePyramid());
+		btn_cylinder.addActionListener(new CreateCylinder());
+		btn_sphere.addActionListener(new CreateSphere());
+		btn_hexPri.addActionListener(new CreateHexagonalPrism());
 
 		// adds buttons to left-hand toolbar
 		shapesToolbar.add(btn_recPri);
@@ -573,18 +494,96 @@ public class GUI_3D extends JPanel implements MouseListener,
 		ex.setVisible(true);
 	}
 
+	class CreateTriangularPrism implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: Triangular Prism");
+			swingTest.getSceneBranchGroup()
+					.addChild(swingTest.createTriPrism());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + triangle);
+		}
+	}
+
+	class CreateRectangularPrism implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: RectPrism");
+			swingTest.getSceneBranchGroup().addChild(
+					swingTest.createRectPrism());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + rectangle);
+		}
+	}
+
+	class CreatePyramid implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: Pyramid");
+			swingTest.getSceneBranchGroup().addChild(swingTest.createPyramid());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + pyramid);
+
+		}
+	}
+
+	class CreateCylinder implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: Cylinder");
+			swingTest.getSceneBranchGroup()
+					.addChild(swingTest.createCylinder());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + cylinder);
+		}
+	}
+
+	class CreateSphere implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: Sphere");
+			swingTest.getSceneBranchGroup().addChild(swingTest.createSphere());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + sphere);
+		}
+	}
+
+	class CreateHexagonalPrism implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			// System.out.println("Created: Hexagonal Prism");
+			swingTest.getSceneBranchGroup()
+					.addChild(swingTest.createHexPrism());
+			statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
+					+ "  |  Selected: "
+					+ swingTest.getShapeClicked().getUserData()
+					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+			sessionLog.add(create + ";" + hexagon);
+		}
+	}
+
 	class SaveAction implements ActionListener {// Action For Save goes here
 		public void actionPerformed(ActionEvent e) {
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 			JFrame saveFrame = new JFrame("Save");
-			JLabel label = new JLabel(String.format("You saved %s\n", sessionLog.getFilename()));
+			JLabel label = new JLabel(String.format("You saved %s\n",
+					sessionLog.getFilename()));
 			JPanel panel = new JPanel();
 			saveFrame.add(panel);
 			panel.add(label);
 			saveFrame.setLocationRelativeTo(null);
 			saveFrame.setVisible(true);
 			saveFrame.setSize(300, 75);
-			
+
 		}
 	}
 
@@ -600,14 +599,15 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 			int returnVal = chooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				System.out.println("You chose to open this file: "
+						+ chooser.getSelectedFile().getName());
 				logPart(chooser.getSelectedFile().getName());
 			}
 
 			String fileName = chooser.getSelectedFile().getName();
-			int ext =  fileName.indexOf('.');
+			int ext = fileName.indexOf('.');
 			fileName = fileName.substring(0, ext); // Get rid of extension
-			
+
 			sessionLog.setFilename(fileName);
 			sessionLog.readFile(); // Read File
 			parseLog(); // Parse the log.
@@ -689,37 +689,39 @@ public class GUI_3D extends JPanel implements MouseListener,
 		statusBar.setText(" Cursor Position: " + swingTest.getCurPos()
 				+ "  |  Selected: " + swingTest.getShapeClicked().getUserData()
 				+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-		
-		System.out.println(swingTest.getShapeClicked().getUserData());
-		
-		int numFaces = 0;
 
+		System.out.println(swingTest.getShapeClicked().getUserData());
+
+		int numFaces = 0;
 
 		if (swingTest.getShapeClicked().getClass().getName().equals("aSphere"))
 			numFaces = 1;
-		else if (swingTest.getShapeClicked().getClass().getName().equals("aCylinder"))
+		else if (swingTest.getShapeClicked().getClass().getName()
+				.equals("aCylinder"))
 			numFaces = 1;
-		else if (swingTest.getShapeClicked().getClass().getName().equals("Pyramid") 
-				|| swingTest.getShapeClicked().getClass().getName().equals("TriangularPrism"))
+		else if (swingTest.getShapeClicked().getClass().getName()
+				.equals("Pyramid")
+				|| swingTest.getShapeClicked().getClass().getName()
+						.equals("TriangularPrism"))
 			numFaces = 5;
-		else if (swingTest.getShapeClicked().getClass().getName().equals("RectangularPrism"))
+		else if (swingTest.getShapeClicked().getClass().getName()
+				.equals("RectangularPrism"))
 			numFaces = 6;
-		else if (swingTest.getShapeClicked().getClass().getName().equals("HexagonalPrism"))
+		else if (swingTest.getShapeClicked().getClass().getName()
+				.equals("HexagonalPrism"))
 			numFaces = 8;
-		
-		
+
 		String[] f = new String[numFaces];
-		
+
 		for (int i = 0; i < numFaces; i++) {
-			f[i] = "Face ".concat(Integer.toString(i+1));
+			f[i] = "Face ".concat(Integer.toString(i + 1));
 		}
-		
-		
+
 		aestheticsPanel.getFaceSelection().removeAllItems();
-		
+
 		for (int i = 0; i < f.length; i++)
 			aestheticsPanel.getFaceSelection().insertItemAt(f[i], i);
-		
+
 		aestheticsPanel.getFaceSelection().setSelectedIndex(0);
 	}
 
