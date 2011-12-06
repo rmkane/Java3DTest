@@ -436,7 +436,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 	void logPart(String filePath) {
 		String currentLog;
 
-		if (filePath == "current") {
+		if (filePath.equalsIgnoreCase("current")) {
 			currentLog = sessionLog.getFilename();
 		} else {
 			currentLog = filePath;
@@ -576,16 +576,17 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 			int returnVal = chooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				System.out.println("You chose to open this file: "
-						+ chooser.getSelectedFile().getName());
+				System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 				logPart(chooser.getSelectedFile().getName());
 			}
 
 			String fileName = chooser.getSelectedFile().getName();
-			fileName = fileName.substring(0, fileName.length() - 4);
-
+			int ext =  fileName.indexOf('.');
+			fileName = fileName.substring(0, ext); // Get rid of extension
+			
 			sessionLog.setFilename(fileName);
 
+			// Testing writing...
 			sessionLog.add("cre;tri");
 			sessionLog.add("mov;tri;3;6;2.2;");
 			sessionLog.add("cre;hex;");
@@ -596,7 +597,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			// Write over the file
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 
-			parseLog();
+			parseLog(); // Parse the log.
 		}
 	}
 
