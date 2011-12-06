@@ -570,13 +570,16 @@ public class GUI_3D extends JPanel implements MouseListener,
 	class SaveAction implements ActionListener {// Action For Save goes here
 		// NOT COMPLETE
 		public void actionPerformed(ActionEvent e) {
+			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 			JFrame saveFrame = new JFrame("Save");
-			saveFrame.setVisible(true);
-			saveFrame.setSize(200, 200);
-			JLabel label = new JLabel("YOU CLICKED SAVE");
+			JLabel label = new JLabel(String.format("You saved %s\n", sessionLog.getFilename()));
 			JPanel panel = new JPanel();
 			saveFrame.add(panel);
 			panel.add(label);
+			saveFrame.setLocationRelativeTo(null);
+			saveFrame.setVisible(true);
+			saveFrame.setSize(300, 75);
+			
 		}
 	}
 
@@ -603,6 +606,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			fileName = fileName.substring(0, ext); // Get rid of extension
 			
 			sessionLog.setFilename(fileName);
+			sessionLog.readFile(); // Read File
 
 			// Testing writing...
 			sessionLog.add("cre;tri");
