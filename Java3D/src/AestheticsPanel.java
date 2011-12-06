@@ -1,3 +1,19 @@
+/*	3D Geometric Object Rendering Application
+    Copyright (C) 2011  Jennifer Hill, Ryan Kane, Sean Weber, Donald Shaner, Dorothy Kirlew
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,6 +24,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -32,15 +50,20 @@ import javax.vecmath.Vector3f;
 
 
 
-public class AestheticsPanel implements ListSelectionListener  {
+public class AestheticsPanel implements ListSelectionListener {
 	
+	final JComboBox faceSelection;
+	static int faceVertices;
+	 
+	
+	public JComboBox getFaceSelection() {
+		return faceSelection;
+	}
+
 	public AestheticsPanel(JPanel panel)
 	{
 	    panel.setLayout(new BorderLayout());
 	    
-	    
-	    
-
 	    JLabel aesthetics_title = new JLabel(" A E S T H E T I C S");
 	    aesthetics_title.setOpaque(true);
 	    aesthetics_title.setBackground(Color.lightGray);
@@ -48,19 +71,14 @@ public class AestheticsPanel implements ListSelectionListener  {
 
 	    panel.add(aesthetics_title, BorderLayout.PAGE_START);
 		
-		
-	    //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-	    JPanel aestheticsPanel = new JPanel();
+		JPanel aestheticsPanel = new JPanel();
 	    aestheticsPanel.setLayout(new GridBagLayout());
 	    panel.add(aestheticsPanel, BorderLayout.LINE_START);
 	    
 	    
 	    GridBagConstraints c = new GridBagConstraints();
-	    //c.fill = GridBagConstraints.HORIZONTAL;
 	    c.insets = new Insets(10, 2, 2, 2); // 5-pixel margins on all sides
 	    c.ipadx = 13;
-	    //c.anchor = GridBagConstraints.NORTHWEST;
 	    
 
 	    final Color3f colors[] = { Colors.RED, Colors.PINK, Colors.ORANGE, Colors.YELLOW, Colors.GREEN, Colors.BLUE, Colors.CYAN,
@@ -68,12 +86,9 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    
 	    String colorNames[] = { "red", "pink", "orng", "ylw", "grn", "blue", "cyan", "prpl", "blk", "wht", "gray" };
 	    String weights[] = { "1", "2", "3", "4", "5" };
-	    
-	    String faces[] = { };
-	    
 
 	    final JComboBox faceColors = new JComboBox(colorNames);
-	    final JComboBox faceSelection = new JComboBox(faces);
+	    faceSelection = new JComboBox();
 	    final JComboBox edgeColors = new JComboBox(colorNames);
 	    final JComboBox edgeWeight = new JComboBox(weights);
 	    
@@ -85,24 +100,69 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    edgeWeight.setFont(new Font("sansserif",Font.PLAIN,10));
 	    
 	    
+	    
+	    
 	    faceColors.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
         	    Node shapeClicked = GUI_3D.getSwingTest().getShapeClicked();
+        	    int totalVertices = 0;
         	    
         	    if (shapeClicked.getClass().getName().equals("TriangularPrism")) {
-            	    for (int i = 0; i < 3; i++)
+        	    	for (int i = 0; i <= faceSelection.getSelectedIndex(); i++) {
+	        	    	if (i == 0 || i == 2)
+	        	    		totalVertices += 3;
+	        	    	else
+	        	    		totalVertices += 6;
+        	    	}
+        	    	
+        	    	if (faceSelection.getSelectedIndex() == 0 || faceSelection.getSelectedIndex() == 2)
+        	    		faceVertices = 3;
+        	    	else
+        	    		faceVertices = 6;
+        	    	
+            	    for (int i = (totalVertices - faceVertices); i < totalVertices; i++)
             	    	((TriangularPrism)shapeClicked).getTriPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("HexagonalPrism")) {
-	        	    for (int i = 0; i < 18; i++)
+	        		for (int i = 0; i <= faceSelection.getSelectedIndex(); i++) {
+	        	    	if (i == 0 || i == 1)
+	        	    		totalVertices += 18;
+	        	    	else
+	        	    		totalVertices += 6;
+        	    	}
+        	    	
+        	    	if (faceSelection.getSelectedIndex() == 0 || faceSelection.getSelectedIndex() == 1)
+        	    		faceVertices = 18;
+        	    	else
+        	    		faceVertices = 6;
+        	    	
+            	    for (int i = (totalVertices - faceVertices); i < totalVertices; i++)
 	        	    	((HexagonalPrism)shapeClicked).getHexPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("RectangularPrism")) {
-	        	    for (int i = 0; i < 4; i++)
+	        		for (int i = 0; i <= faceSelection.getSelectedIndex(); i++) {
+	        	    	totalVertices += 4;
+        	    	}
+        	    	
+        	    	faceVertices = 4;
+        	    	
+            	    for (int i = (totalVertices - faceVertices); i < totalVertices; i++)
 	        	    	((RectangularPrism)shapeClicked).getRectPrismGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("Pyramid")) {
-	        	    for (int i = 0; i < 3; i++)
+	        		for (int i = 0; i <= faceSelection.getSelectedIndex(); i++) {
+	        	    	if (i == 4)
+	        	    		totalVertices += 6;
+	        	    	else
+	        	    		totalVertices += 3;
+        	    	}
+        	    	
+        	    	if (faceSelection.getSelectedIndex() == 4)
+        	    		faceVertices = 6;
+        	    	else
+        	    		faceVertices = 3;
+        	    	
+            	    for (int i = (totalVertices - faceVertices); i < totalVertices; i++)
 	        	    	((Pyramid)shapeClicked).getPyramidGeometry().setColor(i, colors[faceColors.getSelectedIndex()]);
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aSphere")) {
@@ -141,7 +201,6 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
 	        		System.out.println("Cylinder has no edges!");
-	        		//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
 	        	}
             }});
 	    
@@ -172,7 +231,6 @@ public class AestheticsPanel implements ListSelectionListener  {
 	        	}
 	        	else if (shapeClicked.getClass().getName().equals("aCylinder")) {
 	        		System.out.println("Cylinder has no edges!");
-        			//((aCylinder) shapeClicked).getApp().setLineAttributes(lineattributes);
 	        	}
             }});
 	   
@@ -187,11 +245,9 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    c.weighty = 0.1;
 	    c.anchor = GridBagConstraints.NORTHWEST;
 	    c.fill = GridBagConstraints.HORIZONTAL;
-	    //aestheticsPanel.add(aesthetics_title, c);
 	    
 
 	    faceSelection.setFont(new Font("sansserif",Font.PLAIN,11));
-	    
 	    
 	    
 	    c.gridx = 1;
@@ -206,7 +262,6 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    aestheticsPanel.add(faceSelection, c);
 	    
 	    
-	    //faceColors.setMaximumSize(new Dimension(15, 15));
 	    c.gridx = 2;
 	    c.gridy = 1;
 	    c.gridwidth = 2;
@@ -233,7 +288,6 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    aestheticsPanel.add(new JLabel (" Edges:"), c);
 	    
 	    
-	    //edgeColors.setMaximumSize(new Dimension(15, 15));
 	    c.gridx = 2;
 	    c.gridy = 2;
 	    c.gridwidth = 2;
@@ -270,42 +324,7 @@ public class AestheticsPanel implements ListSelectionListener  {
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    
 	    aestheticsPanel.add(edgeWeight, c);
-
-
-
-	}
-	
-
-	public static void main(String[] args)
-	{
-		JFrame frame = new JFrame("3D GUI");
-
-		frame.setSize(150, 250);
-
-		
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				new Thread() {
-					public void run() 
-					{
-						System.exit(0);
-					}
-				}.start();
-			}
-		});
-		
-		
-	    JPanel panel = new JPanel();
-	    frame.add(panel);
-	    
-		new AestheticsPanel(panel);
-		
-		
-
-		frame.setVisible(true);
 	}
 
-
-	public void valueChanged(ListSelectionEvent arg0) { }
-	
+	public void valueChanged(ListSelectionEvent e) { }
 }
