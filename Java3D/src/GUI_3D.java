@@ -260,6 +260,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + rectangle);
 			}
 		});
 
@@ -273,6 +274,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + triangle);
 			}
 		});
 
@@ -286,6 +288,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + pyramid);
 
 			}
 		});
@@ -300,6 +303,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + cylinder);
 			}
 		});
 
@@ -313,6 +317,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + sphere);
 			}
 		});
 
@@ -326,6 +331,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 						+ "  |  Selected: "
 						+ swingTest.getShapeClicked().getUserData()
 						+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+				sessionLog.add(create +";" + hexagon);
 			}
 		});
 
@@ -568,7 +574,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 	}
 
 	class SaveAction implements ActionListener {// Action For Save goes here
-		// NOT COMPLETE
 		public void actionPerformed(ActionEvent e) {
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 			JFrame saveFrame = new JFrame("Save");
@@ -584,9 +589,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 	}
 
 	class LoadAction implements ActionListener {// Action For Save goes here
-		// NOT COMPLETE
 		public void actionPerformed(ActionEvent e) {
-
 			JFileChooser chooser = new JFileChooser(
 					new File(".").getAbsolutePath());
 			// chooser.addChoosableFileFilter(filter);
@@ -607,18 +610,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 			
 			sessionLog.setFilename(fileName);
 			sessionLog.readFile(); // Read File
-
-			// Testing writing...
-			sessionLog.add("cre;tri");
-			sessionLog.add("mov;tri;3;6;2.2;");
-			sessionLog.add("cre;hex;");
-			sessionLog.add("rot;hex;x;3;");
-			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog()); // Write-out
-			sessionLog.readFile(); // Read File
-			sessionLog.add("zom;200;");
-			// Write over the file
-			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
-
 			parseLog(); // Parse the log.
 		}
 	}
