@@ -455,6 +455,7 @@ public class SwingTest extends JPanel implements MouseListener,
 
 	public void mousePressed(MouseEvent e) {
 		try {
+
 			mouseX = e.getX();
 			mouseY = e.getY();
 
@@ -471,6 +472,7 @@ public class SwingTest extends JPanel implements MouseListener,
 
 				else {
 					shapeToDrag = result.getNode(PickResult.SHAPE3D);
+					shapeClicked = result.getNode(PickResult.SHAPE3D);
 
 					// System.out.println(shapeToDrag.getClass().getName());
 
@@ -519,15 +521,14 @@ public class SwingTest extends JPanel implements MouseListener,
 			System.out.println("You did not click on a shape.");
 		}
 	}
-	
+
 	public float getTranslationX() {
 		return tx;
 	}
-	
+
 	public float getTranslateY() {
 		return ty;
 	}
-	
 
 	public void mouseMoved(MouseEvent e) {
 		int x = e.getX();
@@ -660,9 +661,9 @@ public class SwingTest extends JPanel implements MouseListener,
 				((aCylinder) shapeToDrag).setTy(ty);
 			}
 		}
+
 		shapeToDrag = null;
 	}
-
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DELETE)
@@ -670,15 +671,15 @@ public class SwingTest extends JPanel implements MouseListener,
 	}
 
 	/* unused */
-	public void keyReleased(KeyEvent e) {
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
 	}
 
 	public void keyTyped(KeyEvent e) {
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	public void mouseExited(MouseEvent e) {
+	public void keyReleased(KeyEvent e) {
 	}
 }
