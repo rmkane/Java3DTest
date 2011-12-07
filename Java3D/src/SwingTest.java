@@ -666,8 +666,8 @@ public class SwingTest extends JPanel implements MouseListener,
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_DELETE)
-			removeShape(getSelectedUserData());
+		//if (e.getKeyCode() == KeyEvent.VK_DELETE)
+		//	removeShape(getSelectedUserData());
 	}
 
 	/* unused */
