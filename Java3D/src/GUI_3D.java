@@ -174,7 +174,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		// Help
 		about = new JMenuItem("About");
 		help.add(about);
-		help.setMnemonic(KeyEvent.VK_A);
+		help.setMnemonic(KeyEvent.VK_H);
 
 		// Adding the function of the action to the button
 		exit.addActionListener(new ExitAction());
