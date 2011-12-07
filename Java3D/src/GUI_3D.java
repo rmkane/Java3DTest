@@ -30,11 +30,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.Group;
+import javax.media.j3d.Node;
+import javax.media.j3d.SceneGraphObject;
 import javax.media.j3d.Transform3D;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -56,6 +60,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.vecmath.Vector3d;
+import javax.vecmath.Vector3f;
 
 import com.sun.j3d.utils.picking.PickCanvas;
 
@@ -473,8 +478,68 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 				} else if (cmd.equals(move)) {
 					double x = Double.parseDouble(seg[2]); // X-Axis Translation
 					double y = Double.parseDouble(seg[3]); // Y-Axis Translation
-					double z = Double.parseDouble(seg[4]); // Z-Axis Translation
-					capture = String.format("You moved a %s (%.2f, %.2f, %.2f).\n", shp, x, y, z);
+					
+					Node found = null;
+					
+					String shapeId = "";
+					Enumeration e = swingTest.getSceneBranchGroup().getAllChildren();
+
+					while (e.hasMoreElements() != false) {
+						Object sgObject = ((SceneGraphObject) (e.nextElement()));
+						found = ((Group) ((Group) (((Group) sgObject).getChild(0))).getChild(0)).getChild(0);
+						shapeId = (String) found.getUserData();
+						if (((String) found.getUserData())
+								.equalsIgnoreCase(shp)) {
+							System.out.println("Found Shape: " + shapeId);
+						}
+					}
+					
+					String shpSub = shp.substring(0, 3).toLowerCase();
+					
+					System.out.println(shpSub);
+					
+					Transform3D dragShape = new Transform3D();
+					dragShape.setTranslation(new Vector3f((float)x, (float)y, 0.0f));
+					
+					if (shpSub.equalsIgnoreCase(pyramid)) {
+						((Pyramid) found).setTx((float)x);
+						((Pyramid) found).setTy((float)y);
+						dragShape.mul(((Pyramid) found).getResize());
+						((Pyramid) found).getTg().setTransform(dragShape);
+					} else if (shpSub.equalsIgnoreCase(sphere)) {
+						((aSphere) found).setTx((float)x);
+						((aSphere) found).setTy((float)y);
+						dragShape.mul(((aSphere) found).getResize());
+						((aSphere) found).getTg().setTransform(dragShape);
+					} else if (shpSub.equalsIgnoreCase(cylinder)) {
+						((aCylinder) found).setTx((float)x);
+						((aCylinder) found).setTy((float)y);
+						dragShape.mul(((aCylinder) found).getResize());
+						((aCylinder) found).getTg().setTransform(dragShape);
+					} else if (shpSub.equalsIgnoreCase(rectangle)) {
+						((RectangularPrism) found).setTx((float)x);
+						((RectangularPrism) found).setTy((float)y);
+						dragShape.mul(((RectangularPrism) found).getResize());
+						((RectangularPrism) found).getTg().setTransform(dragShape);
+					} else if (shpSub.equalsIgnoreCase(triangle)) {
+						((TriangularPrism) found).setTx((float)x);
+						((TriangularPrism) found).setTy((float)y);
+						dragShape.mul(((TriangularPrism) found).getResize());
+						((TriangularPrism) found).getTg().setTransform(dragShape);
+					} else if (shpSub.equalsIgnoreCase(hexagon)) {
+						((HexagonalPrism) found).setTx((float)x);
+						((HexagonalPrism) found).setTy((float)y);
+						dragShape.mul(((HexagonalPrism) found).getResize());
+						((HexagonalPrism) found).getTg().setTransform(dragShape);
+					} else {
+						System.out.println("Error: Problem identifying shape!");
+					}
+					
+					
+					
+					capture = String.format("You moved a %s (%.2f, %.2f).\n", shapeId, (double)x, (double)y);
+					
+					
 				} else if (cmd.equals(rotate)) {
 					String axis = seg[2]; // Which axis?
 					int numRot = Integer.parseInt(seg[3]);
@@ -779,7 +844,7 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		sessionLog.add(swingTest.getShapeClicked().getName() + ";" + swingTest.getTranslationX() + ";" + swingTest.getTranslateY());
+		sessionLog.add(move + ";" + swingTest.getShapeClicked().getUserData() + ";" + swingTest.getTranslationX() + ";" + swingTest.getTranslateY());
 	}
 
 	
