@@ -458,8 +458,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 				String shp = seg[1]; // Action
 				String shpSub = shp.substring(0, 3).toLowerCase();
 				if (cmd.equals(create)) {
-					capture = String.format("You created %s.\n",
-							shp);
+					capture = String.format("You created %s.\n", shp);
 					if (shpSub.equalsIgnoreCase(pyramid)) {
 						swingTest.getSceneBranchGroup().addChild(
 								swingTest.createPyramid());
@@ -487,8 +486,24 @@ public class GUI_3D extends JPanel implements MouseListener,
 							swingTest.getShapeClicked().getUserData(), true);
 
 				} else if (cmd.equals(delete)) {
-					swingTest.removeShape(shp);
-					currentShapesPanel.getListModel().removeElement(shp);
+					Node found = null;
+
+					String shapeId = "";
+					Enumeration e = swingTest.getSceneBranchGroup()
+							.getAllChildren();
+
+					while (e.hasMoreElements() != false) {
+						Object sgObject = ((SceneGraphObject) (e.nextElement()));
+						found = ((Group) ((Group) (((Group) sgObject)
+								.getChild(0))).getChild(0)).getChild(0);
+						if (((String) found.getUserData())
+								.equalsIgnoreCase(shp)) {
+							swingTest.removeShape((String) found.getUserData());
+							currentShapesPanel.getListModel().removeElement(
+									found.getUserData());
+						}
+
+					}
 
 				} else if (cmd.equals(move)) {
 					double x = Double.parseDouble(seg[2]); // X-Axis Translation
@@ -507,11 +522,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 						shapeId = (String) found.getUserData();
 						if (((String) found.getUserData())
 								.equalsIgnoreCase(shp)) {
-							System.out.println("Found Shape: " + shapeId);
 						}
 					}
-
-					System.out.println(shpSub);
 
 					Transform3D dragShape = new Transform3D();
 					dragShape.setTranslation(new Vector3f((float) x, (float) y,
@@ -647,7 +659,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -664,7 +677,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -680,7 +694,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -697,12 +712,12 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
 					swingTest.getShapeClicked().getUserData(), true);
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
 		}
 	}
 
@@ -714,7 +729,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -731,7 +747,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + swingTest.getShapeClicked().getUserData());
+			sessionLog.add(create + ";"
+					+ swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
