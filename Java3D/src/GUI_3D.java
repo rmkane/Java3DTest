@@ -522,7 +522,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 		}
 	}
 
-	protected int rectangularPrismCount = 0;
 	class CreateRectangularPrism implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("Created: RectPrism");
@@ -532,11 +531,10 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + rectangle + ";" + rectangularPrismCount++);
+			sessionLog.add(create + ";" + rectangle + ";" + swingTest.getRectPrismCount());
 		}
 	}
 
-	protected int pyramidCount = 0;
 	class CreatePyramid implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("Created: Pyramid");
@@ -545,12 +543,11 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + pyramid + ";" + pyramidCount++);
+			sessionLog.add(create + ";" + pyramid + ";" + swingTest.getPyramidCount());
 
 		}
 	}
 
-	protected int cylinderCount = 0;
 	class CreateCylinder implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("Created: Cylinder");
@@ -559,11 +556,10 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + cylinder + ";" + cylinderCount++);
+			sessionLog.add(create + ";" + cylinder + ";" + swingTest.getCylinderCount());
 		}
 	}
 
-	protected int sphereCount = 0;
 	class CreateSphere implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("Created: Sphere");
@@ -572,11 +568,10 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + sphere + ";" + sphereCount++);
+			sessionLog.add(create + ";" + sphere + ";" + swingTest.getSphereCount());
 		}
 	}
 
-	protected int hexagonalPrismCount = 0;
 	class CreateHexagonalPrism implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			// System.out.println("Created: Hexagonal Prism");
@@ -586,7 +581,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";" + hexagon + ";" + hexagonalPrismCount++);
+			sessionLog.add(create + ";" + hexagon + ";" + swingTest.getHexPrismCount());
 		}
 	}
 
@@ -754,5 +749,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		sessionLog.add(swingTest.getShapeClicked().getName() + ";" + swingTest.getTranslationX() + ";" + swingTest.getTranslateY());
 	}
 }

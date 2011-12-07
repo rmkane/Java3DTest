@@ -519,6 +519,15 @@ public class SwingTest extends JPanel implements MouseListener,
 			System.out.println("You did not click on a shape.");
 		}
 	}
+	
+	public float getTranslationX() {
+		return tx;
+	}
+	
+	public float getTranslateY() {
+		return ty;
+	}
+	
 
 	public void mouseMoved(MouseEvent e) {
 		int x = e.getX();
@@ -651,9 +660,9 @@ public class SwingTest extends JPanel implements MouseListener,
 				((aCylinder) shapeToDrag).setTy(ty);
 			}
 		}
-
 		shapeToDrag = null;
 	}
+
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DELETE)
