@@ -124,7 +124,6 @@ public class GUI_3D extends JPanel implements MouseListener, MouseMotionListener
 		c3d = swingTest.getC3d();
 		c3d.addMouseMotionListener(this);
 		c3d.addMouseListener(this);
-		c3d.addKeyListener(this);
 		sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 		init();
 	}
