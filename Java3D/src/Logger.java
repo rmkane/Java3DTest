@@ -118,19 +118,4 @@ public class Logger {
 		 */
 		return log;
 	}
-
-	/*
-	public static void main(String[] args) {
-		// Create a logger
-		Logger l = new Logger();
-		l.add("cre;tri");
-		l.add("mov;tri;3;6;2.2;");
-		l.add("cre;hex;");
-		l.add("rot;hex;x;3;");
-		l.writeOut(l.getFilename(), l.getLog()); // Write-out
-		l.readFile(); // Read File
-		l.add("zom;200;");
-		// Write over the file
-		l.writeOut(l.getFilename(), l.getLog());
-	} */
 }
