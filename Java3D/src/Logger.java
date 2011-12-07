@@ -25,20 +25,6 @@ public class Logger {
 	private final String EXT = ".log";
 	private String log;
 
-	// COMMANDS:
-	// Move, Rotate, Scale, Resize, Zoom
-	private final String create = "cre", move = "mov", rotate = "rot",
-			scale = "scl", resize = "rsz", zoom = "zom";
-
-	// SHAPES (Solids):
-	// Prisms: Rectangular, Triangular, & Hexagonal
-	// Pyramids: Square & Rectangular
-	// Cylinder
-	// Sphere
-	// Cone - We don't support this YET...
-	private final String rectangle = "rec", triangle = "tri", hexagon = "hex",
-			pyramid = "pyr", cylinder = "cyl", sphere = "sph";
-
 	public Logger() {
 		init();
 	}
