@@ -21,9 +21,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Enumeration;
 
+import javax.media.j3d.Group;
+import javax.media.j3d.SceneGraphObject;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -46,11 +51,26 @@ import javax.swing.event.ListSelectionListener;
 
 
 
-public class CurrentShapesPanel implements ListSelectionListener  {
+public class CurrentShapesPanel implements ListSelectionListener, KeyListener  {
 	
+	DefaultListModel listModel;
+	JList list;
+	
+	public JList getList() {
+		return list;
+	}
+
+
+	public void setList(JList list) {
+		this.list = list;
+	}
+
+
 	public CurrentShapesPanel(JPanel panel)
 	{
 	    panel.setLayout(new BorderLayout());
+	    
+	    //panel.addKeyListener(this);
 	    
 
 	    JLabel resize_title = new JLabel("S H A P E S");
@@ -67,19 +87,61 @@ public class CurrentShapesPanel implements ListSelectionListener  {
 	    
 	    
 	    
-	    String[] data = {"( shape name )", "( shape name )", "( shape name )", 
-	    		"( shape name )", "( shape name )"};
-	    JList list = new JList(data);
-	    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //list.setSelectedIndex(0);
-        list.addListSelectionListener(this);
+	    listModel = new DefaultListModel();
 	    
-	    currentShapesPanel.add(list);
+	    list = new JList(listModel);
+	    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.addListSelectionListener(this);
+        list.addKeyListener(this);
+        
+        
+        list.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+            	//System.out.println(list.getSelectedValue());
+            	
+            	
+              Enumeration e = GUI_3D.getSwingTest().getSceneBranchGroup().getAllChildren();
+  		      int index = 0;
+  		      
+  		      while (e.hasMoreElements() != false) {
+  		    	  Object sgObject = ((SceneGraphObject) (e.nextElement()));
+  		    	  
+  		    	  if (((String)((Group)((Group)(((Group)sgObject).getChild(0))).getChild(0)).getChild(0).getUserData())
+  		    			  .equalsIgnoreCase((String) list.getSelectedValue())) {
+  	            	GUI_3D.getSwingTest().setShapeClicked(((Group)((Group)(((Group)sgObject).getChild(0))).getChild(0)).getChild(0));
+  	            	System.out.println(GUI_3D.getSwingTest().getShapeClicked());
+  		    	  }
+  		      }		     
+            	
+              //if (evt.getValueIsAdjusting())
+              //  return;
+              //System.out.println("Selected from " + evt.getFirstIndex() + " to " + evt.getLastIndex());
+            }
+          });
+        
+        
+        JScrollPane listScroll = new JScrollPane(list);
+        listScroll.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
+		//listScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		listScroll.setPreferredSize(new Dimension(147, 143));
+	    
+	    currentShapesPanel.add(listScroll);
 	    currentShapesPanel.add(Box.createVerticalGlue());
 
-	    list.setFixedCellHeight(25);
-	    list.setFixedCellWidth(140);
+	    list.setFixedCellHeight(27);
+	    //list.setFixedCellWidth(128);
 	}
+	
+	
+	public DefaultListModel getListModel() {
+		return listModel;
+	}
+
+
+	public void setListModel(DefaultListModel listModel) {
+		this.listModel = listModel;
+	}
+
 	
 
 	public static void main(String[] args)
@@ -114,6 +176,30 @@ public class CurrentShapesPanel implements ListSelectionListener  {
 
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void keyPressed(KeyEvent e) {
+	//	if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+	//		System.out.println("selected = " + list.getSelectedValue());
+	//		System.out.println("shapeclicked = " + GUI_3D.getSwingTest().getShapeClicked().getUserData());
+			//listModel.removeElement(list.getSelectedValue());
+	//		GUI_3D.getSwingTest().removeShape(((String) GUI_3D.getSwingTest().getShapeClicked().getUserData()));
+	//	}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -53,9 +53,19 @@ import javax.vecmath.Vector3f;
 public class AestheticsPanel implements ListSelectionListener {
 	
 	final JComboBox faceSelection;
+	final JComboBox edgeColors;
+	final JComboBox edgeWeight;
 	static int faceVertices;
 	 
 	
+	public JComboBox getEdgeColors() {
+		return edgeColors;
+	}
+
+	public JComboBox getEdgeWeight() {
+		return edgeWeight;
+	}
+
 	public JComboBox getFaceSelection() {
 		return faceSelection;
 	}
@@ -89,8 +99,8 @@ public class AestheticsPanel implements ListSelectionListener {
 
 	    final JComboBox faceColors = new JComboBox(colorNames);
 	    faceSelection = new JComboBox();
-	    final JComboBox edgeColors = new JComboBox(colorNames);
-	    final JComboBox edgeWeight = new JComboBox(weights);
+	    edgeColors = new JComboBox(colorNames);
+	    edgeWeight = new JComboBox(weights);
 	    
 	    edgeColors.setSelectedItem("blk");
 	    

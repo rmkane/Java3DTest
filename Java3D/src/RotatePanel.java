@@ -266,7 +266,7 @@ public class RotatePanel  {
 	    JPanel rotatePanel2 = new JPanel();
 	    panel.add(rotatePanel2, BorderLayout.PAGE_END);
 	    
-	    JButton start_b = new JButton("start");
+	    final JButton start_b = new JButton("start");
 	    final JButton pause_b = new JButton("pause");
 	    start_b.setFont(new Font("sansserif",Font.PLAIN,11));
 	    pause_b.setFont(new Font("sansserif",Font.PLAIN,11));
@@ -306,11 +306,11 @@ public class RotatePanel  {
             	
         		if (alpha.isPaused()) {
         			alpha.resume();
-        			pause_b.setText("pause");
+        			//pause_b.setText("pause");
         		}
         		else if (!alpha.finished()) {
         			alpha.pause();
-        			pause_b.setText("resume");
+        			//pause_b.setText("resume");
         		}
         			
             } 
@@ -355,12 +355,28 @@ public class RotatePanel  {
 	        	}
             	
             	
-        		if (alpha.finished()){
-        			alpha.setLoopCount((Integer)numRotations.getValue());
+            	//if (start_b.getText() == "start") {
+            		if (alpha.finished()){
+            			alpha.setLoopCount((Integer)numRotations.getValue());
+            			alpha.setStartTime(System.currentTimeMillis());
+            			alpha.setIncreasingAlphaDuration((21 - (Integer)speed.getValue())*250);
+            			alpha.setMode(Alpha.INCREASING_ENABLE);
+            			
+                	//	start_b.setText("stop");
+            		}
+            	//}
+            	
+            	else /*if (start_b.getText() == "stop")*/ {
+        			alpha.setLoopCount(0);
         			alpha.setStartTime(System.currentTimeMillis());
-        			alpha.setIncreasingAlphaDuration((21 - (Integer)speed.getValue())*200);
-        			alpha.setMode(Alpha.INCREASING_ENABLE);
-        		}
+        			
+        			//start_b.setText("start");
+            	}
+            	
+        		if (alpha.isPaused()) {
+        			alpha.resume();
+        			//pause_b.setText("pause");
+        		}	
             } 
         }); 
 	    

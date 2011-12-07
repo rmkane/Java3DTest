@@ -131,7 +131,7 @@ public class aCylinder extends Shape3D {
     	ap = new Appearance();
     	ap.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
     	
-    	Material mat = new Material(Colors.BLACK, Colors.BLACK, Colors.BLUE, Colors.WHITE, 30f);
+    	Material mat = new Material(Colors.BLACK, Colors.BLACK, Colors.CYAN, Colors.WHITE, 30f);
     	mat.setCapability(Material.ALLOW_COMPONENT_WRITE);
     	ap.setMaterial(mat);
     	
