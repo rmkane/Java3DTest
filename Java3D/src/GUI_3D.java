@@ -120,7 +120,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 			img_cylinder, img_sphere;
 
 	JSlider zoomSlider;
-	
+
 	private JTextArea logText;
 	private JScrollPane logScroll;
 	private JLabel statusBar;
@@ -370,8 +370,13 @@ public class GUI_3D extends JPanel implements MouseListener,
 					t3d.setTranslation(new Vector3d(0.0, 0.0, zoomAmount));
 					t3d.invert(); // moving the viewer, not the scene
 					GUI_3D.getSwingTest().getTgArray().setTransform(t3d);
-					zoomSlider.setToolTipText("Zoom Amount: " + source.getValue() + "%");
+					zoomSlider.setToolTipText("Zoom Amount: "
+							+ source.getValue() + "%");
 				}
+				
+				currLogLine = zoom + ";" + source.getValue();
+				sessionLog.add(currLogLine);
+				currLog += currLogLine + "\n";
 			}
 		});
 
@@ -465,6 +470,21 @@ public class GUI_3D extends JPanel implements MouseListener,
 			if (cmd.equals(zoom)) {
 				double percent = Double.parseDouble(seg[1]); // Percentage
 				capture = String.format("You zoomed in %.2f%%.\n", percent);
+				Transform3D t3d = new Transform3D();
+
+				if (((percent) % 5 == 0)) {
+
+					System.out.println(zoomAmount);
+
+					if (zoomAmount >= -10.0)
+						zoomAmount = -10 + (0.4) * ((percent - 100) / 5);
+					else if (zoomAmount < -10.0)
+						zoomAmount = -10 - (4) * ((100 - percent) / 5);
+
+					t3d.setTranslation(new Vector3d(0.0, 0.0, zoomAmount));
+					t3d.invert(); // moving the viewer, not the scene
+					GUI_3D.getSwingTest().getTgArray().setTransform(t3d);
+				}
 			} else {
 				String shp = seg[1]; // Action
 				String shpSub = shp.substring(0, 3).toLowerCase();
