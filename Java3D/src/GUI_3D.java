@@ -123,6 +123,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 	private JScrollPane logScroll;
 	private JLabel statusBar;
 	static Logger sessionLog = new Logger();
+	private String currLog;
+	private String currLogLine;
 	static int a = 1;
 
 	public GUI_3D() {
@@ -409,6 +411,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 		logText = new JTextArea("Logging... \n"); // **LOGGER PANEL**
 		logText.setLineWrap(true);
 		logText.setBorder(LineBorder.createGrayLineBorder());
+		currLog = "";
+		currLogLine = "";
 
 		// This loop reads every line in the file and adds it to the top of the
 		// logger window
@@ -431,6 +435,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		logScroll = new JScrollPane(logText);
 		logText.setEditable(false);
+		logText.setToolTipText("Press F5 to refresh");
 		logScroll
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		logScroll.setPreferredSize(new Dimension(0, 150));
@@ -659,8 +664,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";" + swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -677,8 +683,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";" + swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -694,8 +701,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";"	+ swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -712,8 +720,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";"	+ swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -729,8 +738,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";"	+ swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -747,8 +757,9 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
-			sessionLog.add(create + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = create + ";"	+ swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
 			currentShapesPanel.getListModel().addElement(
 					swingTest.getShapeClicked().getUserData());
 			currentShapesPanel.getList().setSelectedValue(
@@ -860,6 +871,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 					+ "  |  Selected: "
 					+ swingTest.getShapeClicked().getUserData()
 					+ "  |  Total Shapes: " + swingTest.getTotalShapes());
+		
+		
 
 	}
 
@@ -883,9 +896,13 @@ public class GUI_3D extends JPanel implements MouseListener,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		sessionLog.add(move + ";" + swingTest.getShapeClicked().getUserData()
+		
+		currLogLine = move + ";" + swingTest.getShapeClicked().getUserData()
 				+ ";" + swingTest.getTranslationX() + ";"
-				+ swingTest.getTranslateY());
+				+ swingTest.getTranslateY();
+		sessionLog.add(currLogLine);
+		currLog += currLogLine + "\n";
+		c3d.requestFocus();
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -894,8 +911,12 @@ public class GUI_3D extends JPanel implements MouseListener,
 					.getUserData());
 			currentShapesPanel.getListModel().removeElement(
 					swingTest.getShapeClicked().getUserData());
-			sessionLog.add(delete + ";"
-					+ swingTest.getShapeClicked().getUserData());
+			currLogLine = delete + ";" + swingTest.getShapeClicked().getUserData();
+			sessionLog.add(currLogLine);
+			currLog += currLogLine + "\n";
+		}
+		if (e.getKeyCode() == KeyEvent.VK_F5) {
+			logText.setText(currLog);
 		}
 	}
 
