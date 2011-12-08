@@ -480,31 +480,28 @@ public class GUI_3D extends JPanel implements MouseListener,
 					} else {
 						System.out.println("Error: Problem identifying shape!");
 					}
-					currentShapesPanel.getListModel().addElement(
-							swingTest.getShapeClicked().getUserData());
-					currentShapesPanel.getList().setSelectedValue(
-							swingTest.getShapeClicked().getUserData(), true);
+					currentShapesPanel.getListModel().addElement(shp);
+					currentShapesPanel.getList().setSelectedValue(shp, true);
 
 				} else if (cmd.equals(delete)) {
-					Node found = null;
-
-					String shapeId = "";
 					Enumeration e = swingTest.getSceneBranchGroup()
 							.getAllChildren();
+					int index = 0;
 
 					while (e.hasMoreElements() != false) {
 						Object sgObject = ((SceneGraphObject) (e.nextElement()));
-						found = ((Group) ((Group) (((Group) sgObject)
-								.getChild(0))).getChild(0)).getChild(0);
-						if (((String) found.getUserData())
-								.equalsIgnoreCase(shp)) {
-							swingTest.removeShape((String) found.getUserData());
-							currentShapesPanel.getListModel().removeElement(
-									found.getUserData());
+
+						if (((String) ((Group) ((Group) (((Group) sgObject)
+								.getChild(0))).getChild(0)).getChild(0)
+								.getUserData()).equalsIgnoreCase(shp)) {
+							swingTest.getSceneBranchGroup().removeChild(index);
+						} else {
+							index++;
 						}
-
 					}
-
+					capture = String.format("You deleted %s.\n", shp);
+					currentShapesPanel.getListModel().removeElement(
+							swingTest.getShapeClicked().getUserData());
 				} else if (cmd.equals(move)) {
 					double x = Double.parseDouble(seg[2]); // X-Axis Translation
 					double y = Double.parseDouble(seg[3]); // Y-Axis Translation
