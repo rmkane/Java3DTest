@@ -490,14 +490,16 @@ public class GUI_3D extends JPanel implements MouseListener,
 				} else if (cmd.equals(delete)) {
 					Enumeration e = swingTest.getSceneBranchGroup().getAllChildren();
 					int index = 0;
+					
+					Node found = null;
 
 					while (e.hasMoreElements() != false) {
 						Object sgObject = ((SceneGraphObject) (e.nextElement()));
-
-						if (((String) ((Group) ((Group) (((Group) sgObject).getChild(0))).getChild(0)).getChild(0).getUserData()).equalsIgnoreCase(shp)) {
+						found = ((Group) ((Group) (((Group) sgObject).getChild(0))).getChild(0)).getChild(0);
+						if (((String)found.getUserData()).equalsIgnoreCase(shp)) {
 							System.out.printf("Found: %s\n", shp);
 							swingTest.getSceneBranchGroup().removeChild(index);
-							currentShapesPanel.getListModel().removeElement(swingTest.getShapeClicked().getUserData());
+							currentShapesPanel.getListModel().removeElement(shp);
 						} else {
 							index++;
 						}
