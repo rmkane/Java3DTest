@@ -376,12 +376,12 @@ public class GUI_3D extends JPanel implements MouseListener,
 							+ source.getValue() + "%");
 				}
 
-				if (zoomSuppressed == true) {
+				//if (zoomSuppressed == true) {
 					currLogLine = zoom + ";" + source.getValue();
 					sessionLog.add(currLogLine);
 					currLog += currLogLine + "\n";
 					zoomSuppressed = false;
-				}
+				//}
 
 			}
 		});
