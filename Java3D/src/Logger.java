@@ -44,7 +44,7 @@ public class Logger {
 				log += scanner.nextLine() + "\n";
 			}
 			scanner.close();
-			this.log = getLog() + log;
+			this.log = log + getLog();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

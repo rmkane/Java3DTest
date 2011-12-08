@@ -103,7 +103,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 	// Menu
 	private JMenuBar menubar;
 	private JMenu file, edit, help;
-	private JMenuItem save, load, exit, blank, about;
+	private JMenuItem save, load, run, exit, about;
 
 	// Panels
 	private JPanel mainPanel, rightToolbar, currentShapes, rotatePane,
@@ -164,11 +164,14 @@ public class GUI_3D extends JPanel implements MouseListener,
 		save.setMnemonic(KeyEvent.VK_S);
 		load = new JMenuItem("Load");
 		load.setMnemonic(KeyEvent.VK_L);
+		run = new JMenuItem("Run");
+		run.setMnemonic(KeyEvent.VK_R);
 		exit = new JMenuItem("Exit");
 		exit.setMnemonic(KeyEvent.VK_E);
 
 		file.add(save);
 		file.add(load);
+		file.add(run);
 		file.add(exit);
 
 		// Help
@@ -177,10 +180,11 @@ public class GUI_3D extends JPanel implements MouseListener,
 		help.add(about);
 
 		// Adding the function of the action to the button
-		exit.addActionListener(new ExitAction());
-		about.addActionListener(new AboutAction());
 		save.addActionListener(new SaveAction());
 		load.addActionListener(new LoadAction());
+		run.addActionListener(new RunAction());
+		exit.addActionListener(new ExitAction());
+		about.addActionListener(new AboutAction());
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -484,24 +488,21 @@ public class GUI_3D extends JPanel implements MouseListener,
 					currentShapesPanel.getList().setSelectedValue(shp, true);
 
 				} else if (cmd.equals(delete)) {
-					Enumeration e = swingTest.getSceneBranchGroup()
-							.getAllChildren();
+					Enumeration e = swingTest.getSceneBranchGroup().getAllChildren();
 					int index = 0;
 
 					while (e.hasMoreElements() != false) {
 						Object sgObject = ((SceneGraphObject) (e.nextElement()));
 
-						if (((String) ((Group) ((Group) (((Group) sgObject)
-								.getChild(0))).getChild(0)).getChild(0)
-								.getUserData()).equalsIgnoreCase(shp)) {
+						if (((String) ((Group) ((Group) (((Group) sgObject).getChild(0))).getChild(0)).getChild(0).getUserData()).equalsIgnoreCase(shp)) {
+							System.out.printf("Found: %s\n", shp);
 							swingTest.getSceneBranchGroup().removeChild(index);
+							currentShapesPanel.getListModel().removeElement(swingTest.getShapeClicked().getUserData());
 						} else {
 							index++;
 						}
 					}
 					capture = String.format("You deleted %s.\n", shp);
-					currentShapesPanel.getListModel().removeElement(
-							swingTest.getShapeClicked().getUserData());
 				} else if (cmd.equals(move)) {
 					double x = Double.parseDouble(seg[2]); // X-Axis Translation
 					double y = Double.parseDouble(seg[3]); // Y-Axis Translation
@@ -755,6 +756,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 	class SaveAction implements ActionListener {// Action For Save goes here
 		public void actionPerformed(ActionEvent e) {
+			sessionLog.readFile(); // Read File
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 			JFrame saveFrame = new JFrame("Save");
 			JLabel label = new JLabel(String.format("You saved %s\n",
@@ -788,15 +790,19 @@ public class GUI_3D extends JPanel implements MouseListener,
 			String fileName = chooser.getSelectedFile().getName();
 			int ext = fileName.indexOf('.');
 			fileName = fileName.substring(0, ext); // Get rid of extension
-
 			sessionLog.setFilename(fileName);
-			sessionLog.readFile(); // Read File
-			parseLog(); // Parse the log.
+		}
+	}
+	
+	class RunAction implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			parseLog();
 		}
 	}
 
 	class ExitAction implements ActionListener {// Action For Exit
 		public void actionPerformed(ActionEvent e) {
+			sessionLog.readFile(); // Read File
 			sessionLog.writeOut(sessionLog.getFilename(), sessionLog.getLog());
 			System.exit(0);
 		}
@@ -825,18 +831,6 @@ public class GUI_3D extends JPanel implements MouseListener,
 			JPanel panel = new JPanel();
 			aboutFrame.add(panel);
 			panel.add(aboutText);
-		}
-	}
-
-	class BlankAction implements ActionListener {// Blank action
-		public void actionPerformed(ActionEvent e) {
-			JFrame blankFrame = new JFrame("Blank");
-			blankFrame.setVisible(true);
-			blankFrame.setSize(200, 200);
-			JLabel label = new JLabel("Blank");
-			JPanel panel = new JPanel();
-			blankFrame.add(panel);
-			panel.add(label);
 		}
 	}
 
