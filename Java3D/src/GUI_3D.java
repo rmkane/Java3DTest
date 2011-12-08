@@ -119,7 +119,8 @@ public class GUI_3D extends JPanel implements MouseListener,
 	private Image img_triPri, img_recPri, img_hexPri, img_pyramid,
 			img_cylinder, img_sphere;
 
-	JSlider zoomSlider;
+	private JSlider zoomSlider;
+	private boolean zoomSuppressed;
 
 	private JTextArea logText;
 	private JScrollPane logScroll;
@@ -344,6 +345,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 		zoomSlider.setMinorTickSpacing(5);
 		zoomSlider.setPaintTicks(true);
 		zoomSlider.setToolTipText("Zoom Amount: 100%");
+		zoomSuppressed = false;
 		// zoom.setPaintLabels(true);
 
 		zoomSlider.addChangeListener(new ChangeListener() {
@@ -373,10 +375,14 @@ public class GUI_3D extends JPanel implements MouseListener,
 					zoomSlider.setToolTipText("Zoom Amount: "
 							+ source.getValue() + "%");
 				}
-				
-				currLogLine = zoom + ";" + source.getValue();
-				sessionLog.add(currLogLine);
-				currLog += currLogLine + "\n";
+
+				if (zoomSuppressed == true) {
+					currLogLine = zoom + ";" + source.getValue();
+					sessionLog.add(currLogLine);
+					currLog += currLogLine + "\n";
+					zoomSuppressed = false;
+				}
+
 			}
 		});
 
@@ -531,6 +537,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 							swingTest.getSceneBranchGroup().removeChild(index);
 							currentShapesPanel.getListModel()
 									.removeElement(shp);
+							swingTest.setTotalShapes(swingTest.getTotalShapes() -1);
 						} else {
 							index++;
 						}
@@ -551,50 +558,52 @@ public class GUI_3D extends JPanel implements MouseListener,
 						found = ((Group) ((Group) (((Group) sgObject)
 								.getChild(0))).getChild(0)).getChild(0);
 						shapeId = (String) found.getUserData();
+						
+						System.out.println("Looking at: " + shapeId);
+						
 						if (((String) found.getUserData())
 								.equalsIgnoreCase(shp)) {
+							Transform3D dragShape = new Transform3D();
+							dragShape.setTranslation(new Vector3f((float) x, (float) y,
+									0.0f));
+
+							if (shpSub.equalsIgnoreCase(pyramid)) {
+								((Pyramid) found).setTx((float) x);
+								((Pyramid) found).setTy((float) y);
+								dragShape.mul(((Pyramid) found).getResize());
+								((Pyramid) found).getTg().setTransform(dragShape);
+							} else if (shpSub.equalsIgnoreCase(sphere)) {
+								((aSphere) found).setTx((float) x);
+								((aSphere) found).setTy((float) y);
+								dragShape.mul(((aSphere) found).getResize());
+								((aSphere) found).getTg().setTransform(dragShape);
+							} else if (shpSub.equalsIgnoreCase(cylinder)) {
+								((aCylinder) found).setTx((float) x);
+								((aCylinder) found).setTy((float) y);
+								dragShape.mul(((aCylinder) found).getResize());
+								((aCylinder) found).getTg().setTransform(dragShape);
+							} else if (shpSub.equalsIgnoreCase(rectangle)) {
+								((RectangularPrism) found).setTx((float) x);
+								((RectangularPrism) found).setTy((float) y);
+								dragShape.mul(((RectangularPrism) found).getResize());
+								((RectangularPrism) found).getTg().setTransform(
+										dragShape);
+							} else if (shpSub.equalsIgnoreCase(triangle)) {
+								((TriangularPrism) found).setTx((float) x);
+								((TriangularPrism) found).setTy((float) y);
+								dragShape.mul(((TriangularPrism) found).getResize());
+								((TriangularPrism) found).getTg().setTransform(
+										dragShape);
+							} else if (shpSub.equalsIgnoreCase(hexagon)) {
+								((HexagonalPrism) found).setTx((float) x);
+								((HexagonalPrism) found).setTy((float) y);
+								dragShape.mul(((HexagonalPrism) found).getResize());
+								((HexagonalPrism) found).getTg()
+										.setTransform(dragShape);
+							} else {
+								System.out.println("Error: Problem identifying shape!");
+							}
 						}
-					}
-
-					Transform3D dragShape = new Transform3D();
-					dragShape.setTranslation(new Vector3f((float) x, (float) y,
-							0.0f));
-
-					if (shpSub.equalsIgnoreCase(pyramid)) {
-						((Pyramid) found).setTx((float) x);
-						((Pyramid) found).setTy((float) y);
-						dragShape.mul(((Pyramid) found).getResize());
-						((Pyramid) found).getTg().setTransform(dragShape);
-					} else if (shpSub.equalsIgnoreCase(sphere)) {
-						((aSphere) found).setTx((float) x);
-						((aSphere) found).setTy((float) y);
-						dragShape.mul(((aSphere) found).getResize());
-						((aSphere) found).getTg().setTransform(dragShape);
-					} else if (shpSub.equalsIgnoreCase(cylinder)) {
-						((aCylinder) found).setTx((float) x);
-						((aCylinder) found).setTy((float) y);
-						dragShape.mul(((aCylinder) found).getResize());
-						((aCylinder) found).getTg().setTransform(dragShape);
-					} else if (shpSub.equalsIgnoreCase(rectangle)) {
-						((RectangularPrism) found).setTx((float) x);
-						((RectangularPrism) found).setTy((float) y);
-						dragShape.mul(((RectangularPrism) found).getResize());
-						((RectangularPrism) found).getTg().setTransform(
-								dragShape);
-					} else if (shpSub.equalsIgnoreCase(triangle)) {
-						((TriangularPrism) found).setTx((float) x);
-						((TriangularPrism) found).setTy((float) y);
-						dragShape.mul(((TriangularPrism) found).getResize());
-						((TriangularPrism) found).getTg().setTransform(
-								dragShape);
-					} else if (shpSub.equalsIgnoreCase(hexagon)) {
-						((HexagonalPrism) found).setTx((float) x);
-						((HexagonalPrism) found).setTy((float) y);
-						dragShape.mul(((HexagonalPrism) found).getResize());
-						((HexagonalPrism) found).getTg()
-								.setTransform(dragShape);
-					} else {
-						System.out.println("Error: Problem identifying shape!");
 					}
 
 					capture = String.format("You moved a %s (%.2f, %.2f).\n",
@@ -923,6 +932,7 @@ public class GUI_3D extends JPanel implements MouseListener,
 
 		currentShapesPanel.getList().setSelectedValue(
 				swingTest.getShapeClicked().getUserData(), true);
+		zoomSuppressed = true;
 	}
 
 	public void mouseReleased(MouseEvent e) {
