@@ -1,4 +1,33 @@
 -------------------
+UPDATE (12/08/11):
+-------------------
+
+Executables are working!
+
+To execute the file, first navigate to either the 32bit folder of the 64bit folder.
+Then click GUI_Manipulator_[Your OS]
+
+It should work automatically from there.
+
+If you need to update the main program:
+
+	- In Eclipse, go to File > Export
+
+	- Click Java, then Runnable jar file
+
+	- Make sure the main class is GUI_3D
+
+	- the destination should be Java3D\Java3Dthing.jar
+
+	- Check "package required libraries..."
+
+	- Then hit finish
+
+It will create a new Java3Dthing.jar. Copy that into both 32bit and 64bit folders.
+	
+
+
+-------------------
 UPDATE (11/29/11):
 -------------------
 
